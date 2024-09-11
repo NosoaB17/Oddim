@@ -1,16 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
-import HomePage from "./components/Home/HomePage";
+import Hero from "./components/Hero/Hero";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SolutionCard from "./components/Solution/SolutionCard";
 
 const Layout = () => {
   return (
     <>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route index element={<HomePage />} />
+          <Route index element={<Hero />} />
+          <Route index element={<SolutionCard />} />
         </Route>
       </Routes>
 

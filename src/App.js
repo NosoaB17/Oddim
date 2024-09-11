@@ -1,6 +1,8 @@
 import "./App.scss";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header/Header";
+import Hero from "./components/Hero/Hero";
+import SolutionCard from "./components/Solution/SolutionCard";
 
 const App = () => {
   return (
@@ -8,10 +10,14 @@ const App = () => {
       <div className="header-container">
         <Header />
       </div>
-      <div className="app-content">
-        <Outlet />
+      <div className="content-container">
+        <div className="hero-container">
+          <Hero />
+        </div>
+        <div className="solution-container">
+          <SolutionCard />
+        </div>
       </div>
-      <div className="main-container"></div>
       <div className="footer-container"></div>
     </div>
   );
