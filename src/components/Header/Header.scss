@@ -1,0 +1,84 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  gap: 20px;
+  background-color: #f8fafc;
+  color: #020817;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 50px;
+
+  .logo {
+    cursor: pointer; // Thêm con trỏ pointer cho logo
+    transition: opacity 0.3s ease; // Thêm transition cho hiệu ứng hover
+    &:hover {
+      opacity: 0.9; // Tạo hiệu ứng mờ nhẹ khi hover
+    }
+    img {
+      line-height: 24px;
+    }
+  }
+
+  .navigation {
+    flex-grow: 1; // Allow navigation to take up available space
+    display: flex;
+    justify-content: center; // Center the navigation horizontally
+    ul {
+      display: flex;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin: 0 1rem; // Equal margin on both sides for spacing
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 16px;
+        a,
+        span {
+          text-decoration: none;
+          color: inherit;
+          display: inline-block; // Allow vertical padding to take effect
+          &:hover {
+            color: #3d88ed;
+          }
+        }
+      }
+    }
+  }
+
+  .user-menu {
+    position: relative;
+    .user-icon {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      padding: 0.5rem 0;
+
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        color: #333;
+
+        svg {
+          margin-right: 0.5rem;
+        }
+        &:hover {
+          background-color: #f8f9fa;
+        }
+      }
+    }
+  }
+}

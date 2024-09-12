@@ -1,0 +1,98 @@
+.home-page {
+  .hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    // background: url("/path-to-your-background-image.jpg") no-repeat center
+    //   center;
+    // background-size: cover;
+
+    .hero-content {
+      flex: 1;
+
+      h1 {
+        font-size: 72px;
+        margin-bottom: 20px;
+
+        .changing-text {
+          color: #4a90e2; // Màu xanh cho phần text thay đổi
+          display: inline-block;
+          transition: opacity 0.5s ease-in-out;
+
+          &.fade-out {
+            opacity: 0;
+          }
+
+          &.fade-in {
+            opacity: 1;
+          }
+        }
+      }
+
+      p {
+        font-size: 18px;
+        margin-bottom: 30px;
+      }
+
+      .download-btn {
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #4a90e2;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #3a7fcf;
+        }
+      }
+    }
+
+    .hero-video {
+      flex: 1;
+      max-width: 500px;
+
+      .video-container {
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 10px;
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+  }
+
+  .solutions-section {
+    h2 {
+      // Styles for section title
+    }
+
+    .solution-cards {
+      display: flex;
+      justify-content: space-between;
+      // Other styles for the solution cards container
+    }
+  }
+
+  .help-center {
+    // Styles for HelpCenter component
+  }
+
+  .about-us {
+    // Styles for AboutUs component
+  }
+
+  .ready-start {
+    // Styles for ReadyStart component
+  }
+
+  .footer {
+    // Styles for Footer component
+  }
+}

@@ -1,59 +1,71 @@
-import React from "react";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import SignInButton from "../../assets/SignInButton.png";
-import Logo from "../../assets/Logo.png";
-import user from "../../assets/user-round.svg";
-import down from "../../assets/chevron-down.svg";
-
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import "./Header.scss";
+import Logo from "../../assets/Logo.png";
+import SignIn from "../../assets/SignIn.svg";
+import login from "../../assets/log-out.png";
+import settings from "../../assets/settings.png";
+import { useNavigate } from "react-router-dom";
 
-import "../../assets/scss/components/Header.scss";
+const Header = ({ scrollToSolutions }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
 
-const Header = () => {
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+  const handleLogoClick = () => {
+    navigate("/"); // Navigate to home page
+  };
   return (
-    <div>
-      <Navbar bg="light" data-bs-theme="dark">
-        <Container>
-          <a href="/" className="navbar-brand">
-            <img src={Logo} alt="Middo logo" />
-          </a>
-
-          <Nav className="navbar-box">
-            <Nav className="navbar-content">
-              <Nav.Link as={Link} to="/solution">
-                Solution
-              </Nav.Link>
-              <Nav.Link as={Link} to="/products">
-                Products
-              </Nav.Link>
-              <Nav.Link
-                onClick={() =>
-                  window.open("https://dudaji.vn/#contact", "_blank")
-                }
-              >
-                Contact us
-              </Nav.Link>
-              <Nav.Link
-                onClick={() => window.open("https://docs.middo.app/", "_blank")}
-              >
-                Docs
-              </Nav.Link>
-            </Nav>
-          </Nav>
-          <NavDropdown
-            title={<img src={user} alt="User" />}
-            className="navbar-auth"
-            id="basic-nav-dropdown"
-          >
-            <NavDropdown.Item>Sign In</NavDropdown.Item>
-            <NavDropdown.Item>Setting</NavDropdown.Item>
-          </NavDropdown>
-        </Container>
-      </Navbar>
-    </div>
+    <header className="header">
+      <div className="logo" onClick={handleLogoClick}>
+        <img src={Logo} alt="Middo Logo" />
+      </div>
+      <nav className="navigation">
+        <ul>
+          <li>
+            <span onClick={scrollToSolutions}>Solution</span>
+          </li>
+          <li>
+            <Link to="/products">Products</Link>
+          </li>
+          <li>
+            <a
+              href="https://dudaji.vn/#contact"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Contact Us
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://docs.middo.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Docs
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div className="user-menu">
+        <button className="user-icon" onClick={toggleDropdown}>
+          <img src={SignIn} alt="User" />
+        </button>
+        {isDropdownOpen && (
+          <div className="dropdown">
+            <Link to="/signin" className="dropdown-item">
+              <img src={login} alt="Sign In" />
+              Sign In
+            </Link>
+            <Link to="/settings" className="dropdown-item">
+              <img src={settings} alt="Settings" />
+              Settings
+            </Link>
+          </div>
+        )}
+      </div>
+    </header>
   );
 };
 

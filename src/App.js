@@ -1,25 +1,17 @@
-import "./App.scss";
-import { Outlet } from "react-router-dom";
-import Header from "./components/Header/Header";
-import Hero from "./components/Hero/Hero";
-import SolutionCard from "./components/Solution/SolutionCard";
+import React from "react";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import Layout from "./Layout";
+import HomePage from "./components/HomePage/HomePage";
 
 const App = () => {
   return (
-    <div className="app-container">
-      <div className="header-container">
-        <Header />
-      </div>
-      <div className="content-container">
-        <div className="hero-container">
-          <Hero />
-        </div>
-        <div className="solution-container">
-          <SolutionCard />
-        </div>
-      </div>
-      <div className="footer-container"></div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 

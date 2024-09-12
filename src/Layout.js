@@ -1,34 +1,31 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import App from "./App";
-import Hero from "./components/Hero/Hero";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import SolutionCard from "./components/Solution/SolutionCard";
+import React, { useCallback } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Header from "./components/Header/Header";
+import "./Layout.scss";
+import HomePage from "./components/HomePage/HomePage";
 
 const Layout = () => {
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<App />}>
-          <Route index element={<Hero />} />
-          <Route index element={<SolutionCard />} />
-        </Route>
-      </Routes>
+  const location = useLocation();
+  const navigate = useNavigate();
 
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-    </>
+  const scrollToSolutions = useCallback(() => {
+    if (location.pathname !== "/") {
+      navigate("/#solutions");
+    } else {
+      const solutionsSection = document.getElementById("solutions");
+      if (solutionsSection) {
+        solutionsSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location.pathname, navigate]);
+
+  return (
+    <div className="layout">
+      <Header scrollToSolutions={scrollToSolutions} />
+      <main className="main-content">
+        <HomePage />
+      </main>
+    </div>
   );
 };
 
