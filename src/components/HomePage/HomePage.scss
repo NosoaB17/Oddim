@@ -1,69 +1,92 @@
 .home-page {
-  .hero {
+  .hero-container {
+    background-position: 50% 50%;
+    background-color: #fafafa;
+    background-image: url("https://middo.app/landing-page/hero.png");
+    background-size: contain;
+    color: #020817;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 50px;
-    // background: url("/path-to-your-background-image.jpg") no-repeat center
-    //   center;
-    // background-size: cover;
+    flex-direction: row-reverse;
+    line-height: 24px;
+    padding: 36px 74.4px 48px;
 
-    .hero-content {
-      flex: 1;
+    .video-container {
+      align-items: flex-start;
+      display: flex;
+      justify-content: flex-end;
+      line-height: 24px;
+      width: 80%;
 
-      h1 {
-        font-size: 72px;
-        margin-bottom: 20px;
-
-        .changing-text {
-          color: #4a90e2; // Màu xanh cho phần text thay đổi
-          display: inline-block;
-          transition: opacity 0.5s ease-in-out;
-
-          &.fade-out {
-            opacity: 0;
-          }
-
-          &.fade-in {
-            opacity: 1;
-          }
-        }
-      }
-
-      p {
-        font-size: 18px;
-        margin-bottom: 30px;
-      }
-
-      .download-btn {
-        padding: 10px 20px;
-        font-size: 18px;
-        background-color: #4a90e2;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-
-        &:hover {
-          background-color: #3a7fcf;
-        }
+      video {
+        width: 90%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
     }
 
-    .hero-video {
-      flex: 1;
-      max-width: 500px;
+    .hero-content {
+      align-items: flex-start;
+      color: #020817;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      line-height: 24px;
+      margin: 32px 32px 0 0;
 
-      .video-container {
-        border-radius: 10px;
-        overflow: hidden;
-        margin-bottom: 10px;
-
-        img {
-          width: 100%;
-          height: auto;
+      .text-content {
+        h1 {
+          display: flex;
+          flex-direction: column;
+          margin-top: 0;
+          margin-bottom: 16px;
         }
+
+        .changing-text {
+          font-size: 64px;
+          display: flex;
+          text-align: left;
+          font-weight: 700;
+          line-height: 96px;
+          transition: opacity 0.5s ease-in-out;
+
+          &.first {
+            color: #020817;
+          }
+          &.second {
+            color: #3d88ed;
+          }
+          &.fade-out {
+            opacity: 0;
+          }
+        }
+
+        p {
+          font-size: 16px;
+          color: #666;
+          font-weight: 400;
+          line-height: 24px;
+          margin: 16px 0px 0px;
+          text-align: left;
+        }
+      }
+
+      .download-btn {
+        .icon {
+          margin-right: 8px;
+          // bigger icon size
+        }
+        border: none;
+        font-style: normal;
+        align-items: center;
+        background-color: #3d88ed;
+        border-radius: 12px;
+        color: #fff;
+        display: inline-flex;
+        font-weight: 500;
+        justify-content: center;
+        line-height: 24px;
+        padding: 16px 28px;
+        text-align: center;
+        margin-top: 16px;
       }
     }
   }
