@@ -1,8 +1,10 @@
 import React, { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./components/Header/Header";
+import HomePage from "./pages/HomePage";
+import SignIn from "./components/auth/SignIn";
+import SettingGuest from "./components/settings/SettingGuest";
 import "./Layout.scss";
-import HomePage from "./components/HomePage/HomePage";
 
 const Layout = () => {
   const location = useLocation();
@@ -19,12 +21,23 @@ const Layout = () => {
     }
   }, [location.pathname, navigate]);
 
+  const renderContent = () => {
+    switch (location.pathname) {
+      case "/":
+        return <HomePage />;
+      case "/signin":
+        return <SignIn />;
+      case "/settings":
+        return <SettingGuest />;
+      default:
+        return <HomePage />;
+    }
+  };
+
   return (
     <div className="layout">
       <Header scrollToSolutions={scrollToSolutions} />
-      <main className="main-content">
-        <HomePage />
-      </main>
+      <main className="main-content">{renderContent()}</main>
     </div>
   );
 };

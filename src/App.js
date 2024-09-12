@@ -1,7 +1,9 @@
 import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Layout from "./Layout";
-import HomePage from "./components/HomePage/HomePage";
+import HomePage from "./pages/HomePage";
+import SignIn from "./components/auth/SignIn";
+import SettingGuest from "./components/settings/SettingGuest";
 
 const App = () => {
   return (
@@ -9,6 +11,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/settings" element={<SettingGuest />} />
         </Route>
       </Routes>
     </BrowserRouter>

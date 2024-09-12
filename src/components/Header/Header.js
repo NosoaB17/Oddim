@@ -54,11 +54,19 @@ const Header = ({ scrollToSolutions }) => {
         </button>
         {isDropdownOpen && (
           <div className="dropdown">
-            <Link to="/signin" className="dropdown-item">
+            <Link
+              to="/signin"
+              className="dropdown-item"
+              onClick={toggleDropdown}
+            >
               <img src={login} alt="Sign In" />
               Sign In
             </Link>
-            <Link to="/settings" className="dropdown-item">
+            <Link
+              to="/settings"
+              className="dropdown-item"
+              onClick={toggleDropdown}
+            >
               <img src={settings} alt="Settings" />
               Settings
             </Link>

@@ -1,10 +1,10 @@
 import React from "react";
-import Hero from "./Hero";
-import SolutionCard from "./SolutionCard";
-import HelpCenter from "./HelpCenter";
-import AboutUs from "./AboutUs";
-import ReadyStart from "./ReadyStart";
-import Footer from "./Footer";
+import Hero from "../components/HomeCard/Hero";
+import SolutionCard from "../components/HomeCard/SolutionCard";
+import HelpCenter from "../components/HomeCard/HelpCenter";
+import AboutUs from "../components/HomeCard/AboutUs";
+import ReadyStart from "../components/HomeCard/ReadyStart";
+import Footer from "../components/HomeCard/Footer";
 import "./HomePage.scss";
 
 const HomePage = () => {

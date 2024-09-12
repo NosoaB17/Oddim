@@ -48,7 +48,15 @@ const Hero = () => {
   return (
     <div className="hero-container">
       <div className="video-container">
-        <video src={MiddoIntroVideo} alt="Video call" autoPlay muted />
+        <video
+          src={MiddoIntroVideo}
+          alt="Video call"
+          autoPlay
+          muted
+          controls
+          playsInline
+          className="custom-video-player"
+        />
       </div>
       <div className="hero-content">
         <div className="text-content">
