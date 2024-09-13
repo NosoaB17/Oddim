@@ -2,7 +2,8 @@ import React, { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./components/Header/Header";
 import HomePage from "./pages/HomePage";
-import SignIn from "./components/auth/SignIn";
+import Products from "./pages/Products";
+import SignIn from "./components/Auth/SignIn";
 import SettingGuest from "./components/settings/SettingGuest";
 import "./Layout.scss";
 
@@ -29,14 +30,18 @@ const Layout = () => {
         return <SignIn />;
       case "/settings":
         return <SettingGuest />;
+      case "/products":
+        return <Products />;
       default:
         return <HomePage />;
     }
   };
 
+  const isProductsPage = location.pathname === "/products";
+
   return (
     <div className="layout">
-      <Header scrollToSolutions={scrollToSolutions} />
+      {!isProductsPage && <Header scrollToSolutions={scrollToSolutions} />}
       <main className="main-content">{renderContent()}</main>
     </div>
   );
