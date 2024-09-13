@@ -1,9 +1,7 @@
+import "./SettingGuest.scss";
+
 const SettingGuest = () => {
-  return (
-    <div>
-      <h1>This Is SettingGuest Page</h1>
-    </div>
-  );
+  return <h1>Setting</h1>;
 };
 
 export default SettingGuest;

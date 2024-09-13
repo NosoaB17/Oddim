@@ -7,7 +7,7 @@ import login from "../../assets/log-out.png";
 import settings from "../../assets/settings.png";
 import { useNavigate } from "react-router-dom";
 
-const Header = ({ scrollToSolutions }) => {
+const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -23,7 +23,7 @@ const Header = ({ scrollToSolutions }) => {
       <nav className="navigation">
         <ul>
           <li>
-            <span onClick={scrollToSolutions}>Solution</span>
+            <span>Solution</span>
           </li>
           <li>
             <Link to="/products">Products</Link>

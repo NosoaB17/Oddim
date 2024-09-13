@@ -20,7 +20,7 @@ const NavBar = () => {
   };
 
   const handleLogoClick = () => {
-    navigate("/"); // Navigate to home page
+    navigate("/");
   };
 
   const tabs = [

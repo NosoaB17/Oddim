@@ -10,10 +10,10 @@
   height: 50px;
 
   .logo {
-    cursor: pointer; // Thêm con trỏ pointer cho logo
-    transition: opacity 0.3s ease; // Thêm transition cho hiệu ứng hover
+    cursor: pointer;
+    transition: opacity 0.3s ease;
     &:hover {
-      opacity: 0.9; // Tạo hiệu ứng mờ nhẹ khi hover
+      opacity: 0.9;
     }
     img {
       line-height: 24px;
@@ -21,9 +21,9 @@
   }
 
   .navigation {
-    flex-grow: 1; // Allow navigation to take up available space
+    flex-grow: 1;
     display: flex;
-    justify-content: center; // Center the navigation horizontally
+    justify-content: center;
     ul {
       display: flex;
       list-style-type: none;
@@ -31,7 +31,7 @@
       padding: 0;
 
       li {
-        margin: 0 1rem; // Equal margin on both sides for spacing
+        margin: 0 1rem;
         cursor: pointer;
         font-weight: 600;
         font-size: 16px;
@@ -39,7 +39,7 @@
         span {
           text-decoration: none;
           color: inherit;
-          display: inline-block; // Allow vertical padding to take effect
+          display: inline-block;
           &:hover {
             color: #3d88ed;
           }

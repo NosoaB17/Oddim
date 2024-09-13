@@ -39,11 +39,11 @@ const Hero = () => {
       setTimeout(() => {
         setCurrentLanguage((prev) => (prev + 1) % languages.length);
         setIsFading(false);
-      }, 500); // Đợi hiệu ứng fade out hoàn thành
-    }, 2000); // Chuyển đổi mỗi 2 giây
+      }, 500); // Wait for FaceOut Complete
+    }, 2000); // Transition every 2s
 
     return () => clearInterval(interval);
-  }, []);
+  }, [languages.length]);
 
   return (
     <div className="hero-container">
