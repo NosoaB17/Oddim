@@ -77,13 +77,13 @@ const Hero = () => {
             Middo can be your trusted tool to do all translation work. Beside
             that we also provide a barrier-free language conversation platform.
           </p>
+          <button className="download-btn">
+            <span className="icon">
+              <FaWindows />{" "}
+            </span>
+            Download App
+          </button>
         </div>
-        <button className="download-btn">
-          <span className="icon">
-            <FaWindows />{" "}
-          </span>
-          Download App
-        </button>
       </div>
     </div>
   );

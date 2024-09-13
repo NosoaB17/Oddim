@@ -15,12 +15,13 @@
       display: flex;
       justify-content: flex-end;
       line-height: 24px;
-      width: 50%;
+      width: 55%;
+      padding: 0 0 32px;
       position: relative;
       .custom-video-player {
         margin: 48px 0 0 48px;
         width: 115%;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
 
         &::-webkit-media-controls-panel {
           display: flex !important;
@@ -39,12 +40,12 @@
       margin: 32px 32px 0 0;
 
       .text-content {
+        width: 85%;
         h1 {
           display: flex;
           flex-direction: column;
-          margin-top: 0;
-          height: 330px; // Đặt chiều cao cố định cho h1, điều chỉnh nếu cần
-          overflow: hidden; // Ẩn nội dung vượt quá chiều cao
+          overflow: hidden;
+          height: 250px;
         }
 
         .changing-text {
@@ -71,7 +72,6 @@
           color: #666;
           font-weight: 400;
           line-height: 24px;
-          margin: 16px 0px 0px;
           text-align: left;
         }
       }
@@ -79,7 +79,6 @@
       .download-btn {
         .icon {
           margin-right: 8px;
-          // bigger icon size
         }
         border: none;
         font-style: normal;
@@ -99,30 +98,19 @@
   }
 
   .solutions-section {
-    h2 {
-      // Styles for section title
-    }
-
     .solution-cards {
-      display: flex;
-      justify-content: space-between;
-      // Other styles for the solution cards container
     }
   }
 
   .help-center {
-    // Styles for HelpCenter component
   }
 
   .about-us {
-    // Styles for AboutUs component
   }
 
   .ready-start {
-    // Styles for ReadyStart component
   }
 
   .footer {
-    // Styles for Footer component
   }
 }

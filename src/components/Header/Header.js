@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 const Header = ({ scrollToSolutions }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
-
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+
   const handleLogoClick = () => {
     navigate("/"); // Navigate to home page
   };
