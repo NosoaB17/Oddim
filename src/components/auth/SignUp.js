@@ -1,5 +1,4 @@
 import React from "react";
-import "./SignUp.scss";
 
 const SignUp = ({ onSwitchForm }) => {
   return (

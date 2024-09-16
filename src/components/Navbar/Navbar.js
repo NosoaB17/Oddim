@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./Navbar.scss";
 import Logo from "../../assets/Logo.png";
 import TranslationIcon from "../../assets/navbar/Translation.svg";
 import ConversationIcon from "../../assets/navbar/Conversation.svg";

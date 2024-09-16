@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import SignIn from "../components/Auth/SignIn";
 import SignUp from "../components/Auth/SignUp";
 import ForgotPass from "../components/Auth/ForgotPass";
-import "./Auth.scss";
 
 const Auth = () => {
   const [currentForm, setCurrentForm] = useState("signin");

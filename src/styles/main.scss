@@ -1,0 +1,28 @@
+@import "variables";
+@import "mixins";
+
+// Components
+@import "components/auth";
+@import "components/header";
+@import "components/hero";
+@import "components/navbar";
+@import "components/settings";
+
+// Pages
+@import "pages/auth";
+@import "pages/homepage";
+@import "pages/product";
+
+body {
+  font-family: Arial, sans-serif;
+
+  font-size: $font-size-base;
+  color: $text-color;
+  background-color: $background-color;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}

@@ -5,7 +5,6 @@ import HelpCenter from "../components/HomeCard/HelpCenter";
 import AboutUs from "../components/HomeCard/AboutUs";
 import ReadyStart from "../components/HomeCard/ReadyStart";
 import Footer from "../components/HomeCard/Footer";
-import "./HomePage.scss";
 
 const HomePage = () => {
   return (

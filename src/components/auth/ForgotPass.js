@@ -1,5 +1,5 @@
 import React from "react";
-import "./ForgotPass.scss";
+import "../../styles/components/_auth.scss";
 
 const ForgotPass = ({ onSwitchForm }) => {
   return (

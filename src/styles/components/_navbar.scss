@@ -1,0 +1,123 @@
+.navbar {
+  background-color: white;
+  padding: 10px 20px;
+
+  .navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .navbar-left {
+      .logo {
+        cursor: pointer;
+      }
+    }
+
+    .navbar-center {
+      display: flex;
+
+      .nav-button {
+        @include button-reset;
+        margin: 0 10px;
+        padding: 5px 10px;
+        border-radius: $border-radius;
+        display: flex;
+        align-items: center;
+        transition: background-color 0.3s ease;
+
+        &.active {
+          background-color: $primary-color;
+          color: white;
+        }
+
+        .tab-name {
+          margin-right: 5px;
+        }
+
+        .tab-icon {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+
+    .navbar-right {
+      position: relative;
+
+      .user-icon {
+        @include button-reset;
+      }
+
+      .dropdown {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background-color: white;
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
+        z-index: 1000;
+
+        .dropdown-item {
+          display: flex;
+          align-items: center;
+          padding: 10px;
+          text-decoration: none;
+          color: $text-color;
+
+          img {
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include responsive(tablet) {
+  .navbar {
+    .navbar-content {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .navbar-center {
+        margin: 20px 0;
+        width: 100%;
+        justify-content: space-around;
+
+        .nav-button {
+          flex-direction: column;
+          align-items: center;
+
+          .tab-name {
+            margin-right: 0;
+            margin-bottom: 5px;
+          }
+        }
+      }
+
+      .navbar-right {
+        align-self: flex-end;
+      }
+    }
+  }
+}
+
+@include responsive(mobile) {
+  .navbar {
+    padding: 10px;
+
+    .navbar-content {
+      .navbar-left .logo img {
+        max-width: 100px;
+      }
+
+      .navbar-center {
+        flex-wrap: wrap;
+
+        .nav-button {
+          margin: 5px;
+        }
+      }
+    }
+  }
+}

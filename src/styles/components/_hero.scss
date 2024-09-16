@@ -1,0 +1,157 @@
+.hero-container {
+  background-position: 50% 50%;
+  background-color: $background-color;
+  background-image: url("https://middo.app/landing-page/hero.png");
+  background-size: contain;
+  color: $text-color;
+  display: flex;
+  flex-direction: row-reverse;
+  line-height: 24px;
+  padding: 24px 74.4px 24px;
+
+  .video-container {
+    align-items: flex-start;
+    display: flex;
+    justify-content: flex-end;
+    line-height: 24px;
+    width: 55%;
+    padding: 0 0 32px;
+    position: relative;
+
+    .custom-video-player {
+      margin: 48px 0 0 48px;
+      width: 115%;
+      border-radius: 12px;
+
+      &::-webkit-media-controls-panel {
+        display: flex !important;
+        opacity: 1 !important;
+      }
+    }
+  }
+
+  .hero-content {
+    align-items: flex-start;
+    color: $text-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 24px;
+    margin: 32px 32px 0 0;
+
+    .text-content {
+      width: 85%;
+
+      h1 {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        height: 250px;
+      }
+
+      .changing-text {
+        font-size: 64px;
+        display: flex;
+        text-align: left;
+        font-weight: 700;
+        line-height: 96px;
+        transition: opacity 0.5s ease-in-out;
+
+        &.first {
+          color: $text-color;
+        }
+
+        &.second {
+          color: $primary-color;
+        }
+
+        &.fade-out {
+          opacity: 0;
+        }
+      }
+
+      p {
+        font-size: $font-size-base;
+        color: $secondary-color;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: left;
+      }
+    }
+
+    .download-btn {
+      @include button-reset;
+      align-items: center;
+      background-color: $primary-color;
+      border-radius: $border-radius;
+      color: white;
+      display: inline-flex;
+      font-weight: 500;
+      justify-content: center;
+      line-height: 24px;
+      padding: 16px 28px;
+      text-align: center;
+      margin-top: 16px;
+
+      .icon {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+@include responsive(tablet) {
+  .hero-container {
+    flex-direction: column;
+    padding: 24px 40px;
+
+    .video-container {
+      width: 100%;
+      justify-content: center;
+
+      .custom-video-player {
+        margin: 24px 0 0 0;
+        width: 100%;
+      }
+    }
+
+    .hero-content {
+      margin: 32px 0 0 0;
+      align-items: center;
+
+      .text-content {
+        width: 100%;
+        text-align: center;
+
+        h1 {
+          height: auto;
+        }
+
+        .changing-text {
+          font-size: 48px;
+          line-height: 72px;
+          justify-content: center;
+        }
+
+        p {
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+@include responsive(mobile) {
+  .hero-container {
+    padding: 24px 20px;
+
+    .hero-content {
+      .text-content {
+        .changing-text {
+          font-size: 36px;
+          line-height: 54px;
+        }
+      }
+    }
+  }
+}

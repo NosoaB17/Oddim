@@ -1,0 +1,12 @@
+.home-page {
+}
+
+@include responsive(tablet) {
+  .home-page {
+  }
+}
+
+@include responsive(mobile) {
+  .home-page {
+  }
+}

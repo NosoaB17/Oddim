@@ -1,5 +1,3 @@
-import "./SettingGuest.scss";
-
 const SettingGuest = () => {
   return <h1>Setting</h1>;
 };

@@ -6,7 +6,6 @@ import HomePage from "./pages/HomePage";
 import Products from "./pages/Products";
 import Auth from "./pages/Auth";
 import SettingGuest from "./components/Settings/SettingGuest";
-import "./Layout.scss";
 
 const Layout = () => {
   const location = useLocation();

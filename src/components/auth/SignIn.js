@@ -1,5 +1,4 @@
 import React from "react";
-import "./SignIn.scss";
 import GoogleIcon from "../../assets/GoogleIcon.svg";
 import SignUpIcon from "../../assets/signup.svg";
 import ShowHideIcon from "../../assets/show-hide.svg";

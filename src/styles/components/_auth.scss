@@ -1,0 +1,136 @@
+@import "../variables";
+@import "../mixins";
+
+%auth-form-base {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+
+  h2 {
+    font-size: $font-size-large;
+    color: $primary-color;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  input {
+    width: 100%;
+    padding: $padding-base;
+    margin-bottom: 16px;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    font-size: $font-size-base;
+
+    &::placeholder {
+      color: #bdbdbd;
+    }
+  }
+
+  button {
+    width: 100%;
+    padding: $padding-base;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: $border-radius;
+    font-size: $font-size-base;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+}
+
+.forgot-password-form {
+  @extend %auth-form-base;
+
+  p {
+    font-size: $font-size-small;
+    color: $secondary-color;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .cancel-link {
+    text-align: center;
+    font-size: $font-size-small;
+
+    span {
+      color: $secondary-color;
+      cursor: pointer;
+    }
+  }
+}
+
+.signin-form {
+  @extend %auth-form-base;
+
+  .password-input {
+    position: relative;
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+  }
+
+  .forgot-password-link {
+    @include button-reset;
+    color: $secondary-color;
+    margin-bottom: 16px;
+  }
+
+  .account-text {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: $font-size-base;
+    color: $secondary-color;
+  }
+
+  .signup-button,
+  .google-signin {
+    background-color: #f5f5f5;
+    border: 1px solid $border-color;
+    color: $text-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      margin-right: 10px;
+    }
+  }
+}
+
+.signup-form {
+  @extend %auth-form-base;
+
+  .password-requirements {
+    font-size: $font-size-small;
+    color: $secondary-color;
+    margin-bottom: 20px;
+
+    p {
+      margin: 5px 0;
+      display: flex;
+      align-items: center;
+
+      &::before {
+        content: "✓";
+        color: #4caf50;
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .signin-link {
+    text-align: center;
+    font-size: $font-size-small;
+
+    .signin-direct {
+      cursor: pointer;
+      color: $primary-color;
+    }
+  }
+}
