@@ -2,25 +2,48 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  background-color: white;
+  padding: 0 2rem;
+  gap: 20px;
+  background-color: $background-color;
+  color: $text-color;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 50px;
 
   .logo {
     cursor: pointer;
+    transition: opacity 0.3s ease;
+    &:hover {
+      opacity: 0.9;
+    }
+    img {
+      line-height: 24px;
+    }
   }
 
   .navigation {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
     ul {
       display: flex;
       list-style-type: none;
+      margin: 0;
+      padding: 0;
 
       li {
-        margin-right: 20px;
+        margin: 0 1.5rem;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 16px;
 
         a,
         span {
           text-decoration: none;
-          color: $text-color;
+          color: inherit;
+          display: inline-block;
+          &:hover {
+            color: $primary-color;
+          }
         }
       }
     }
@@ -31,26 +54,36 @@
 
     .user-icon {
       @include button-reset;
+      background: none;
+      border: none;
+      cursor: pointer;
     }
 
     .dropdown {
       position: absolute;
+      top: 0;
       right: 0;
+      z-index: 100;
       top: 100%;
-      background-color: white;
-      border: 1px solid $border-color;
-      border-radius: $border-radius;
-      z-index: 1000;
+      background-color: $background-color;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      padding: 0.5rem 0;
 
       .dropdown-item {
         display: flex;
         align-items: center;
-        padding: 10px;
+        padding: 0.5rem 1rem;
         text-decoration: none;
-        color: $text-color;
+        color: #333;
+        display: block;
+        background-color: rgba(255, 255, 255, 0.9);
 
-        img {
-          margin-right: 10px;
+        svg {
+          margin-right: 0.5rem;
+        }
+        &:hover {
+          background-color: #f8f9fa;
         }
       }
     }

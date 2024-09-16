@@ -1,42 +1,76 @@
 .navbar {
   background-color: white;
-  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 52px;
 
   .navbar-content {
+    margin: 0 auto;
+    height: 100%;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    gap: 250px;
+    padding: 0 20px;
 
     .navbar-left {
+      display: flex;
+      align-items: center;
+      flex: 0 0 auto;
+
       .logo {
         cursor: pointer;
+        height: 30px;
       }
     }
 
     .navbar-center {
+      height: 100%;
       display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      margin: 0 80px;
 
       .nav-button {
-        @include button-reset;
-        margin: 0 10px;
-        padding: 5px 10px;
-        border-radius: $border-radius;
+        height: 100%;
         display: flex;
         align-items: center;
-        transition: background-color 0.3s ease;
+        margin: 0 5px;
+        padding: 8px 12px;
+        border: none;
+        justify-content: center;
+        background-color: transparent;
+        cursor: pointer;
+        transition: background-color 0.3s;
 
         &.active {
-          background-color: $primary-color;
-          color: white;
+          background-color: #3d88ed;
+          color: #f2f2f2;
+          border-radius: 12px;
         }
 
-        .tab-name {
-          margin-right: 5px;
+        &:hover:not(.active) {
+          background-color: #f0f0f0;
+          border-radius: 12px;
         }
 
         .tab-icon {
-          width: 20px;
-          height: 20px;
+          width: 16px;
+          height: 16px;
+          margin-left: 12px;
+          transition: filter 0.3s;
+        }
+
+        .tab-name {
+          font-weight: 600;
+          font-style: normal;
+          font-size: 16px;
+          line-height: 18px;
+        }
+
+        &.active .tab-icon {
+          filter: brightness(0) invert(1);
         }
       }
     }
@@ -45,27 +79,46 @@
       position: relative;
 
       .user-icon {
-        @include button-reset;
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 5px 10px;
+        border-radius: 20px;
+      }
+
+      img {
+        margin-right: 5px;
       }
 
       .dropdown {
         position: absolute;
-        right: 0;
         top: 100%;
-        background-color: white;
-        border: 1px solid $border-color;
-        border-radius: $border-radius;
-        z-index: 1000;
+        right: 0;
+        z-index: 100;
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        padding: 0.5rem 0;
+        min-width: 150px;
 
         .dropdown-item {
           display: flex;
           align-items: center;
-          padding: 10px;
+          padding: 0.5rem 1rem;
           text-decoration: none;
-          color: $text-color;
+          color: #333;
+          background-color: rgba(255, 255, 255, 0.9);
 
           img {
+            width: 16px;
+            height: 16px;
             margin-right: 10px;
+          }
+
+          &:hover {
+            background-color: #f8f9fa;
           }
         }
       }
@@ -78,21 +131,11 @@
     .navbar-content {
       flex-direction: column;
       align-items: flex-start;
+      gap: 20px;
 
       .navbar-center {
-        margin: 20px 0;
         width: 100%;
-        justify-content: space-around;
-
-        .nav-button {
-          flex-direction: column;
-          align-items: center;
-
-          .tab-name {
-            margin-right: 0;
-            margin-bottom: 5px;
-          }
-        }
+        justify-content: flex-start;
       }
 
       .navbar-right {
@@ -104,18 +147,26 @@
 
 @include responsive(mobile) {
   .navbar {
-    padding: 10px;
-
     .navbar-content {
-      .navbar-left .logo img {
-        max-width: 100px;
+      padding: 0 15px;
+      gap: 15px;
+
+      .navbar-left .logo {
+        height: 24px;
       }
 
       .navbar-center {
-        flex-wrap: wrap;
-
         .nav-button {
-          margin: 5px;
+          padding: 6px 8px;
+
+          .tab-name {
+            font-size: 14px;
+          }
+
+          .tab-icon {
+            width: 14px;
+            height: 14px;
+          }
         }
       }
     }

@@ -1,10 +1,15 @@
 import React from "react";
+import LanguageSelector from "../components/Products/LanguageSelector";
+import TranslationArea from "../components/Products/TranslationArea";
+import AdditionalFeatures from "../components/Products/AdditionalFeatures";
 
 const Products = () => {
   return (
     <div className="products-page">
       <div className="products-content">
-        <h1>Products Page</h1>
+        <LanguageSelector />
+        <TranslationArea />
+        <AdditionalFeatures />
       </div>
     </div>
   );

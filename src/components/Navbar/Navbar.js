@@ -3,6 +3,7 @@ import Logo from "../../assets/Logo.png";
 import TranslationIcon from "../../assets/navbar/Translation.svg";
 import ConversationIcon from "../../assets/navbar/Conversation.svg";
 import ExtensionIcon from "../../assets/navbar/Extension.svg";
+import DocsIcon from "../../assets/navbar/Docs.svg";
 import SignIn from "../../assets/SignIn.svg";
 import login from "../../assets/log-out.png";
 import settings from "../../assets/settings.png";
@@ -10,12 +11,29 @@ import { Link, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("Translation");
   const navigate = useNavigate();
+
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
-  const [activeTab, setActiveTab] = useState("Translation");
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+    switch (tab) {
+      case "Translation":
+        navigate("/products");
+        break;
+      case "Conversation":
+        navigate("/conversation");
+        break;
+      case "Extension":
+        window.open("https://middo.app/spaces", "_blank");
+        break;
+      case "Docs":
+        window.open("https://docs.middo.app/", "_blank");
+        break;
+      default:
+        break;
+    }
   };
 
   const handleLogoClick = () => {
@@ -26,6 +44,7 @@ const NavBar = () => {
     { name: "Translation", icon: TranslationIcon },
     { name: "Conversation", icon: ConversationIcon },
     { name: "Extension", icon: ExtensionIcon },
+    { name: "Docs", icon: DocsIcon },
   ];
 
   return (
