@@ -1,36 +1,27 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import HomePage from "./pages/HomePage";
 import Products from "./pages/Products";
 import Auth from "./pages/Auth";
-import SettingGuest from "./components/Settings/SettingGuest";
+import Settings from "./components/Settings/Settings";
 
 const Layout = () => {
   const location = useLocation();
-
-  const renderContent = () => {
-    switch (location.pathname) {
-      case "/":
-        return <HomePage />;
-      case "/products":
-        return <Products />;
-      case "/signin":
-        return <Auth />;
-      case "/settings":
-        return <SettingGuest />;
-      default:
-        return <HomePage />;
-    }
-  };
-
   const isHomePage = location.pathname === "/";
 
   return (
     <div className="layout">
       {isHomePage ? <Header /> : <Navbar />}
-      <main className="main-content">{renderContent()}</main>
+      <main className="main-content">
+        <Routes>
+          <Route index element={<HomePage />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/signin" element={<Auth />} />
+          <Route path="/settings" element={<Settings />} />
+        </Routes>
+      </main>
     </div>
   );
 };

@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import GoogleIcon from "../../assets/GoogleIcon.svg";
 import SignUpIcon from "../../assets/signup.svg";
 import ShowHideIcon from "../../assets/show-hide.svg";
 
 const SignIn = ({ onSwitchForm }) => {
+  const [passwordShown, setPasswordShown] = useState(false);
+  const togglePasswordVisiblity = () => {
+    setPasswordShown(!passwordShown);
+  };
+
   return (
     <div className="signin-form">
       <h2>Sign In</h2>
       <input type="email" placeholder="Enter your email" />
       <div className="password-input">
-        <input type="password" placeholder="Enter your password" />
-        <span className="toggle-password">
+        <input
+          type={passwordShown ? "text" : "password"}
+          placeholder="Enter your password"
+        />
+        <span className="toggle-password" onClick={togglePasswordVisiblity}>
           <img
             src={ShowHideIcon}
             alt="ShowHidePassIcon"

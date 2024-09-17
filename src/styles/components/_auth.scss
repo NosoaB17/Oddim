@@ -11,6 +11,8 @@
     color: $primary-color;
     text-align: center;
     margin-bottom: 30px;
+    font-weight: 600;
+    font-size: 24px;
   }
 
   input {
@@ -69,7 +71,7 @@
     .toggle-password {
       position: absolute;
       right: 12px;
-      top: 50%;
+      top: 40%;
       transform: translateY(-50%);
       cursor: pointer;
     }
@@ -79,9 +81,11 @@
     @include button-reset;
     color: $secondary-color;
     margin-bottom: 16px;
+    text-align: right;
   }
 
   .account-text {
+    padding: 20px 0;
     text-align: center;
     margin-bottom: 10px;
     font-size: $font-size-base;
