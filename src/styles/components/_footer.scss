@@ -1,0 +1,19 @@
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5vh;
+
+  .copyright {
+    padding-left: 16px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .email {
+    text-align: right;
+    padding-right: 16px;
+    font-size: 16px;
+    font-weight: 400;
+  }
+}

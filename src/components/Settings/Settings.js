@@ -39,7 +39,7 @@ const Settings = () => {
             onChange={(e) => setLanguage(e.target.value)}
           >
             {languages.map((lang) => (
-              <option key={lang.value} value={lang.value}>
+              <option src={langIcon} key={lang.value} value={lang.value}>
                 {lang.label}
               </option>
             ))}
