@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import HomePage from "./pages/HomePage";
 import Products from "./pages/Products";
 import Auth from "./pages/Auth";
+import Conversation from "./pages/Conversation";
 import Settings from "./components/Settings/Settings";
 
 const Layout = () => {
@@ -20,6 +21,7 @@ const Layout = () => {
           <Route path="/products" element={<Products />} />
           <Route path="/signin" element={<Auth />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/conversation" element={<Conversation />} />
         </Routes>
       </main>
     </div>

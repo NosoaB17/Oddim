@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../../assets/Logo.png";
 import TranslationIcon from "../../assets/navbar/Translation.svg";
 import ConversationIcon from "../../assets/navbar/Conversation.svg";
@@ -7,17 +7,30 @@ import DocsIcon from "../../assets/navbar/Docs.svg";
 import SignIn from "../../assets/SignIn.svg";
 import login from "../../assets/log-out.png";
 import settings from "../../assets/settings.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const NavBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("Translation");
+  const [activeTab, setActiveTab] = useState(() => {
+    return localStorage.getItem("activeTab") || "Translation";
+  });
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = location.pathname;
+    let tab = "Translation";
+    if (path.includes("/conversation")) tab = "Conversation";
+    else if (path === "/") tab = "Translation";
+    setActiveTab(tab);
+    localStorage.setItem("activeTab", tab);
+  }, [location]);
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+    localStorage.setItem("activeTab", tab);
     switch (tab) {
       case "Translation":
         navigate("/products");
