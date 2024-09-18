@@ -51,7 +51,7 @@ const Hero = () => {
         <video
           src={MiddoIntroVideo}
           alt="Video call"
-          autoPlay
+          Play
           muted
           controls
           playsInline

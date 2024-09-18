@@ -3,16 +3,16 @@
 
 // Components
 @import "components/auth";
-@import "components/header";
-@import "components/hero";
+@import "components/home/header";
+@import "components/home/hero";
 @import "components/navbar";
 @import "components/products";
 @import "components/settings";
-@import "components/solution";
-@import "components/userguide";
-@import "components/aboutus";
-@import "components/calltoaction";
-@import "components/footer";
+@import "components/home/solution";
+@import "components/home/userguide";
+@import "components/home/aboutus";
+@import "components/home/calltoaction";
+@import "components/home/footer";
 
 // Pages
 @import "pages/auth";

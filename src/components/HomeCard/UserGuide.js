@@ -7,7 +7,9 @@ const UserGuide = () => {
         <img src={headerIcon} alt="headerIcon" />
         <span></span>
       </div>
-      <h1 className="guide-title">User Guide</h1>
+      <h1 className="guide-title">
+        User Guide, Dinh Header va Dieu huong Solution
+      </h1>
       <div className="guide-menu"></div>
     </div>
   );
