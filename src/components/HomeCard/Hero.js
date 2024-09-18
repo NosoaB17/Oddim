@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MiddoIntroVideo from "../../assets/MiddoIntroVideo.mp4";
 import { FaWindows } from "react-icons/fa";
+import VideoCover from "../../assets/videocover.png";
 
 const Hero = () => {
   const [currentLanguage, setCurrentLanguage] = useState(0);
@@ -50,6 +51,7 @@ const Hero = () => {
       <div className="video-container">
         <video
           src={MiddoIntroVideo}
+          poster={VideoCover}
           alt="Video call"
           Play
           muted

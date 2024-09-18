@@ -4,6 +4,7 @@ import Logo from "../../assets/Logo.png";
 import SignIn from "../../assets/SignIn.svg";
 import login from "../../assets/log-out.png";
 import settings from "../../assets/settings.png";
+
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
@@ -12,7 +13,7 @@ const Header = () => {
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const handleLogoClick = () => {
-    navigate("/"); // Navigate to home page
+    navigate("/");
   };
   return (
     <header className="header">
