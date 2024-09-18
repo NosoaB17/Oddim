@@ -15,6 +15,18 @@ const Header = () => {
   const handleLogoClick = () => {
     navigate("/");
   };
+
+  const handleSolutionClick = () => {
+    if (window.location.pathname === "/") {
+      const solutionSection = document.getElementById("solutions");
+      if (solutionSection) {
+        solutionSection.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate("#solutions");
+    }
+  };
+
   return (
     <header className="header">
       <div className="logo" onClick={handleLogoClick}>
@@ -23,7 +35,7 @@ const Header = () => {
       <nav className="navigation">
         <ul>
           <li>
-            <span>Solution</span>
+            <span onClick={handleSolutionClick}>Solution</span>
           </li>
           <li>
             <Link to="/products">Products</Link>

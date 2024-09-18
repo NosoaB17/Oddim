@@ -1,6 +1,6 @@
 import React from "react";
 import Hero from "../components/HomeCard/Hero";
-import SolutionSection from "../components/HomeCard/Solution";
+import Solution from "../components/HomeCard/Solution";
 import UserGuide from "../components/HomeCard/UserGuide";
 import AboutUs from "../components/HomeCard/AboutUs";
 import CallToAction from "../components/HomeCard/CallToAction";
@@ -10,7 +10,7 @@ const HomePage = () => {
   return (
     <div className="home-page">
       <Hero />
-      <SolutionSection />
+      <Solution />
       <UserGuide />
       <AboutUs />
       <CallToAction />

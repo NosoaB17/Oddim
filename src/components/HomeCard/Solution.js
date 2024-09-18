@@ -59,7 +59,7 @@ const Solution = () => {
   ];
 
   return (
-    <section className="solution">
+    <section id="solutions" className="solution">
       {solutions.map((solution, index) => (
         <SolutionCard key={index} {...solution} />
       ))}
