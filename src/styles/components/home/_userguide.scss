@@ -1,0 +1,21 @@
+.guide-container {
+  .guide-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    line-height: 24px;
+    span {
+      font-size: 22px;
+      font-weight: 600;
+      color: #3d88ed;
+    }
+  }
+  h1 {
+    color: #020817;
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 72px;
+    text-align: center;
+  }
+}

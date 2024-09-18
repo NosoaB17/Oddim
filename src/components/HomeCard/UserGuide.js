@@ -5,11 +5,9 @@ const UserGuide = () => {
     <div className="guide-container">
       <div className="guide-header">
         <img src={headerIcon} alt="headerIcon" />
-        <span></span>
+        <span className="headerText">Help Center</span>
       </div>
-      <h1 className="guide-title">
-        User Guide, Dinh Header va Dieu huong Solution
-      </h1>
+      <h1 className="guide-title">User Guide</h1>
       <div className="guide-menu"></div>
     </div>
   );
