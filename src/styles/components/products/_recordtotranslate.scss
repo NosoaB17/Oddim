@@ -1,0 +1,37 @@
+.record-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #4a90e2;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #3a7bc8;
+  }
+
+  &.recording {
+    animation: pulse 1.5s infinite;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(74, 144, 226, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 144, 226, 0);
+  }
+}

@@ -1,0 +1,71 @@
+.additional-features-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+
+  .additional-features {
+    display: flex;
+    gap: 10px;
+
+    button {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      background-color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #f0f0f0;
+      }
+
+      img {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .record-actions {
+    .voice-input-button {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #4a90e2;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #3a7bc8;
+      }
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .additional-features-container {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .additional-features {
+      margin-bottom: 20px;
+    }
+
+    .record-actions {
+      align-self: center;
+    }
+  }
+}

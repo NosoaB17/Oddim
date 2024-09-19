@@ -1,9 +1,9 @@
 import React from "react";
-import micLogo from "../../assets/products/mic.svg";
 import historyLogo from "../../assets/products/history.svg";
 import phrasesLogo from "../../assets/products/phrases.svg";
+import RecordToTranslate from "./RecordToTranslate";
 
-const AdditionalFeatures = () => {
+const AdditionalFeatures = ({ onTranscript, sourceLanguage }) => {
   return (
     <div className="additional-features-container">
       <div className="additional-features">
@@ -17,9 +17,10 @@ const AdditionalFeatures = () => {
         </button>
       </div>
       <div className="record-actions">
-        <button className="voice-input-button">
-          <img src={micLogo} alt="Voice Input" />
-        </button>
+        <RecordToTranslate
+          onTranscript={onTranscript}
+          sourceLanguage={sourceLanguage}
+        />
       </div>
     </div>
   );
