@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 import GoogleIcon from "../../assets/GoogleIcon.svg";
 import SignUpIcon from "../../assets/signup.svg";
 import ShowHideIcon from "../../assets/show-hide.svg";
+import { useAuth } from "../../contexts/AuthContext";
 
 const SignIn = ({ onSwitchForm }) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSignIn = () => {
     if (email === "ngsn176@gmail.com" && password === "password123") {
+      login({ email, name: "Test User" });
       navigate("/conversation");
     } else {
       alert("Invalid email or password");
@@ -27,6 +32,34 @@ const SignIn = ({ onSwitchForm }) => {
   const togglePasswordVisiblity = () => {
     setPasswordShown(!passwordShown);
   };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log("Google login successful, token:", tokenResponse);
+      try {
+        const userInfoResponse = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
+        );
+        console.log("User info response:", userInfoResponse);
+        const userInfo = userInfoResponse.data;
+        login({
+          email: userInfo.email,
+          name: userInfo.name,
+          picture: userInfo.picture,
+          googleId: userInfo.sub,
+        });
+        navigate("/conversation");
+      } catch (error) {
+        console.error("Error fetching user info:", error.response || error);
+        alert("Failed to get user information from Google");
+      }
+    },
+    onError: (error) => {
+      console.log("Google Login Failed:", error);
+      alert("Google sign in was unsuccessful. Please try again.");
+    },
+  });
 
   return (
     <div className="signin-form">
@@ -68,7 +101,7 @@ const SignIn = ({ onSwitchForm }) => {
         <img src={SignUpIcon} alt="Sign Up" />
         Sign Up
       </button>
-      <button className="google-signin">
+      <button className="google-signin" onClick={() => googleLogin()}>
         <img src={GoogleIcon} alt="Google" />
         Sign in with Google
       </button>
