@@ -4,78 +4,62 @@ import englishIcon from "../../assets/products/uk-flag.svg";
 import vietnameseIcon from "../../assets/products/vn-flag.svg";
 import koreanIcon from "../../assets/products/kr-flag.svg";
 import swapIcon from "../../assets/products/swap.svg";
-import arrowDownIcon from "../../assets/products/arrowDown.svg";
 
-import { useState } from "react";
+const LanguageSelector = ({
+  sourceLanguage,
+  targetLanguage,
+  setSourceLanguage,
+  setTargetLanguage,
+}) => {
+  const languages = [
+    { code: "auto", name: "Detect language", icon: detectIcon },
+    { code: "en", name: "English", icon: englishIcon },
+    { code: "vi", name: "Vietnamese", icon: vietnameseIcon },
+    { code: "ko", name: "Korean", icon: koreanIcon },
+  ];
 
-const LanguageSelector = () => {
-  const [activeTab, setActiveTab] = useState("Translation");
-  const handleTabClick = (lang) => {
-    setActiveTab(lang);
+  const handleSwap = () => {
+    if (sourceLanguage !== "auto") {
+      const temp = sourceLanguage;
+      setSourceLanguage(targetLanguage);
+      setTargetLanguage(temp);
+    }
   };
-
-  const source_lang = [
-    { name: "Language detect", icon: detectIcon },
-    { name: "English", icon: englishIcon },
-    { name: "Vietnamese", icon: vietnameseIcon },
-  ];
-
-  const target_lang = [
-    { name: "English", icon: englishIcon },
-    { name: "Korean", icon: koreanIcon },
-    { name: "Vietnamese", icon: vietnameseIcon },
-  ];
 
   return (
     <div className="language-selector">
-      <div className="source-languages">
-        {source_lang.map((lang) => (
+      <div className="language-select source">
+        {languages.map((lang) => (
           <button
-            key={lang.name}
-            className={`lang-button ${activeTab === lang.name ? "active" : ""}`}
-            onClick={() => handleTabClick(lang.name)}
+            key={lang.code}
+            className={`lang-button ${
+              sourceLanguage === lang.code ? "active" : ""
+            }`}
+            onClick={() => setSourceLanguage(lang.code)}
           >
-            <img
-              src={lang.icon}
-              alt={`${lang.name} icon`}
-              className="lang-icon"
-            />
-            <span className="lang-name">{lang.name}</span>
+            <img src={lang.icon} alt={lang.name} />
+            {lang.name}
           </button>
         ))}
-        <button className="arrow-down-button">
-          <img
-            src={arrowDownIcon}
-            alt="Arrow down"
-            className="arrow-down-icon"
-          />
-        </button>
       </div>
-      <button className="swap-button">
-        <img src={swapIcon} alt="Swap" className="swap-icon" />
+      <button className="swap-button" onClick={handleSwap}>
+        <img src={swapIcon} alt="swap languages" />
       </button>
-      <div className="target-languages">
-        {target_lang.map((lang) => (
-          <button
-            key={lang.name}
-            className={`lang-button ${activeTab === lang.name ? "active" : ""}`}
-            onClick={() => handleTabClick(lang.name)}
-          >
-            <img
-              src={lang.icon}
-              alt={`${lang.name} icon`}
-              className="lang-icon"
-            />
-            <span className="lang-name">{lang.name}</span>
-          </button>
-        ))}
-        <button className="arrow-down-button">
-          <img
-            src={arrowDownIcon}
-            alt="Arrow down"
-            className="arrow-down-icon"
-          />
-        </button>
+      <div className="language-select target">
+        {languages
+          .filter((lang) => lang.code !== "auto")
+          .map((lang) => (
+            <button
+              key={lang.code}
+              className={`lang-button ${
+                targetLanguage === lang.code ? "active" : ""
+              }`}
+              onClick={() => setTargetLanguage(lang.code)}
+            >
+              <img src={lang.icon} alt={lang.name} />
+              {lang.name}
+            </button>
+          ))}
       </div>
     </div>
   );

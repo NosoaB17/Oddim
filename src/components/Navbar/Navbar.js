@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+
 import Logo from "../../assets/Logo.png";
 import TranslationIcon from "../../assets/navbar/Translation.svg";
 import ConversationIcon from "../../assets/navbar/Conversation.svg";
@@ -7,15 +10,64 @@ import DocsIcon from "../../assets/navbar/Docs.svg";
 import SignIn from "../../assets/SignIn.svg";
 import login from "../../assets/log-out.png";
 import settings from "../../assets/settings.png";
-import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const NavBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const [activeTab, setActiveTab] = useState(() => {
     return localStorage.getItem("activeTab") || "Translation";
   });
+
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, logout } = useAuth();
+
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+
+  const getFirstName = (fullName) => {
+    return fullName.split(" ")[0];
+  };
+
+  const handleLogoClick = () => {
+    navigate("/");
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+    setIsDropdownOpen(false);
+  };
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+    localStorage.setItem("activeTab", tab);
+    if (tab === "Conversation" && !user) {
+      navigate("/signin");
+    } else {
+      switch (tab) {
+        case "Translation":
+          navigate("/products");
+          break;
+        case "Conversation":
+          navigate("/conversation");
+          break;
+        case "Extension":
+          window.open("https://middo.app/spaces", "_blank");
+          break;
+        case "Docs":
+          window.open("https://docs.middo.app/", "_blank");
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
+  const tabs = [
+    { name: "Translation", icon: TranslationIcon },
+    { name: "Conversation", icon: ConversationIcon },
+    { name: "Extension", icon: ExtensionIcon },
+    { name: "Docs", icon: DocsIcon },
+  ];
 
   useEffect(() => {
     const path = location.pathname;
@@ -25,40 +77,6 @@ const NavBar = () => {
     setActiveTab(tab);
     localStorage.setItem("activeTab", tab);
   }, [location]);
-
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
-
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-    localStorage.setItem("activeTab", tab);
-    switch (tab) {
-      case "Translation":
-        navigate("/products");
-        break;
-      case "Conversation":
-        navigate("/conversation");
-        break;
-      case "Extension":
-        window.open("https://middo.app/spaces", "_blank");
-        break;
-      case "Docs":
-        window.open("https://docs.middo.app/", "_blank");
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleLogoClick = () => {
-    navigate("/");
-  };
-
-  const tabs = [
-    { name: "Translation", icon: TranslationIcon },
-    { name: "Conversation", icon: ConversationIcon },
-    { name: "Extension", icon: ExtensionIcon },
-    { name: "Docs", icon: DocsIcon },
-  ];
 
   return (
     <nav className="navbar">
@@ -89,26 +107,57 @@ const NavBar = () => {
         </div>
         <div className="navbar-right">
           <button className="user-icon" onClick={toggleDropdown}>
-            <img src={SignIn} alt="User" />
+            {user ? (
+              <>
+                <img
+                  src={user.picture}
+                  alt={user.name}
+                  className="user-avatar"
+                ></img>
+                <span className="user-name">{getFirstName(user.name)}</span>
+              </>
+            ) : (
+              <img src={SignIn} alt="User" />
+            )}
           </button>
           {isDropdownOpen && (
             <div className="dropdown">
-              <Link
-                to="/signin"
-                className="dropdown-item"
-                onClick={toggleDropdown}
-              >
-                <img src={login} alt="Sign In" />
-                Sign In
-              </Link>
-              <Link
-                to="/settings"
-                className="dropdown-item"
-                onClick={toggleDropdown}
-              >
-                <img src={settings} alt="Settings" />
-                Settings
-              </Link>
+              {user ? (
+                <>
+                  <span className="dropdown-item user-name"></span>
+                  <Link
+                    to="/settings"
+                    className="dropdown-item"
+                    onClick={toggleDropdown}
+                  >
+                    <img src={settings} alt="Account Settings" />
+                    Account Settings
+                  </Link>
+                  <button className="dropdown-item" onClick={handleLogout}>
+                    <img src={login} alt="Sign Out" />
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/signin"
+                    className="dropdown-item"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    <img src={login} alt="Sign In" />
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/settings"
+                    className="dropdown-item"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    <img src={settings} alt="Settings" />
+                    Settings
+                  </Link>
+                </>
+              )}
             </div>
           )}
         </div>

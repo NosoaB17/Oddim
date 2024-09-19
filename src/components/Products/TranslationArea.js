@@ -2,23 +2,56 @@ import React from "react";
 import copyLogo from "../../assets/products/copy.svg";
 import speakerLogo from "../../assets/products/speaker.svg";
 
-const TranslationArea = () => {
+const TranslationArea = ({
+  sourceText,
+  translatedText,
+  setSourceText,
+  isTranslating,
+  sourceLanguage,
+  targetLanguage,
+}) => {
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text);
+  };
+
+  const handleSpeak = (text, lang) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang;
+    window.speechSynthesis.speak(utterance);
+  };
+
   return (
     <div className="translation-area">
-      <div className="input-area">
-        <div className="language-tag">Vietnamese</div>
-        <textarea placeholder="Enter your text here" />
-        <div className="action-buttons">
-          <img src={speakerLogo} alt="speakerLogo" className="speakerLogo" />
-          <img src={copyLogo} alt="copyLogo" className="copyLogo" />
+      <div className="text-area source-text">
+        <textarea
+          value={sourceText}
+          onChange={(e) => setSourceText(e.target.value)}
+          placeholder="Enter text"
+        />
+        <div className="text-actions">
+          <button onClick={() => handleSpeak(sourceText, sourceLanguage)}>
+            <img src={speakerLogo} alt="Speak" />
+          </button>
+          <button onClick={() => handleCopy(sourceText)}>
+            <img src={copyLogo} alt="Copy" />
+          </button>
         </div>
       </div>
-      <div className="output-area">
-        <div className="language-tag">English</div>
-        <div className="translated-text"></div>
-        <div className="action-buttons">
-          <img src={speakerLogo} alt="speakerLogo" className="speakerLogo" />
-          <img src={copyLogo} alt="copyLogo" className="copyLogo" />
+      <div className="text-area translated-text">
+        <textarea
+          value={
+            isTranslating && !translatedText ? "Translating..." : translatedText
+          }
+          readOnly
+          placeholder="Translation"
+        />
+        <div className="text-actions">
+          <button onClick={() => handleSpeak(translatedText, targetLanguage)}>
+            <img src={speakerLogo} alt="Speak" />
+          </button>
+          <button onClick={() => handleCopy(translatedText)}>
+            <img src={copyLogo} alt="Copy" />
+          </button>
         </div>
       </div>
     </div>

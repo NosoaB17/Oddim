@@ -7,19 +7,16 @@ const AdditionalFeatures = () => {
   return (
     <div className="additional-features-container">
       <div className="additional-features">
-        <div className="right-actions">
-          <button className="history-button">
-            <img src={historyLogo} alt="History" />
-            History
-          </button>
-          <button className="phrases-button">
-            <img src={phrasesLogo} alt="Phrases" />
-            Phrases
-          </button>
-        </div>
+        <button className="history-button">
+          <img src={historyLogo} alt="History" />
+          History
+        </button>
+        <button className="phrases-button">
+          <img src={phrasesLogo} alt="Phrases" />
+          Saved phrases
+        </button>
       </div>
       <div className="record-actions">
-        {" "}
         <button className="voice-input-button">
           <img src={micLogo} alt="Voice Input" />
         </button>
