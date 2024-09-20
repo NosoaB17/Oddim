@@ -3,8 +3,9 @@ import { CircleFlag } from "react-circle-flags";
 
 import detectIcon from "../../assets/products/lang-detect.svg";
 import arrowDownIcon from "../../assets/products/arrowDown.svg";
-
 import swapIcon from "../../assets/products/swap.svg";
+
+import axios from "axios";
 
 const LanguageSelector = ({
   sourceLanguage,
@@ -12,6 +13,33 @@ const LanguageSelector = ({
   setSourceLanguage,
   setTargetLanguage,
 }) => {
+  const languageToCountryCode = {
+    BG: "bg",
+    CS: "cz",
+    DA: "dk",
+    DE: "de",
+    EL: "gr",
+    EN: "gb",
+    ES: "es",
+    ET: "ee",
+    FI: "fi",
+    FR: "fr",
+    HU: "hu",
+    IT: "it",
+    JA: "jp",
+    LT: "lt",
+    LV: "lv",
+    NL: "nl",
+    PL: "pl",
+    PT: "pt",
+    RO: "ro",
+    RU: "ru",
+    SK: "sk",
+    SL: "si",
+    SV: "se",
+    ZH: "cn",
+  };
+
   const [languages, setLanguages] = useState([]);
   const [showLanguageSelect, setShowLanguageSelect] = useState(false);
 
