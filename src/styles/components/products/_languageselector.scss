@@ -2,40 +2,59 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 0px;
+  background-color: #ffffff;
+  border-radius: 20px;
 
   .language-select {
     display: flex;
+    align-items: center;
     gap: 10px;
 
-    &.source {
-      margin-right: 20px;
+    &.source,
+    &.target {
+      background-color: #f0f0f0;
+      border-radius: 20px;
+      padding: 5px 10px;
     }
 
     &.target {
-      margin-left: 20px;
-    }
-  }
-
-  .lang-button {
-    display: flex;
-    align-items: center;
-    padding: 5px 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 20px;
-    background-color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    &:hover,
-    &.active {
-      background-color: #f0f0f0;
+      margin-left: 40px; // Tạo khoảng cách với nút swap
     }
 
-    img {
-      width: 20px;
-      height: 20px;
-      margin-right: 5px;
+    .lang-button {
+      display: flex;
+      align-items: center;
+      padding: 5px 10px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 15px;
+      transition: background-color 0.3s;
+      font-weight: bold;
+      .lang-button-text {
+        color: #666;
+      }
+
+      &:hover,
+      &.active {
+        background-color: #ffffff;
+        .lang-button-text {
+          color: #3d88ed;
+        }
+      }
+
+      img,
+      .circle-flag {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+      }
+    }
+
+    .dropdown {
+      padding: 5px;
+      border-radius: 50%;
     }
   }
 
@@ -53,82 +72,94 @@
       height: 24px;
       transition: transform 0.3s ease;
     }
-
-    &:hover img {
-      transform: rotate(180deg);
-    }
   }
-
   .swap-button.disabled {
     cursor: not-allowed;
     opacity: 0.2;
   }
+}
 
-  .language-select-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+.language-select-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+
+  .modal-header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    z-index: 1000;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
 
-    .modal-content {
-      background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 80%;
-      max-height: 80%;
-      overflow-y: auto;
+    h2 {
+      font-size: 20px;
+      color: #333;
+    }
 
-      h2 {
-        margin-bottom: 20px;
-      }
-
-      .close-button {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 24px;
-        background: none;
-        border: none;
-        cursor: pointer;
-      }
-
-      .language-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 10px;
-      }
+    .close-button {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
     }
   }
 
-  .lang-button {
-    &.dropdown {
-      padding: 5px;
-      img {
+  .search-bar {
+    padding: 20px;
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      font-size: 16px;
+    }
+  }
+
+  .language-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 20px;
+    overflow-y: auto;
+
+    .lang-button {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover,
+      &.active {
+        background-color: #f0f0f0;
+      }
+
+      .circle-flag {
         width: 24px;
         height: 24px;
+        margin-right: 10px;
       }
     }
   }
 }
 
 @media (max-width: 768px) {
-  .language-selector {
-    flex-direction: column;
+  .language-select-modal .language-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
-    .language-select {
-      width: 100%;
-      justify-content: space-between;
-      margin: 10px 0;
-    }
-
-    .swap-button {
-      margin: 10px 0;
-    }
+@media (max-width: 480px) {
+  .language-select-modal .language-list {
+    grid-template-columns: 1fr;
   }
 }

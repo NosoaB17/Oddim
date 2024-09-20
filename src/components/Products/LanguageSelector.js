@@ -13,33 +13,6 @@ const LanguageSelector = ({
   setSourceLanguage,
   setTargetLanguage,
 }) => {
-  const languageToCountryCode = {
-    BG: "bg",
-    CS: "cz",
-    DA: "dk",
-    DE: "de",
-    EL: "gr",
-    EN: "gb",
-    ES: "es",
-    ET: "ee",
-    FI: "fi",
-    FR: "fr",
-    HU: "hu",
-    IT: "it",
-    JA: "jp",
-    LT: "lt",
-    LV: "lv",
-    NL: "nl",
-    PL: "pl",
-    PT: "pt",
-    RO: "ro",
-    RU: "ru",
-    SK: "sk",
-    SL: "si",
-    SV: "se",
-    ZH: "cn",
-  };
-
   const [languages, setLanguages] = useState([]);
   const [showLanguageSelect, setShowLanguageSelect] = useState(false);
 
@@ -56,9 +29,8 @@ const LanguageSelector = ({
   useEffect(() => {
     const fetchLanguages = async () => {
       try {
-        const response = await fetch("https://libretranslate.com/languages");
-        const data = await response.json();
-        setLanguages(data);
+        const response = await axios.get("http://localhost:5000/languages");
+        setLanguages(response.data);
       } catch (error) {
         console.error("Error fetching languages:", error);
       }
@@ -75,21 +47,21 @@ const LanguageSelector = ({
           onClick={() => setSourceLanguage("auto")}
         >
           <img src={detectIcon} alt="Detect language" />
-          Detect language
+          <span className="lang-button-text">Detect Language</span>
         </button>
         <button
           className={`lang-button ${sourceLanguage === "en" ? "active" : ""}`}
           onClick={() => setSourceLanguage("en")}
         >
           <CircleFlag countryCode="gb" />
-          English
+          <span className="lang-button-text">English</span>
         </button>
         <button
           className={`lang-button ${sourceLanguage === "ko" ? "active" : ""}`}
           onClick={() => setSourceLanguage("ko")}
         >
           <CircleFlag countryCode="kr" />
-          Korean
+          <span className="lang-button-text">Korean</span>
         </button>
         <button
           className="lang-button dropdown"
@@ -110,17 +82,16 @@ const LanguageSelector = ({
               ×
             </button>
             <div className="language-list">
-              {languages.map((lang) => (
+              {Object.entries(languages).map(([code, name]) => (
                 <button
-                  key={lang.code}
+                  key={code}
                   className="lang-button"
                   onClick={() => {
-                    setSourceLanguage(lang.code);
+                    setSourceLanguage(code);
                     setShowLanguageSelect(false);
                   }}
                 >
-                  <CircleFlag countryCode={lang.code.toLowerCase()} />
-                  {lang.name}
+                  {name}
                 </button>
               ))}
             </div>
@@ -133,23 +104,30 @@ const LanguageSelector = ({
         onClick={handleSwap}
         disabled={sourceLanguage === "auto"} // Disable if sourceLanguage is "auto"
       >
-        <img src={swapIcon} alt="Swap languages" />
+        <img src={swapIcon} alt="swap-icon" />
       </button>
 
       <div className="language-select target">
-        <button
-          className={`lang-button ${targetLanguage === "ko" ? "active" : ""}`}
-          onClick={() => setTargetLanguage("ko")}
-        >
-          <CircleFlag countryCode="kr" />
-          Korean
-        </button>
         <button
           className={`lang-button ${targetLanguage === "en" ? "active" : ""}`}
           onClick={() => setTargetLanguage("en")}
         >
           <CircleFlag countryCode="gb" />
-          English
+          <span className="lang-button-text">English</span>
+        </button>
+        <button
+          className={`lang-button ${targetLanguage === "ko" ? "active" : ""}`}
+          onClick={() => setTargetLanguage("ko")}
+        >
+          <CircleFlag countryCode="kr" />
+          <span className="lang-button-text">Korean</span>
+        </button>
+        <button
+          className={`lang-button ${targetLanguage === "vi" ? "active" : ""}`}
+          onClick={() => setTargetLanguage("vi")}
+        >
+          <CircleFlag countryCode="vn" />
+          <span className="lang-button-text">Vietnamese</span>
         </button>
         <button
           className="lang-button dropdown"
