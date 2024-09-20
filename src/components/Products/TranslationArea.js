@@ -1,59 +1,59 @@
-import React from "react";
+import React, { useCallback } from "react";
 import copyLogo from "../../assets/products/copy.svg";
 import speakerLogo from "../../assets/products/speaker.svg";
 
 const TranslationArea = ({
-  sourceText,
-  translatedText,
-  setSourceText,
-  isTranslating,
-  sourceLanguage,
-  targetLanguage,
+  type,
+  text,
+  setText,
+  language,
+  onTranslate,
+  eslText,
+  isEslMatched,
 }) => {
-  const handleCopy = (text) => {
-    navigator.clipboard.writeText(text);
-  };
+  const handleTextChange = useCallback(
+    (e) => {
+      setText(e.target.value);
+      if (type === "source") {
+        onTranslate(e.target.value);
+      }
+    },
+    [setText, type, onTranslate]
+  );
 
-  const handleSpeak = (text, lang) => {
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(text);
+    alert("Text copied to clipboard!");
+  }, [text]);
+
+  const handleSpeak = useCallback(() => {
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang;
+    utterance.lang = language;
     window.speechSynthesis.speak(utterance);
-  };
+  }, [text, language]);
 
   return (
-    <div className="translation-area">
-      <div className="text-area source-text">
-        <textarea
-          value={sourceText}
-          onChange={(e) => setSourceText(e.target.value)}
-          placeholder="Enter text"
-        />
-        <div className="text-actions">
-          <button onClick={() => handleSpeak(sourceText, sourceLanguage)}>
-            <img src={speakerLogo} alt="Speak" />
-          </button>
-          <button onClick={() => handleCopy(sourceText)}>
-            <img src={copyLogo} alt="Copy" />
-          </button>
-        </div>
+    <div className={`translation-area ${type}`}>
+      <textarea
+        value={text}
+        onChange={handleTextChange}
+        placeholder={type === "source" ? "Enter text" : "Translation"}
+        readOnly={type === "target"}
+      />
+      <div className="text-actions">
+        <button onClick={handleSpeak}>
+          <img src={speakerLogo} alt="Speak" />
+        </button>
+        <button onClick={handleCopy}>
+          <img src={copyLogo} alt="Copy" />
+        </button>
       </div>
-      <div className="text-area translated-text">
-        <textarea
-          value={
-            isTranslating && !translatedText ? "Translating..." : translatedText
-          }
-          readOnly
-          placeholder="Translation"
-        />
-        <div className="text-actions">
-          <button onClick={() => handleSpeak(translatedText, targetLanguage)}>
-            <img src={speakerLogo} alt="Speak" />
-          </button>
-          <button onClick={() => handleCopy(translatedText)}>
-            <img src={copyLogo} alt="Copy" />
-          </button>
+      {eslText && (
+        <div className={`esl-area ${isEslMatched ? "matched" : "unmatched"}`}>
+          <h4>ESL Translation:</h4>
+          <p>{eslText}</p>
         </div>
-      </div>
+      )}
     </div>
   );
 };

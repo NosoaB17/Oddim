@@ -1,71 +1,123 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { CircleFlag } from "react-circle-flags";
+import axios from "axios";
 
 import detectIcon from "../../assets/products/lang-detect.svg";
 import arrowDownIcon from "../../assets/products/arrowDown.svg";
 import swapIcon from "../../assets/products/swap.svg";
 
-import axios from "axios";
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+const COMMON_LANGUAGES = ["en", "ko", "vi"];
 
 const LanguageSelector = ({
+  onLanguageChange,
   sourceLanguage,
   targetLanguage,
-  setSourceLanguage,
-  setTargetLanguage,
+  languages,
 }) => {
-  const [languages, setLanguages] = useState([]);
   const [showLanguageSelect, setShowLanguageSelect] = useState(false);
+  const [selectingFor, setSelectingFor] = useState("source");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSwap = () => {
-    if (sourceLanguage === targetLanguage) {
-      alert("Source and target languages cannot be the same.");
-    } else {
-      const temp = sourceLanguage;
-      setSourceLanguage(targetLanguage);
-      setTargetLanguage(temp);
+  const handleSwap = useCallback(() => {
+    if (sourceLanguage !== "auto") {
+      onLanguageChange("source", targetLanguage);
+      onLanguageChange("target", sourceLanguage);
     }
-  };
+  }, [sourceLanguage, targetLanguage, onLanguageChange]);
 
-  useEffect(() => {
-    const fetchLanguages = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/languages");
-        setLanguages(response.data);
-      } catch (error) {
-        console.error("Error fetching languages:", error);
-      }
+  const filteredLanguages = Object.entries(languages).filter(([code, name]) =>
+    name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleLanguageChange = useCallback(
+    (lang, type) => {
+      onLanguageChange(type, lang);
+    },
+    [onLanguageChange]
+  );
+
+  const getCountryCode = useCallback((lang) => {
+    const countryMap = {
+      en: "gb",
+      ko: "kr",
+      vi: "vn",
     };
-
-    fetchLanguages();
+    return countryMap[lang] || lang;
   }, []);
+
+  const renderLanguageButton = useCallback(
+    (lang, type, isActive, key) => {
+      const countryCode = getCountryCode(lang);
+      const languageName =
+        lang === "auto"
+          ? "Detect language"
+          : languages[lang]
+          ? capitalizeFirstLetter(languages[lang])
+          : "";
+
+      return (
+        <button
+          key={key}
+          className={`lang-button ${isActive ? "active" : ""}`}
+          onClick={() => handleLanguageChange(lang, type)}
+        >
+          {lang === "auto" ? (
+            <img src={detectIcon} alt="Detect language" />
+          ) : (
+            <CircleFlag countryCode={countryCode} />
+          )}
+          <span className="lang-button-text">{languageName}</span>
+        </button>
+      );
+    },
+    [languages, getCountryCode, handleLanguageChange]
+  );
 
   return (
     <div className="language-selector">
       <div className="language-select source">
-        <button
-          className={`lang-button ${sourceLanguage === "auto" ? "active" : ""}`}
-          onClick={() => setSourceLanguage("auto")}
-        >
-          <img src={detectIcon} alt="Detect language" />
-          <span className="lang-button-text">Detect Language</span>
-        </button>
-        <button
-          className={`lang-button ${sourceLanguage === "en" ? "active" : ""}`}
-          onClick={() => setSourceLanguage("en")}
-        >
-          <CircleFlag countryCode="gb" />
-          <span className="lang-button-text">English</span>
-        </button>
-        <button
-          className={`lang-button ${sourceLanguage === "ko" ? "active" : ""}`}
-          onClick={() => setSourceLanguage("ko")}
-        >
-          <CircleFlag countryCode="kr" />
-          <span className="lang-button-text">Korean</span>
-        </button>
+        {renderLanguageButton(
+          "auto",
+          "source",
+          sourceLanguage === "auto",
+          "auto"
+        )}
+        {COMMON_LANGUAGES.slice(0, 3).map((lang) =>
+          renderLanguageButton(lang, "source", sourceLanguage === lang, lang)
+        )}
         <button
           className="lang-button dropdown"
-          onClick={() => setShowLanguageSelect(true)}
+          onClick={() => {
+            setSelectingFor("source");
+            setShowLanguageSelect(true);
+          }}
+        >
+          <img src={arrowDownIcon} alt="More languages" />
+        </button>
+      </div>
+
+      <button
+        className="swap-button"
+        onClick={handleSwap}
+        disabled={sourceLanguage === "auto"}
+      >
+        <img src={swapIcon} alt="Swap languages" />
+      </button>
+
+      <div className="language-select target">
+        {COMMON_LANGUAGES.slice(0, 4).map((lang) =>
+          renderLanguageButton(lang, "target", targetLanguage === lang, lang)
+        )}
+        <button
+          className="lang-button dropdown"
+          onClick={() => {
+            setSelectingFor("target");
+            setShowLanguageSelect(true);
+          }}
         >
           <img src={arrowDownIcon} alt="More languages" />
         </button>
@@ -79,63 +131,40 @@ const LanguageSelector = ({
               className="close-button"
               onClick={() => setShowLanguageSelect(false)}
             >
-              ×
+              Close
             </button>
+            <input
+              type="text"
+              placeholder="Search languages"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="language-search"
+            />
             <div className="language-list">
-              {Object.entries(languages).map(([code, name]) => (
+              {filteredLanguages.map(([code, name]) => (
                 <button
                   key={code}
-                  className="lang-button"
+                  className={`lang-button ${
+                    (selectingFor === "source"
+                      ? sourceLanguage
+                      : targetLanguage) === code
+                      ? "active"
+                      : ""
+                  }`}
                   onClick={() => {
-                    setSourceLanguage(code);
+                    handleLanguageChange(code, selectingFor);
                     setShowLanguageSelect(false);
                   }}
                 >
-                  {name}
+                  <span className="lang-list-text">
+                    {capitalizeFirstLetter(name)}
+                  </span>
                 </button>
               ))}
             </div>
           </div>
         </div>
       )}
-
-      <button
-        className={`swap-button ${sourceLanguage === "auto" ? "disabled" : ""}`}
-        onClick={handleSwap}
-        disabled={sourceLanguage === "auto"} // Disable if sourceLanguage is "auto"
-      >
-        <img src={swapIcon} alt="swap-icon" />
-      </button>
-
-      <div className="language-select target">
-        <button
-          className={`lang-button ${targetLanguage === "en" ? "active" : ""}`}
-          onClick={() => setTargetLanguage("en")}
-        >
-          <CircleFlag countryCode="gb" />
-          <span className="lang-button-text">English</span>
-        </button>
-        <button
-          className={`lang-button ${targetLanguage === "ko" ? "active" : ""}`}
-          onClick={() => setTargetLanguage("ko")}
-        >
-          <CircleFlag countryCode="kr" />
-          <span className="lang-button-text">Korean</span>
-        </button>
-        <button
-          className={`lang-button ${targetLanguage === "vi" ? "active" : ""}`}
-          onClick={() => setTargetLanguage("vi")}
-        >
-          <CircleFlag countryCode="vn" />
-          <span className="lang-button-text">Vietnamese</span>
-        </button>
-        <button
-          className="lang-button dropdown"
-          onClick={() => setShowLanguageSelect(true)}
-        >
-          <img src={arrowDownIcon} alt="More languages" />
-        </button>
-      </div>
     </div>
   );
 };
