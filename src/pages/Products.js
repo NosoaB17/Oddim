@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from "react";
 import axios from "axios";
-import LanguageSelector from "../components/Products/LanguageSelector";
-import TranslationArea from "../components/Products/TranslationArea";
-import AdditionalFeatures from "../components/Products/AdditionalFeatures";
+import LangSelect from "../components/Products/LangSelect";
+import TranslateArea from "../components/Products/TranslateArea";
+import AddFeatures from "../components/Products/AddFeatures";
 
 const Products = () => {
   const [sourceLanguage, setSourceLanguage] = useState("auto");
@@ -93,14 +93,14 @@ const Products = () => {
   return (
     <div className="products-page">
       <div className="products-content">
-        <LanguageSelector
+        <LangSelect
           onLanguageChange={handleLanguageChange}
           sourceLanguage={sourceLanguage}
           targetLanguage={targetLanguage}
           languages={languages}
         />
         <div className="translation-container">
-          <TranslationArea
+          <TranslateArea
             type="source"
             text={sourceText}
             setText={setSourceText}
@@ -110,7 +110,7 @@ const Products = () => {
             isEslMatched={isEslMatched}
             setEslText={setEslSource}
           />
-          <TranslationArea
+          <TranslateArea
             type="target"
             text={targetText}
             setText={setTargetText}
@@ -120,7 +120,7 @@ const Products = () => {
             setEslText={setEslTarget}
           />
         </div>
-        <AdditionalFeatures />
+        <AddFeatures />
       </div>
     </div>
   );

@@ -1,0 +1,34 @@
+{
+  "history": [
+    {
+      "id": 1,
+      "sourceText": "Hello",
+      "targetText": "Xin chào"
+    },
+    {
+      "id": 2,
+      "sourceText": "How are you?",
+      "targetText": "Bạn khỏe không?"
+    }
+  ],
+  "phrases": [
+    {
+      "id": 1,
+      "name": "Work",
+      "phrases": [
+        "I used to take work home, but I don't do it anymore.",
+        "The film highlights the stressful and difficult aspects of the teacher's work.",
+        "Some firms expect the guards to work twelve hours a day.",
+        "What kind of work do you do?",
+        "I was out of work at the time.",
+        "She'd have enough money to provide for her children until she could find work.",
+        "I want to work, I don't want to be on welfare."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "About yourself",
+      "phrases": ["My name is...", "I'm from...", "I work as a..."]
+    }
+  ]
+}

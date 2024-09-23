@@ -3,7 +3,7 @@ import axios from "axios";
 import copyLogo from "../../assets/products/copy.svg";
 import speakerLogo from "../../assets/products/speaker.svg";
 
-const TranslationArea = ({
+const TranslateArea = ({
   type,
   text,
   setText,
@@ -77,4 +77,4 @@ const TranslationArea = ({
   );
 };
 
-export default TranslationArea;
+export default TranslateArea;

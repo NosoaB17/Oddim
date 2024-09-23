@@ -11,7 +11,7 @@ const capitalizeFirstLetter = (string) => {
 
 const COMMON_LANGUAGES = ["en", "ko", "vi"];
 
-const LanguageSelector = ({
+const LangSelect = ({
   onLanguageChange,
   sourceLanguage,
   targetLanguage,
@@ -178,4 +178,4 @@ const LanguageSelector = ({
   );
 };
 
-export default React.memo(LanguageSelector);
+export default React.memo(LangSelect);
