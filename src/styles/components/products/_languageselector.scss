@@ -2,24 +2,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px;
-  background-color: #ffffff;
-  border-radius: 20px;
+  border-radius: 8px;
+  padding: 10px;
 
   .language-select {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
 
     &.source,
     &.target {
       background-color: #f0f0f0;
       border-radius: 20px;
       padding: 5px 10px;
-    }
-
-    &.target {
-      margin-left: 40px; // Tạo khoảng cách với nút swap
     }
 
     .lang-button {
@@ -29,7 +24,7 @@
       border: none;
       background: none;
       cursor: pointer;
-      border-radius: 15px;
+      border-radius: 10px;
       transition: background-color 0.3s;
       font-weight: bold;
       .lang-button-text {
@@ -63,19 +58,12 @@
     border: none;
     cursor: pointer;
     padding: 5px;
-    cursor: pointer;
     opacity: 1;
-    transition: opacity 0.3s ease;
 
     img {
-      width: 24px;
-      height: 24px;
-      transition: transform 0.3s ease;
+      width: 20px;
+      height: 20px;
     }
-  }
-  .swap-button.disabled {
-    cursor: not-allowed;
-    opacity: 0.2;
   }
 }
 
@@ -90,26 +78,29 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal-content {
-  max-width: 900px;
-  width: 100%;
+  max-width: 80%;
+  width: 80%;
   margin: 0 auto;
   height: 100%;
   display: flex;
   flex-direction: column;
   .modal-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    padding: 16px;
+    padding: 10px;
     border-bottom: 1px solid #e0e0e0;
   }
-  .modal-header h2 {
-    font-size: 18px;
-    font-weight: 500;
-    color: #333;
+  .return-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
   }
   .close-button {
     background: none;
@@ -118,48 +109,40 @@
     cursor: pointer;
     color: #666;
   }
-}
-
-.search-bar {
-  padding: 16px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.search-bar input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 24px;
-  font-size: 16px;
-  outline: none;
-}
-
-.search-bar input:focus {
-  border-color: #4285f4;
-}
-
-.language-list-container {
-  flex: 1;
-  overflow-y: auto;
+  .search-container {
+    padding: 10px;
+  }
+  .language-search {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
 }
 
 .language-list {
-  padding: 16px;
+  padding: 20px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 10px;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
 }
 
 .lang-button {
   display: flex;
   align-items: center;
-  padding: 8px 12px;
-  border: none;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px;
   background: none;
+  border: none;
   cursor: pointer;
-  transition: background-color 0.2s;
-  border-radius: 4px;
   text-align: left;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  transition: background-color 0.3s ease;
 }
 
 .lang-button:hover {
@@ -173,17 +156,40 @@
 }
 
 .lang-list-text {
-  font-size: 14px;
+  margin: 0 auto;
 }
 
+.lang-button.detect {
+  background-color: #e6f3ff;
+  border-radius: 4px;
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
-  .language-select-modal .language-list {
+  .language-list {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 480px) {
-  .language-select-modal .language-list {
+  .language-list {
     grid-template-columns: 1fr;
   }
+}
+
+.language-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.language-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.language-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.language-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

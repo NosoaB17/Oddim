@@ -12,6 +12,7 @@ const Products = () => {
   const [eslSource, setEslSource] = useState("");
   const [eslTarget, setEslTarget] = useState("");
   const [languages, setLanguages] = useState({});
+  const [isEslMatched, setIsEslMatched] = useState(true);
 
   useEffect(() => {
     const fetchLanguages = async () => {
@@ -25,40 +26,69 @@ const Products = () => {
     fetchLanguages();
   }, []);
 
-  const handleLanguageChange = useCallback((type, lang) => {
-    if (type === "source") {
-      setSourceLanguage(lang);
-    } else {
-      setTargetLanguage(lang);
-    }
-  }, []);
+  const handleLanguageChange = useCallback(
+    (type, lang) => {
+      if (type === "source") {
+        setSourceLanguage(lang);
+      } else {
+        setTargetLanguage(lang);
+      }
+      // Trigger translation when target language changes
+      if (type === "target" && sourceText) {
+        handleTranslate(sourceText, lang);
+      }
+    },
+    [sourceText]
+  );
 
   const handleTranslate = useCallback(
-    async (text) => {
+    async (text, targetLang = targetLanguage) => {
       if (!text.trim()) {
         setTargetText("");
         setEslSource("");
         setEslTarget("");
+        setIsEslMatched(true);
         return;
       }
       try {
         const response = await axios.post("http://localhost:5000/translate", {
           text,
           source: sourceLanguage,
-          target: targetLanguage,
+          target: targetLang,
         });
         setTargetText(response.data.translatedText);
         setEslSource(response.data.eslSource);
         setEslTarget(response.data.eslTarget);
+
+        // Sử dụng hàm compareEsl để xác định isEslMatched
+        setIsEslMatched(
+          compareEsl(response.data.eslSource, response.data.eslTarget)
+        );
       } catch (error) {
         console.error("Translation error:", error);
         setTargetText("An error occurred during translation.");
+        setIsEslMatched(false);
       }
     },
     [sourceLanguage, targetLanguage]
   );
 
-  const isEslMatched = eslSource.toLowerCase() === eslTarget.toLowerCase();
+  const compareEsl = (source, target) => {
+    // Loại bỏ dấu câu và chuyển về chữ thường
+    const cleanSource = source.replace(/[^\w\s]|_/g, "").toLowerCase();
+    const cleanTarget = target.replace(/[^\w\s]|_/g, "").toLowerCase();
+
+    const sourceWords = cleanSource.split(/\s+/);
+    const targetWords = cleanTarget.split(/\s+/);
+    const commonWords = sourceWords.filter((word) =>
+      targetWords.includes(word)
+    );
+
+    const similarity =
+      commonWords.length / Math.max(sourceWords.length, targetWords.length);
+
+    return similarity > 0.8;
+  };
 
   return (
     <div className="products-page">
@@ -78,6 +108,7 @@ const Products = () => {
             onTranslate={handleTranslate}
             eslText={eslSource}
             isEslMatched={isEslMatched}
+            setEslText={setEslSource}
           />
           <TranslationArea
             type="target"
@@ -86,6 +117,7 @@ const Products = () => {
             language={targetLanguage}
             eslText={eslTarget}
             isEslMatched={isEslMatched}
+            setEslText={setEslTarget}
           />
         </div>
         <AdditionalFeatures />
