@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import MiddoIntroVideo from "../../assets/MiddoIntroVideo.mp4";
+import MiddoIntroVideo from "../../assets/home/hero/MiddoIntroVideo.mp4";
 import { FaWindows } from "react-icons/fa";
-import VideoCover from "../../assets/videocover.png";
+import VideoCover from "../../assets/home/hero/videocover.png";
 
 const Hero = () => {
   const [currentLanguage, setCurrentLanguage] = useState(0);

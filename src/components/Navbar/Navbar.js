@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
-import Logo from "../../assets/Logo.png";
-import TranslationIcon from "../../assets/navbar/Translation.svg";
-import ConversationIcon from "../../assets/navbar/Conversation.svg";
-import ExtensionIcon from "../../assets/navbar/Extension.svg";
-import DocsIcon from "../../assets/navbar/Docs.svg";
-import SignIn from "../../assets/SignIn.svg";
-import login from "../../assets/log-out.png";
-import settings from "../../assets/settings.png";
+import Logo from "../../assets/navigation/Logo.png";
+import TranslationIcon from "../../assets/navigation/Translation.svg";
+import ConversationIcon from "../../assets/navigation/Conversation.svg";
+import ExtensionIcon from "../../assets/navigation/Extension.svg";
+import DocsIcon from "../../assets/navigation/Docs.svg";
+import SignIn from "../../assets/navigation/SignIn.svg";
+import login from "../../assets/navigation/log-out.png";
+import settings from "../../assets/navigation/settings.png";
 
 const NavBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

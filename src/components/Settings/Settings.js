@@ -3,7 +3,7 @@ import detectIcon from "../../assets/products/lang-detect.svg";
 import englishIcon from "../../assets/products/uk-flag.svg";
 import vietnameseIcon from "../../assets/products/vn-flag.svg";
 import koreanIcon from "../../assets/products/kr-flag.svg";
-import themeIcon from "../../assets/theme.svg";
+import themeIcon from "../../assets/setting/theme.svg";
 
 const Settings = () => {
   const [language, setLanguage] = useState("English");

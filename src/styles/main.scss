@@ -2,9 +2,9 @@
 @import "layout";
 
 // Components
-@import "components/auth";
-@import "components/navbar";
-@import "components/settings";
+@import "components/auth/auth";
+@import "components/navbar/navbar";
+@import "components/setting/settings";
 
 // Pages
 @import "pages/auth";

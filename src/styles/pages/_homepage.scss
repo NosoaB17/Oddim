@@ -1,20 +1,7 @@
-@import "../components/home/header";
-@import "../components/home/hero";
-@import "../components/home/solution";
-@import "../components/home/aboutus";
-@import "../components/home/userguide";
-@import "../components/home/calltoaction";
-@import "../components/home/footer";
-
-.home-page {
-}
-
-@include responsive(tablet) {
-  .home-page {
-  }
-}
-
-@include responsive(mobile) {
-  .home-page {
-  }
-}
+@import "../components/homepage/header";
+@import "../components/homepage/hero";
+@import "../components/homepage/solution";
+@import "../components/homepage/aboutus";
+@import "../components/homepage/userguide";
+@import "../components/homepage/calltoaction";
+@import "../components/homepage/footer";

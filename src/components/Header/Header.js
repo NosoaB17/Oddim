@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../assets/Logo.png";
-import SignIn from "../../assets/SignIn.svg";
-import login from "../../assets/log-out.png";
-import settings from "../../assets/settings.png";
+import Logo from "../../assets/navigation/Logo.png";
+import SignIn from "../../assets/navigation/SignIn.svg";
+import login from "../../assets/navigation/log-out.png";
+import settings from "../../assets/navigation/settings.png";
 
 import { useNavigate } from "react-router-dom";
 

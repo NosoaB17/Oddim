@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import GoogleIcon from "../../assets/GoogleIcon.svg";
-import SignUpIcon from "../../assets/signup.svg";
-import ShowHideIcon from "../../assets/show-hide.svg";
+
+import GoogleIcon from "../../assets/auth/GoogleIcon.svg";
+import SignUpIcon from "../../assets/auth/signup.svg";
+import ShowHideIcon from "../../assets/auth/show-hide.svg";
+
 import { useAuth } from "../../contexts/AuthContext";
 
 const SignIn = ({ onSwitchForm }) => {
