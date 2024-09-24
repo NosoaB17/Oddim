@@ -2,10 +2,21 @@
 @import "../components/products/langselect";
 @import "../components/products/translatearea";
 @import "../components/products/recordtotranslate";
+@import "../components/products/historymodal";
 
 .products-page {
-  max-width: 90%;
-  margin: 0 auto;
+  position: relative;
+  width: 100%;
   padding: 20px;
-  font-family: Arial, sans-serif;
+  &.history-open .main-content {
+    margin-right: 300px;
+  }
+}
+
+.products-content {
+  transition: width 0.3s ease-in-out;
+
+  .history-open & {
+    width: calc(100% - 400px);
+  }
 }

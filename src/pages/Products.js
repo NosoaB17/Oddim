@@ -1,8 +1,10 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import axios from "axios";
+
 import LangSelect from "../components/Products/LangSelect";
 import TranslateArea from "../components/Products/TranslateArea";
 import AddFeatures from "../components/Products/AddFeatures";
+import HistoryModal from "../components/Products/HistoryModal";
 
 const Products = () => {
   const [sourceLanguage, setSourceLanguage] = useState("auto");
@@ -13,6 +15,10 @@ const Products = () => {
   const [eslTarget, setEslTarget] = useState("");
   const [languages, setLanguages] = useState({});
   const [isEslMatched, setIsEslMatched] = useState(true);
+  const [translationHistory, setTranslationHistory] = useState([]);
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
+
+  const lastTranslationTimeout = useRef(null);
 
   useEffect(() => {
     const fetchLanguages = async () => {
@@ -64,6 +70,28 @@ const Products = () => {
         setIsEslMatched(
           compareEsl(response.data.eslSource, response.data.eslTarget)
         );
+
+        // Save the translation to history only after the user stops typing for 1 second
+        clearTimeout(lastTranslationTimeout.current);
+        lastTranslationTimeout.current = setTimeout(() => {
+          const newTranslation = {
+            id: Date.now(),
+            sourceLanguage,
+            targetLanguage: targetLang,
+            sourceText: text,
+            targetText: response.data.translatedText,
+            eslSource: response.data.eslSource,
+            eslTarget: response.data.eslTarget,
+            isEslMatched: compareEsl(
+              response.data.eslSource,
+              response.data.eslTarget
+            ),
+          };
+          setTranslationHistory((prevHistory) => [
+            ...prevHistory,
+            newTranslation,
+          ]);
+        }, 5000);
       } catch (error) {
         console.error("Translation error:", error);
         setTargetText("An error occurred during translation.");
@@ -90,8 +118,37 @@ const Products = () => {
     return similarity > 0.8;
   };
 
+  const toggleHistoryModal = useCallback(() => {
+    setShowHistoryModal((prev) => !prev);
+  }, []);
+
+  const handleDeleteTranslation = useCallback((id) => {
+    setTranslationHistory((prevHistory) =>
+      prevHistory.filter((item) => item.id !== id)
+    );
+  }, []);
+
+  const handleClearHistory = useCallback(() => {
+    setTranslationHistory([]);
+  }, []);
+
+  const handleCopyAll = useCallback(() => {
+    if (isEslMatched && sourceLanguage !== "en" && targetLanguage !== "en") {
+      const textToCopy = `${sourceText}\n${targetText}\n${eslSource}`;
+      navigator.clipboard.writeText(textToCopy);
+      alert("All text copied to clipboard!");
+    }
+  }, [
+    isEslMatched,
+    sourceLanguage,
+    targetLanguage,
+    sourceText,
+    targetText,
+    eslSource,
+  ]);
+
   return (
-    <div className="products-page">
+    <div className={`products-page ${showHistoryModal ? "history-open" : ""}`}>
       <div className="products-content">
         <LangSelect
           onLanguageChange={handleLanguageChange}
@@ -120,8 +177,22 @@ const Products = () => {
             setEslText={setEslTarget}
           />
         </div>
-        <AddFeatures />
+        <AddFeatures
+          onHistoryClick={toggleHistoryModal}
+          onCopyAll={handleCopyAll}
+          isEslMatched={isEslMatched}
+          sourceLanguage={sourceLanguage}
+          targetLanguage={targetLanguage}
+        />
       </div>
+      {showHistoryModal && (
+        <HistoryModal
+          onClose={toggleHistoryModal}
+          history={translationHistory}
+          onDeleteTranslation={handleDeleteTranslation}
+          onClearHistory={handleClearHistory}
+        />
+      )}
     </div>
   );
 };

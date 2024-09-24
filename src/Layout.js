@@ -15,15 +15,17 @@ const Layout = () => {
   return (
     <div className="layout">
       {isHomePage ? <Header /> : <Navbar />}
-      <main className="main-content">
-        <Routes>
-          <Route index element={<HomePage />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/signin" element={<Auth />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/conversation" element={<Conversation />} />
-        </Routes>
-      </main>
+      <div className="main-content-wrapper">
+        <main className="main-content">
+          <Routes>
+            <Route index element={<HomePage />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/signin" element={<Auth />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/conversation" element={<Conversation />} />
+          </Routes>
+        </main>
+      </div>
     </div>
   );
 };

@@ -3,6 +3,9 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height: 52px;
   width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 
   .navbar-content {
     max-width: 1200px; // Giới hạn chiều rộng tối đa
