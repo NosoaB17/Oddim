@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 
 import detectIcon from "../../assets/products/lang-detect.svg";
 import arrowDownIcon from "../../assets/products/arrowDown.svg";

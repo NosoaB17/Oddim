@@ -1,0 +1,41 @@
+.search-bar {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 10px;
+
+  .search-input-container {
+    flex-grow: 1;
+    position: relative;
+
+    input {
+      width: 100%;
+      padding: 10px 40px 10px 16px;
+      border: 1px solid #ccc;
+      border-radius: 16px;
+      font-size: 16px;
+    }
+
+    &::placeholder {
+      color: #ccc;
+    }
+    img {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.filter-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
