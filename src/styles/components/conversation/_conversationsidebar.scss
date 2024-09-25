@@ -1,3 +1,10 @@
+@import "./sidebar/actionsbutton";
+@import "./sidebar/conversationitem";
+@import "./sidebar/newconversationmodal";
+@import "./sidebar/searchbar";
+@import "./sidebar/tabs";
+@import "./sidebar/conversationlist";
+
 .conversation-sidebar {
   height: 100%;
   display: flex;

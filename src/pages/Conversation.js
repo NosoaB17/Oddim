@@ -1,8 +1,7 @@
 import React from "react";
 import { Box, Grid } from "@mui/material";
 import ConversationSidebar from "../components/Conversation/SideBar/ConversationSidebar";
-
-const MessageArea = () => <Box>Message Area</Box>;
+import MessageArea from "../components/Conversation/MessageArea/MessageArea";
 
 const ConversationPage = () => {
   return (

@@ -1,4 +1,6 @@
 .hero-container {
+  width: 1512px;
+  height: 786px;
   background-position: center;
   background-color: $background-color;
   background-image: url("https://middo.app/landing-page/hero.png");
@@ -10,18 +12,16 @@
   height: 50vh;
 
   .video-container {
-    align-items: flex-start;
     display: flex;
     justify-content: flex-end;
-    line-height: 24px;
     flex: 1;
-    max-width: 40%;
-    padding: 0 0 32px;
+    max-width: 45%;
+    padding: 0 32px;
     position: relative;
-    overflow: hidden;
     border-radius: 12px;
 
     .custom-video-player {
+      margin-top: 24px;
       position: absolute;
       height: 100%;
       width: 100%;
@@ -45,6 +45,10 @@
     max-width: 50%;
 
     .text-content {
+      width: Hug (680px) px;
+      height: Hug (258px) px;
+      gap: 32px;
+      opacity: 0px;
       h1 {
         display: flex;
         flex-direction: column;
@@ -57,11 +61,11 @@
         display: flex;
         text-align: left;
         font-weight: 700;
-        line-height: 96px;
         transition: opacity 0.5s ease-in-out;
+        line-height: 87.16px;
 
         &.first {
-          color: $text-color;
+          color: #333333;
         }
 
         &.second {
@@ -74,7 +78,10 @@
       }
 
       p {
-        font-size: $font-size-base;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 21.6px;
+        text-align: left;
         color: $secondary-color;
       }
     }
