@@ -8,9 +8,7 @@ const ConversationList = ({ conversations = [] }) => {
   }
 
   if (conversations.length === 0) {
-    return (
-      <div className="empty-conversations">Your conversation list is empty</div>
-    );
+    return <div className="empty-conversations"></div>;
   }
 
   return (
