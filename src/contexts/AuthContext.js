@@ -1,34 +1,29 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
+import { auth } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
-const AuthContext = createContext(null);
+export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export const AuthContextProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
+    const unsub = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      console.log("FireBase Auth User:", user);
+    });
+
+    return () => {
+      unsub();
+    };
   }, []);
 
-  const login = (userData) => {
-    console.log("Logging in user:", userData);
-    setUser({
-      email: userData.email,
-      name: userData.name,
-      picture: userData.picture,
-    });
-    localStorage.setItem("user", JSON.stringify(userData));
-  };
-
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
+    auth.signOut();
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ currentUser, logout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -37,7 +32,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error("useAuth must be used within an AuthContextProvider");
   }
   return context;
 };

@@ -7,33 +7,36 @@ import GoogleIcon from "../../assets/auth/GoogleIcon.svg";
 import SignUpIcon from "../../assets/auth/signup.svg";
 import ShowHideIcon from "../../assets/auth/show-hide.svg";
 
-import { useAuth } from "../../contexts/AuthContext";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useOAuth } from "../../contexts/OAuthContext";
+import { auth } from "../../firebase";
 
 const SignIn = ({ onSwitchForm }) => {
   const [passwordShown, setPasswordShown] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const { login } = useAuth();
-
-  // Handle regular sign in
-  const handleSignIn = () => {
-    if (email === "ngsn176@gmail.com" && password === "password123") {
-      login({ email, name: "Test User" });
-      navigate("/conversation");
-    } else {
-      alert("Invalid email or password");
-    }
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      handleSignIn();
-    }
-  };
-
   const togglePasswordVisiblity = () => {
     setPasswordShown(!passwordShown);
+  };
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+  const { login } = useOAuth();
+
+  const [err, setErr] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const email = e.target[0].value;
+    const password = e.target[1].value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/conversation");
+    } catch (err) {
+      setErr(true);
+    }
   };
 
   const googleLogin = useGoogleLogin({
@@ -68,37 +71,30 @@ const SignIn = ({ onSwitchForm }) => {
   return (
     <div className="signin-form">
       <h2>Sign In</h2>
-      <input
-        type="email"
-        placeholder="Enter your email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        onKeyDown={handleKeyDown}
-      />
-      <div className="password-input">
-        <input
-          type={passwordShown ? "text" : "password"}
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <span className="toggle-password" onClick={togglePasswordVisiblity}>
-          <img
-            src={ShowHideIcon}
-            alt="ShowHidePassIcon"
-            className="show-hide-icon"
+      <form onSubmit={handleSubmit}>
+        <input required type="email" placeholder="Enter your email" />
+        <div className="password-input">
+          <input
+            required
+            type={passwordShown ? "text" : "password"}
+            placeholder="Enter your password"
           />
-        </span>
-      </div>
+          <span className="toggle-password" onClick={togglePasswordVisiblity}>
+            <img
+              src={ShowHideIcon}
+              alt="ShowHidePassIcon"
+              className="show-hide-icon"
+            />
+          </span>
+        </div>
+        <button className="signin-button">Sign In</button>
+        {err && <span>Something went wrong</span>}
+      </form>
       <button
         className="forgot-password-link"
         onClick={() => onSwitchForm("forgot")}
       >
         Forgot Password?
-      </button>
-      <button className="signin-button" onClick={handleSignIn}>
-        Sign In
       </button>
       <p className="account-text">Not have account yet?</p>
       <button className="signup-button" onClick={() => onSwitchForm("signup")}>

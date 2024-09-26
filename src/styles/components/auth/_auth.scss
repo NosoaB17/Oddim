@@ -110,7 +110,17 @@
 
 .signup-form {
   @extend %auth-form-base;
+  .password-input {
+    position: relative;
 
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 40%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+  }
   .password-requirements {
     font-size: $font-size-small;
     color: $secondary-color;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useOAuth } from "../../contexts/OAuthContext";
 import { useAuth } from "../../contexts/AuthContext";
 
 import Logo from "../../assets/navigation/Logo.png";
@@ -20,7 +21,10 @@ const NavBar = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user: oauthUser, logout: oauthLogout } = useOAuth();
+  const { currentUser: firebaseUser, logout: firebaseLogout } = useAuth();
+
+  const user = oauthUser || firebaseUser;
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
@@ -33,11 +37,16 @@ const NavBar = () => {
   };
 
   const handleLogout = () => {
-    logout();
+    if (oauthUser) {
+      oauthLogout();
+    } else if (firebaseUser) {
+      firebaseLogout();
+    }
     console.log("Logging out");
     navigate("/");
     setIsDropdownOpen(false);
   };
+
   const handleTabClick = (tab) => {
     setActiveTab(tab);
     localStorage.setItem("activeTab", tab);
@@ -111,11 +120,13 @@ const NavBar = () => {
             {user ? (
               <>
                 <img
-                  src={user.picture}
-                  alt={user.name}
+                  src={user.picture || user.photoURL}
+                  alt={user.name || user.email}
                   className="user-avatar"
-                ></img>
-                <span className="user-name">{getFirstName(user.name)}</span>
+                />
+                <span className="user-name">
+                  {getFirstName(user.name || user.email)}
+                </span>
               </>
             ) : (
               <img src={SignIn} alt="User" />
@@ -125,7 +136,10 @@ const NavBar = () => {
             <div className="dropdown">
               {user ? (
                 <>
-                  <span className="dropdown-item user-name"></span>
+                  <span className="dropdown-item user-name">
+                    {" "}
+                    {user.name || user.displayName}
+                  </span>
                   <Link
                     to="/settings"
                     className="dropdown-item"
