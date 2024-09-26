@@ -5,7 +5,8 @@
   width: 100%;
   max-width: 400px;
   padding: 20px;
-
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
   h2 {
     font-size: $font-size-large;
     color: $primary-color;
@@ -136,5 +137,13 @@
       cursor: pointer;
       color: $primary-color;
     }
+  }
+}
+// Responsive design
+@media (max-width: 480px) {
+  .signin-form,
+  .signup-form {
+    max-width: 100%;
+    padding: 15px;
   }
 }

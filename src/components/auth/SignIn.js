@@ -16,6 +16,7 @@ const SignIn = ({ onSwitchForm }) => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  // Handle regular sign in
   const handleSignIn = () => {
     if (email === "ngsn176@gmail.com" && password === "password123") {
       login({ email, name: "Test User" });
@@ -37,13 +38,13 @@ const SignIn = ({ onSwitchForm }) => {
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log("Google login successful, token:", tokenResponse);
+      alert("Google login successful. Fetching user info...");
       try {
         const userInfoResponse = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
           { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
         );
-        console.log("User info response:", userInfoResponse);
+
         const userInfo = userInfoResponse.data;
         login({
           email: userInfo.email,
@@ -51,14 +52,15 @@ const SignIn = ({ onSwitchForm }) => {
           picture: userInfo.picture,
           googleId: userInfo.sub,
         });
+        alert(`Welcome, ${userInfo.name}!`);
         navigate("/conversation");
       } catch (error) {
         console.error("Error fetching user info:", error.response || error);
-        alert("Failed to get user information from Google");
+        alert("Failed to get user information from Google. Please try again.");
       }
     },
     onError: (error) => {
-      console.log("Google Login Failed:", error);
+      console.error("Google Login Failed:", error);
       alert("Google sign in was unsuccessful. Please try again.");
     },
   });

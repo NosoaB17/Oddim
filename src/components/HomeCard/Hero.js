@@ -53,7 +53,6 @@ const Hero = () => {
           src={MiddoIntroVideo}
           poster={VideoCover}
           alt="Video call"
-          Play
           muted
           controls
           playsInline

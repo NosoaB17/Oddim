@@ -34,6 +34,7 @@ const NavBar = () => {
 
   const handleLogout = () => {
     logout();
+    console.log("Logging out");
     navigate("/");
     setIsDropdownOpen(false);
   };

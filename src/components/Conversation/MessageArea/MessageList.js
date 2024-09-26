@@ -1,12 +1,29 @@
-const MessageList = () => {
+import React from "react";
+import MessageItem from "./MessageItem";
+
+const MessageList = ({ eslTranslationEnabled }) => {
+  // Giả định rằng chúng ta có một mảng các tin nhắn
+  const messages = [
+    // Array of message objects
+  ];
+
+  // Hàm để hiển thị timestamp mỗi 10 phút
+  const renderTimestamp = (timestamp) => {
+    // Implement logic to show timestamp every 10 minutes
+    return <div className="timestamp">{timestamp}</div>;
+  };
+
   return (
     <div className="message-list">
-      {/* Messages will be rendered here */}
-      <div className="message-item">
-        <p className="message-content">This is a sample message</p>
-        <p className="esl-translated-message">This is the ESL translation</p>
-        {/* Other message details like timestamp, status icons, etc. */}
-      </div>
+      {messages.map((message, index) => (
+        <React.Fragment key={message.id}>
+          {renderTimestamp(message.timestamp)}
+          <MessageItem
+            message={message}
+            eslTranslationEnabled={eslTranslationEnabled}
+          />
+        </React.Fragment>
+      ))}
     </div>
   );
 };

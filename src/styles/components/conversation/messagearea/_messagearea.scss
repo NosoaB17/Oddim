@@ -1,0 +1,13 @@
+@import "./conversationheader";
+@import "./messagelist";
+@import "./inputmessagebox";
+.message-area {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .message-list {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+}
