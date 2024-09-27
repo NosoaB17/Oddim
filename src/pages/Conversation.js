@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Grid } from "@mui/material";
 import ConversationSidebar from "../components/Conversation/SideBar/ConversationSidebar";
-import InputBox from "../components/Conversation/Chat/InputBox";
+import Chat from "../components/Conversation/Chat/Chat";
 
 const ConversationPage = () => {
   return (
@@ -14,7 +14,7 @@ const ConversationPage = () => {
 
         {/* Message Area */}
         <Grid item xs={9}>
-          <InputBox />
+          <Chat />
         </Grid>
       </Grid>
     </Box>

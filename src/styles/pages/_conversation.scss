@@ -1,2 +1,8 @@
 @import "../components/conversation/sidebar/conversationsidebar";
-@import "../components/conversation/messagearea/messagearea";
+@import "../components/conversation/messagearea/chat";
+@import "../components/conversation/messagearea/inputbox";
+
+.conversation-container {
+  display: flex;
+  height: calc(100vh - 60px); // Adjust based on your navbar height
+}

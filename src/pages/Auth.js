@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import SignIn from "../components/Auth/SignIn";
-import SignUp from "../components/Auth/SignUp";
-import ForgotPass from "../components/Auth/ForgotPass";
+import SignIn from "../components/auth/SignIn";
+import SignUp from "../components/auth/SignUp";
+import ForgotPass from "../components/auth/ForgotPass";
 import worldMap from "../assets/auth/content-background.png";
 
 const Auth = () => {

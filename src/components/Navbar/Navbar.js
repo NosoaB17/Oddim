@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useOAuth } from "../../contexts/OAuthContext";
 import { useAuth } from "../../contexts/AuthContext";
 
 import Logo from "../../assets/navigation/Logo.png";
@@ -21,10 +20,7 @@ const NavBar = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { user: oauthUser, logout: oauthLogout } = useOAuth();
-  const { currentUser: firebaseUser, logout: firebaseLogout } = useAuth();
-
-  const user = oauthUser || firebaseUser;
+  const { currentUser, logout } = useAuth();
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
@@ -36,21 +32,21 @@ const NavBar = () => {
     navigate("/");
   };
 
-  const handleLogout = () => {
-    if (oauthUser) {
-      oauthLogout();
-    } else if (firebaseUser) {
-      firebaseLogout();
+  const handleLogout = async () => {
+    try {
+      await logout();
+      console.log("Logging out");
+      navigate("/");
+      setIsDropdownOpen(false);
+    } catch (error) {
+      console.error("Error logging out:", error);
     }
-    console.log("Logging out");
-    navigate("/");
-    setIsDropdownOpen(false);
   };
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
     localStorage.setItem("activeTab", tab);
-    if (tab === "Conversation" && !user) {
+    if (tab === "Conversation" && !currentUser) {
       navigate("/signin");
     } else {
       switch (tab) {
@@ -117,15 +113,15 @@ const NavBar = () => {
         </div>
         <div className="navbar-right">
           <button className="user-icon" onClick={toggleDropdown}>
-            {user ? (
+            {currentUser ? (
               <>
                 <img
-                  src={user.picture || user.photoURL}
-                  alt={user.name || user.email}
+                  src={currentUser.photoURL}
+                  alt={currentUser.displayName || currentUser.email}
                   className="user-avatar"
                 />
                 <span className="user-name">
-                  {getFirstName(user.name || user.email)}
+                  {getFirstName(currentUser.displayName || currentUser.email)}
                 </span>
               </>
             ) : (
@@ -134,11 +130,10 @@ const NavBar = () => {
           </button>
           {isDropdownOpen && (
             <div className="dropdown">
-              {user ? (
+              {currentUser ? (
                 <>
                   <span className="dropdown-item user-name">
-                    {" "}
-                    {user.name || user.displayName}
+                    {currentUser.displayName || currentUser.email}
                   </span>
                   <Link
                     to="/settings"

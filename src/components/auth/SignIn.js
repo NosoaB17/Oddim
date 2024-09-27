@@ -1,85 +1,69 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useAuth } from "../../contexts/AuthContext";
+import { auth } from "../../firebase";
 
+// Import icons
 import GoogleIcon from "../../assets/auth/GoogleIcon.svg";
 import SignUpIcon from "../../assets/auth/signup.svg";
 import ShowHideIcon from "../../assets/auth/show-hide.svg";
 
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useOAuth } from "../../contexts/OAuthContext";
-import { auth } from "../../firebase";
-
 const SignIn = ({ onSwitchForm }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
-  const togglePasswordVisiblity = () => {
+  const [err, setErr] = useState(false);
+
+  const navigate = useNavigate();
+  const { signInWithGoogle } = useAuth();
+
+  const togglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
   };
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const navigate = useNavigate();
-  const { login } = useOAuth();
-
-  const [err, setErr] = useState(false);
-  const [loading, setLoading] = useState(false);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const email = e.target[0].value;
-    const password = e.target[1].value;
-
+    setErr(false);
     try {
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/conversation");
     } catch (err) {
+      console.error("Error signing in with email/password:", err);
       setErr(true);
     }
   };
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      alert("Google login successful. Fetching user info...");
-      try {
-        const userInfoResponse = await axios.get(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
-          { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
-        );
-
-        const userInfo = userInfoResponse.data;
-        login({
-          email: userInfo.email,
-          name: userInfo.name,
-          picture: userInfo.picture,
-          googleId: userInfo.sub,
-        });
-        alert(`Welcome, ${userInfo.name}!`);
-        navigate("/conversation");
-      } catch (error) {
-        console.error("Error fetching user info:", error.response || error);
-        alert("Failed to get user information from Google. Please try again.");
-      }
-    },
-    onError: (error) => {
-      console.error("Google Login Failed:", error);
-      alert("Google sign in was unsuccessful. Please try again.");
-    },
-  });
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithGoogle();
+      navigate("/conversation");
+    } catch (error) {
+      console.error("Error signing in with Google:", error);
+      setErr(true);
+    }
+  };
 
   return (
     <div className="signin-form">
       <h2>Sign In</h2>
       <form onSubmit={handleSubmit}>
-        <input required type="email" placeholder="Enter your email" />
+        <input
+          required
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <div className="password-input">
           <input
             required
             type={passwordShown ? "text" : "password"}
             placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          <span className="toggle-password" onClick={togglePasswordVisiblity}>
+          <span className="toggle-password" onClick={togglePasswordVisibility}>
             <img
               src={ShowHideIcon}
               alt="ShowHidePassIcon"
@@ -87,8 +71,10 @@ const SignIn = ({ onSwitchForm }) => {
             />
           </span>
         </div>
-        <button className="signin-button">Sign In</button>
-        {err && <span>Something went wrong</span>}
+        <button className="signin-button" type="submit">
+          Sign In
+        </button>
+        {err && <span className="error">Something went wrong</span>}
       </form>
       <button
         className="forgot-password-link"
@@ -96,12 +82,12 @@ const SignIn = ({ onSwitchForm }) => {
       >
         Forgot Password?
       </button>
-      <p className="account-text">Not have account yet?</p>
+      <p className="account-text">Don't have an account yet?</p>
       <button className="signup-button" onClick={() => onSwitchForm("signup")}>
         <img src={SignUpIcon} alt="Sign Up" />
         Sign Up
       </button>
-      <button className="google-signin" onClick={() => googleLogin()}>
+      <button className="google-signin" onClick={handleGoogleSignIn}>
         <img src={GoogleIcon} alt="Google" />
         Sign in with Google
       </button>

@@ -1,17 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "../../../contexts/AuthContext";
+import { ChatContext } from "../../../contexts/ChatContext";
+import {
+  arrayUnion,
+  doc,
+  serverTimestamp,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { db, storage } from "../../../firebase";
+import { v4 as uuid } from "uuid";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+
 import detectLanguageIcon from "../../../assets/products/lang-detect.svg";
 import attachIcon from "../../../assets/conversation/attach.svg";
 import emojiIcon from "../../../assets/conversation/emoji.svg";
 import micIcon from "../../../assets/conversation/mic.svg";
 import sendIcon from "../../../assets/conversation/send.svg";
 
-const InputMessageBox = ({ onSendMessage }) => {
+const InputBox = () => {
   const [message, setMessage] = useState("");
+  const [img, setImg] = useState(null);
   const [eslEnabled, setEslEnabled] = useState(false);
   const [eslTranslation, setEslTranslation] = useState("");
   const [detectedLanguage, setDetectedLanguage] = useState("Detect language");
   const [showEslPreview, setShowEslPreview] = useState(false);
+
+  const { currentUser } = useContext(AuthContext);
+  const { data } = useContext(ChatContext);
 
   useEffect(() => {
     if (eslEnabled && message) {
@@ -38,16 +55,65 @@ const InputMessageBox = ({ onSendMessage }) => {
     }
   }, [message, eslEnabled]);
 
-  const handleSend = () => {
-    if (message.trim()) {
-      onSendMessage({
-        content: message,
-        eslTranslation: eslEnabled ? eslTranslation : null,
-      });
-      setMessage("");
-      setEslTranslation("");
-      setShowEslPreview(false);
+  const handleSend = async () => {
+    if (message.trim() === "" && !img) return;
+
+    let messageToSend = {
+      id: uuid(),
+      text: message,
+      senderId: currentUser.uid,
+      date: Timestamp.now(),
+    };
+
+    if (eslEnabled && eslTranslation) {
+      messageToSend.eslTranslation = eslTranslation;
     }
+
+    if (img) {
+      try {
+        const storageRef = ref(storage, uuid());
+        const uploadTask = uploadBytesResumable(storageRef, img);
+
+        uploadTask.on(
+          "state_changed",
+          null,
+          (error) => console.error(error),
+          async () => {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            messageToSend.img = downloadURL;
+
+            await updateDoc(doc(db, "chats", data.chatId), {
+              messages: arrayUnion(messageToSend),
+            });
+          }
+        );
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+    } else {
+      await updateDoc(doc(db, "chats", data.chatId), {
+        messages: arrayUnion(messageToSend),
+      });
+    }
+
+    await updateDoc(doc(db, "userChats", currentUser.uid), {
+      [data.chatId + ".lastMessage"]: {
+        text: message,
+      },
+      [data.chatId + ".date"]: serverTimestamp(),
+    });
+
+    await updateDoc(doc(db, "userChats", data.user.uid), {
+      [data.chatId + ".lastMessage"]: {
+        text: message,
+      },
+      [data.chatId + ".date"]: serverTimestamp(),
+    });
+
+    setMessage("");
+    setImg(null);
+    setEslTranslation("");
+    setShowEslPreview(false);
   };
 
   return (
@@ -75,9 +141,15 @@ const InputMessageBox = ({ onSendMessage }) => {
       )}
       <div className="message-input-container">
         <div className="input-tools">
-          <button>
+          <label htmlFor="file-input">
             <img src={attachIcon} alt="Attach" />
-          </button>
+          </label>
+          <input
+            type="file"
+            id="file-input"
+            style={{ display: "none" }}
+            onChange={(e) => setImg(e.target.files[0])}
+          />
           <button>
             <img src={emojiIcon} alt="Emoji" />
           </button>
@@ -102,4 +174,4 @@ const InputMessageBox = ({ onSendMessage }) => {
   );
 };
 
-export default InputMessageBox;
+export default InputBox;

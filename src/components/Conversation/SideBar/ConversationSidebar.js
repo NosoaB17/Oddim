@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ActionsButton from "./ActionsButton";
 import SearchBar from "./SearchBar";
 import Tabs from "./Tabs";
 import MessageArea from "./MessageArea";
+import { ChatContext } from "../../../contexts/ChatContext";
 
 const ConversationSidebar = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const { dispatch } = useContext(ChatContext);
 
   const handleTabChange = (index) => {
     setActiveTab(index);
+  };
+
+  const handleSelectUser = (user) => {
+    dispatch({ type: "CHANGE_USER", payload: user });
   };
 
   return (
@@ -18,7 +24,7 @@ const ConversationSidebar = () => {
         <ActionsButton />
       </div>
       <Tabs value={activeTab} onChange={handleTabChange} />
-      <SearchBar />
+      <SearchBar onSelectUser={handleSelectUser} />
       <MessageArea />
     </div>
   );
