@@ -1,28 +1,23 @@
-import React, { useState } from "react";
-import NewConversationModal from "./NewConversationModal";
+import React from "react";
 
 import NewMessageIcon from "../../../assets/conversation/newmessage.svg";
 import SettingsIcon from "../../../assets/conversation/settings.svg";
 const ActionsButton = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-    console.log("Modal button clicked");
+  const handleNewConversationClick = () => {
+    alert("Create new conversation");
   };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
   const handleSettingsClick = () => {
     console.log("Settings button clicked");
   };
 
   return (
     <div className="actions-button-container">
-      <div className="icon-button" onClick={handleOpenModal}>
-        <img src={NewMessageIcon} alt="new-message-icon" />
+      <div className="icon-button">
+        <img
+          src={NewMessageIcon}
+          alt="new-message-icon"
+          onClick={handleNewConversationClick}
+        />
         {/* <span className="new-message-text">New Conversation</span> */}
       </div>
 
@@ -30,8 +25,6 @@ const ActionsButton = () => {
         <img src={SettingsIcon} alt="settings-icon" />
         {/* <span className="new-settings-text">Settings</span> */}
       </div>
-
-      <NewConversationModal open={isModalOpen} onClose={handleCloseModal} />
     </div>
   );
 };

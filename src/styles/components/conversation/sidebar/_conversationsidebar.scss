@@ -1,9 +1,6 @@
 @import "./actionsbutton";
-@import "./conversationitem";
-@import "./newconversationmodal";
 @import "./searchbar";
 @import "./tabs";
-@import "./conversationlist";
 
 .conversation-sidebar {
   height: 100%;
@@ -11,6 +8,7 @@
   flex-direction: column;
   position: relative;
   padding: 1rem;
+  flex: 1;
 
   &-header {
     display: flex;

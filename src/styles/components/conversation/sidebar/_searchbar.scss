@@ -3,22 +3,28 @@
   align-items: center;
   padding: 10px 16px;
   gap: 10px;
+  flex-direction: column;
 
   .search-input-container {
     flex-grow: 1;
     position: relative;
-
     input {
+      background-color: transparent;
       width: 100%;
       padding: 10px 40px 10px 16px;
       border: 1px solid #ccc;
       border-radius: 16px;
       font-size: 16px;
+
+      &::placeholder {
+        color: lightgray;
+      }
     }
 
     &::placeholder {
       color: #ccc;
     }
+
     img {
       position: absolute;
       right: 16px;
@@ -28,14 +34,42 @@
       height: 20px;
     }
   }
-}
 
-.filter-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  // .filter-button {
+  //   background: none;
+  //   border: none;
+  //   cursor: pointer;
+  //   padding: 8px;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  // }
+
+  .user-chat {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    cursor: pointer;
+
+    img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .userchat-info {
+      span {
+        font-size: 16px;
+        font-weight: 400;
+        color: $text-color;
+      }
+      p {
+        font-size: 16px;
+        color: lightgray;
+      }
+    }
+  }
 }

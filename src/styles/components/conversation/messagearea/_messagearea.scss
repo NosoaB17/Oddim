@@ -1,7 +1,4 @@
-@import "./conversationheader";
-@import "./messagelist";
-@import "./inputmessagebox";
-.message-area {
+.message-area-container {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -9,5 +6,33 @@
   .message-list {
     flex-grow: 1;
     overflow-y: auto;
+  }
+}
+
+.user-chat {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  cursor: pointer;
+
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .user-info {
+    span {
+      font-size: 18px;
+      font-weight: 500;
+      color: $text-color;
+    }
+    p {
+      font-size: 14px;
+      color: lightgray;
+    }
   }
 }
