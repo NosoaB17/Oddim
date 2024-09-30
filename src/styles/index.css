@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #3490dc;
+  --secondary-color: #38a169;
+  --background-color: #f7fafc;
+  --text-color: #2d3748;
+  --border-color: #e2e8f0;
+}
+
+/* Thêm bất kỳ styles toàn cục nào khác ở đây */
