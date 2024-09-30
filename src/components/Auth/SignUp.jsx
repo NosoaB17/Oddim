@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Add from "../../assets/auth/addAvatar.png";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db, storage } from "../../firebase";
@@ -10,56 +10,72 @@ import ShowHideIcon from "../../assets/auth/show-hide.svg";
 const SignUp = ({ onSwitchForm }) => {
   const [err, setErr] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordMatch, setPasswordMatch] = useState(true);
   const navigate = useNavigate();
 
   const [passwordShown, setPasswordShown] = useState(false);
-  const togglePasswordVisiblity = () => {
+
+  useEffect(() => {
+    if (confirmPassword !== "") {
+      setPasswordMatch(password === confirmPassword);
+    }
+  }, [password, confirmPassword]);
+
+  const togglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
+    // Kiểm tra lại mật khẩu khi toggle
+    setPasswordMatch(password === confirmPassword);
   };
 
   const handleSubmit = async (e) => {
-    setLoading(true);
     e.preventDefault();
+    if (password !== confirmPassword) {
+      setPasswordMatch(false);
+      return;
+    }
+    setLoading(true);
+    setErr(false);
+
     const email = e.target[0].value;
-    const password = e.target[1].value;
-    const confirmPassword = e.target[2].value;
     const file = e.target[3].files[0];
 
     try {
-      //Create user
+      // Create user
       const res = await createUserWithEmailAndPassword(auth, email, password);
 
-      //Create a unique image name
+      // Create a unique image name
       const date = new Date().getTime();
       const storageRef = ref(storage, `${email + date}`);
 
       await uploadBytesResumable(storageRef, file).then(() => {
         getDownloadURL(storageRef).then(async (downloadURL) => {
           try {
-            //Update profile
+            // Update profile
             await updateProfile(res.user, {
               email,
               photoURL: downloadURL,
             });
-            //create user on firestore
+            // Create user on firestore
             await setDoc(doc(db, "users", res.user.uid), {
               uid: res.user.uid,
               email,
               photoURL: downloadURL,
             });
 
-            //create empty user chats on firestore
+            // Create empty user chats on firestore
             await setDoc(doc(db, "userChats", res.user.uid), {});
             navigate("/");
           } catch (err) {
             console.log(err);
-            setErr(true);
+            setErr("Failed to update profile");
             setLoading(false);
           }
         });
       });
     } catch (err) {
-      setErr(true);
+      setErr(err.message || "Failed to create account");
       setLoading(false);
     }
   };
@@ -81,12 +97,14 @@ const SignUp = ({ onSwitchForm }) => {
             required
             type={passwordShown ? "text" : "password"}
             placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             type="button"
             className="absolute inset-y-0 right-0 pr-3 flex items-center"
-            onClick={togglePasswordVisiblity}
+            onClick={togglePasswordVisibility}
           >
             <img
               src={ShowHideIcon}
@@ -99,13 +117,19 @@ const SignUp = ({ onSwitchForm }) => {
           <input
             required
             type={passwordShown ? "text" : "password"}
-            placeholder="Re-enter your new password"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Re-enter your password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              !passwordMatch && confirmPassword !== ""
+                ? "border-red-500"
+                : "border-gray-300"
+            }`}
           />
           <button
             type="button"
             className="absolute inset-y-0 right-0 pr-3 flex items-center"
-            onClick={togglePasswordVisiblity}
+            onClick={togglePasswordVisibility}
           >
             <img
               src={ShowHideIcon}
@@ -114,6 +138,9 @@ const SignUp = ({ onSwitchForm }) => {
             />
           </button>
         </div>
+        {!passwordMatch && confirmPassword !== "" && (
+          <p className="text-sm text-red-500 mt-1">Passwords do not match</p>
+        )}
         <input required type="file" id="file" className="hidden" />
         <label
           htmlFor="file"
@@ -123,17 +150,29 @@ const SignUp = ({ onSwitchForm }) => {
           <span>Add an avatar</span>
         </label>
         <button
-          disabled={loading}
-          className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-md transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={
+            loading ||
+            !passwordMatch ||
+            password === "" ||
+            confirmPassword === ""
+          }
+          className={`w-full py-2 px-4 text-white font-bold rounded-md transition duration-300 ${
+            loading ||
+            !passwordMatch ||
+            password === "" ||
+            confirmPassword === ""
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700"
+          }`}
         >
-          Sign Up
+          {loading ? "Signing Up..." : "Sign Up"}
         </button>
         {loading && (
           <p className="text-sm text-gray-600">
             Uploading and compressing the image please wait...
           </p>
         )}
-        {err && <p className="text-sm text-red-500">Something went wrong</p>}
+        {err && <p className="text-sm text-red-500">{err}</p>}
       </form>
       <div className="mt-4 text-center text-sm text-gray-600">
         Already have an account?{" "}

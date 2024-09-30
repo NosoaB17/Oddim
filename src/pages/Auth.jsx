@@ -12,6 +12,23 @@ const Auth = () => {
     setCurrentForm(form);
   };
 
+  // Hàm helper để xác định class cho mỗi form
+  const getFormClass = (formName) => {
+    const baseClass =
+      "absolute top-0 left-0 w-full h-full transition-all duration-500 ease-in-out";
+    if (formName === currentForm) {
+      return `${baseClass} opacity-100 translate-x-0`;
+    }
+    if (
+      (formName === "signup" && currentForm === "signin") ||
+      (formName === "forgot" && currentForm === "signup") ||
+      (formName === "signin" && currentForm === "forgot")
+    ) {
+      return `${baseClass} opacity-0 translate-x-full`;
+    }
+    return `${baseClass} opacity-0 -translate-x-full`;
+  };
+
   return (
     <div className="flex h-screen">
       <div
@@ -24,16 +41,16 @@ const Auth = () => {
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-[90%] max-h-[90%] object-contain"
         />
       </div>
-      <div
-        className={`flex-none w-[30%] flex items-center justify-center p-8 bg-white transform transition-transform duration-500 ease-out ${
-          currentForm === "signin" ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        {currentForm === "signin" && <SignIn onSwitchForm={handleSwitchForm} />}
-        {currentForm === "signup" && <SignUp onSwitchForm={handleSwitchForm} />}
-        {currentForm === "forgot" && (
+      <div className="flex-none w-[30%] flex items-center justify-center p-8 bg-white relative overflow-hidden">
+        <div className={getFormClass("signin")}>
+          <SignIn onSwitchForm={handleSwitchForm} />
+        </div>
+        <div className={getFormClass("signup")}>
+          <SignUp onSwitchForm={handleSwitchForm} />
+        </div>
+        <div className={getFormClass("forgot")}>
           <ForgotPass onSwitchForm={handleSwitchForm} />
-        )}
+        </div>
       </div>
     </div>
   );

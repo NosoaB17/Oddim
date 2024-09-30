@@ -1,100 +1,87 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/navigation/Logo.png";
-import SignIn from "../../assets/navigation/SignIn.svg";
+import { ReactComponent as SignInIcon } from "../../assets/navigation/SignIn.svg";
 import login from "../../assets/navigation/log-out.png";
 import settings from "../../assets/navigation/settings.png";
 
-import { useNavigate } from "react-router-dom";
-
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const navigate = useNavigate();
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
-  const handleLogoClick = () => {
-    navigate("/");
-  };
-
-  const handleSolutionClick = () => {
-    if (window.location.pathname === "/") {
-      const solutionSection = document.getElementById("solutions");
-      if (solutionSection) {
-        solutionSection.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      navigate("#solutions");
-    }
-  };
-
   return (
-    <header className="sticky top-0 flex justify-between items-center px-20 bg-gray-50 text-gray-800 shadow-md z-50 h-16">
-      <div
-        className="cursor-pointer transition-opacity hover:opacity-90"
-        onClick={handleLogoClick}
-      >
-        <img src={Logo} alt="Middo Logo" />
-      </div>
-      <nav className="flex-grow flex justify-center">
-        <ul className="flex">
-          <li className="mx-6 cursor-pointer font-semibold text-base">
-            <span onClick={handleSolutionClick} className="hover:text-blue-500">
-              Solution
-            </span>
-          </li>
-          <li className="mx-6 cursor-pointer font-semibold text-base">
-            <Link to="/products" className="hover:text-blue-500">
-              Products
-            </Link>
-          </li>
-          <li className="mx-6 cursor-pointer font-semibold text-base">
+    <div className="fixed z-10 flex h-14 w-full items-center justify-between bg-white/80 shadow-2 backdrop-blur-xl dark:bg-neutral-900">
+      <div className="relative z-50 flex h-header w-full items-center justify-between gap-1 border-b border-neutral-50 bg-primary-100 py-4 pl-[1vw] pr-[5vw] dark:border-neutral-800 dark:bg-neutral-900 md:gap-5 md:pl-[5vw]">
+        <a
+          className="flex w-[60px] flex-row justify-start gap-2 divide-x-[2px] divide-neutral-900"
+          href="/"
+        >
+          <img src={Logo} alt="Middo Logo" />
+        </a>
+        <div className="z-0 flex-1">
+          <div className="hidden w-screen flex-row items-stretch justify-center shadow-none md:!ml-0 md:flex md:w-auto md:items-center md:gap-1 lg:gap-5">
             <a
-              href="https://dudaji.vn/#contact"
+              target="_self"
+              className="flex h-9 items-center justify-center gap-2 rounded-xl py-2 font-semibold leading-[18px] text-neutral-700 dark:text-neutral-100 md:px-2 md:hover:bg-primary-200 dark:md:hover:bg-neutral-600 md:hover:text-primary dark:md:hover:text-neutral-50 md:active:bg-primary-300 lg:px-3"
+              href="/solutions"
+            >
+              Solution
+            </a>
+            <a
+              target="_self"
+              className="flex h-9 items-center justify-center gap-2 rounded-xl py-2 font-semibold leading-[18px] text-neutral-700 dark:text-neutral-100 md:px-2 md:hover:bg-primary-200 dark:md:hover:bg-neutral-600 md:hover:text-primary dark:md:hover:text-neutral-50 md:active:bg-primary-300 lg:px-3"
+              href="/products"
+            >
+              Products
+            </a>
+            <a
               target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-blue-500"
+              rel="noreferrer"
+              className="flex h-9 items-center justify-center gap-2 rounded-xl py-2 font-semibold leading-[18px] text-neutral-700 dark:text-neutral-100 md:px-2 md:hover:bg-primary-200 dark:md:hover:bg-neutral-600 md:hover:text-primary dark:md:hover:text-neutral-50 md:active:bg-primary-300 lg:px-3"
+              href="https://dudaji.vn/#contact"
             >
               Contact Us
             </a>
-          </li>
-          <li className="mx-6 cursor-pointer font-semibold text-base">
             <a
-              href="https://docs.middo.app/"
               target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-blue-500"
+              rel="noreferrer"
+              className="flex h-9 items-center justify-center gap-2 rounded-xl py-2 font-semibold leading-[18px] text-neutral-700 dark:text-neutral-100 md:px-2 md:hover:bg-primary-200 dark:md:hover:bg-neutral-600 md:hover:text-primary dark:md:hover:text-neutral-50 md:active:bg-primary-300 lg:px-3"
+              href="https://docs.middo.app/"
             >
               Docs
             </a>
-          </li>
-        </ul>
-      </nav>
-      <div className="relative">
-        <button className="focus:outline-none" onClick={toggleDropdown}>
-          <img src={SignIn} alt="User" />
-        </button>
-        {isDropdownOpen && (
-          <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-            <Link
-              to="/signin"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-              onClick={toggleDropdown}
-            >
-              <img src={login} alt="Sign In" className="mr-2 w-4 h-4" />
-              Sign In
-            </Link>
-            <Link
-              to="/settings"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-              onClick={toggleDropdown}
-            >
-              <img src={settings} alt="Settings" className="mr-2 w-4 h-4" />
-              Settings
-            </Link>
           </div>
-        )}
+        </div>
+        <div className="relative h-full md:w-[60px]">
+          <button
+            className="w-16 h-9 gap-2 rounded-tl-lg bg-neutral-50 group"
+            onClick={toggleDropdown}
+          >
+            <SignInIcon />
+          </button>
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-32 h-18 rounded-2xl bg-white rounded-lg shadow-lg py-1 z-50">
+              <a
+                href="/signin"
+                className="flex items-center px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
+                onClick={toggleDropdown}
+              >
+                <img src={login} alt="Sign In" className="w-5 h-5 mr-3" />
+                Sign In
+              </a>
+              <a
+                href="/settings"
+                className="flex items-center px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
+                onClick={toggleDropdown}
+              >
+                <img src={settings} alt="Settings" className="w-5 h-5 mr-3" />
+                Settings
+              </a>
+            </div>
+          )}
+        </div>
       </div>
-    </header>
+    </div>
   );
 };
 

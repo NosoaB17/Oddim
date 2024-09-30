@@ -13,19 +13,15 @@ const Layout = () => {
   const isHomePage = location.pathname === "/";
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="relative overflow-x-hidden">
       {isHomePage ? <Header /> : <Navbar />}
-      <div className="flex-grow relative overflow-y-auto">
-        <main className="w-full transition-all duration-300 ease-in-out">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/signin" element={<Auth />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/conversation" element={<Conversation />} />
-          </Routes>
-        </main>
-      </div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/signin" element={<Auth />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/conversation" element={<Conversation />} />
+      </Routes>
     </div>
   );
 };

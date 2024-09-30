@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../components/Header/Header";
 import Hero from "../components/HomeCard/Hero";
 import Solution from "../components/HomeCard/Solution";
 import AboutUs from "../components/HomeCard/AboutUs";
@@ -9,14 +8,12 @@ import Footer from "../components/HomeCard/Footer";
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col min-h-screen">
-      <main className="flex-grow">
-        <Hero />
-        <Solution />
-        <AboutUs />
-        <UserGuide />
-        <CallToAction />
-      </main>
+    <div className="relative overflow-x-hidden">
+      <Hero />
+      <Solution />
+      <AboutUs />
+      <UserGuide />
+      <CallToAction />
       <Footer />
     </div>
   );
