@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Logo from "../../assets/navigation/Logo.png";
+
 import { ReactComponent as SignInIcon } from "../../assets/navigation/SignIn.svg";
+import Logo from "../../assets/navigation/Logo.png";
 import login from "../../assets/navigation/log-out.png";
 import settings from "../../assets/navigation/settings.png";
 

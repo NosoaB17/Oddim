@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MiddoIntroVideo from "../../assets/home/hero/MiddoIntroVideo.mp4";
 import { FaWindows } from "react-icons/fa";
-import VideoCover from "../../assets/home/hero/videocover.png";
 
 const Hero = () => {
   const [currentLanguage, setCurrentLanguage] = useState(0);
@@ -48,15 +47,14 @@ const Hero = () => {
 
   return (
     <div
-      className="flex flex-row-reverse justify-between p-10 bg-gray-50 bg-center bg-contain h-screen/2"
+      className=" w-full flex:col md:flex md:flex-row-reverse justify-between px-[93.6px] pb-12 pt-[108px] bg-[#FAFAFA] bg-center bg-contain bg-no-repeat  md:px=[5vw] "
       style={{
         backgroundImage: "url('https://middo.app/landing-page/hero.png')",
       }}
     >
-      <div className="flex justify-end flex-1 max-w-[45%] px-8 relative">
+      <div className="relative h-fit md:w-[48%] md:min-w-[48%]">
         <video
           src={MiddoIntroVideo}
-          poster={VideoCover}
           alt="Video call"
           muted
           controls
@@ -64,33 +62,31 @@ const Hero = () => {
           className="mt-6 absolute inset-0 object-contain rounded-3xl"
         />
       </div>
-      <div className="flex-1 flex flex-col justify-center items-start my-8 mr-8 max-w-[50%]">
-        <div className="w-full max-w-[680px]">
-          <h1 className="flex flex-col overflow-hidden mb-5">
-            <span
-              className={`text-6xl font-bold leading-tight text-left transition-opacity duration-500 ${
-                isFading ? "opacity-0" : "opacity-100"
-              }`}
-            >
-              {languages[currentLanguage].first}
-            </span>
-            <span
-              className={`text-6xl font-bold leading-tight text-left text-blue-500 transition-opacity duration-500 ${
-                isFading ? "opacity-0" : "opacity-100"
-              }`}
-            >
-              {languages[currentLanguage].second}
-            </span>
-          </h1>
-          <p className="text-base text-gray-600 mb-4">
-            Middo can be your trusted tool to do all translation work. Beside
-            that we also provide a barrier-free language conversation platform.
-          </p>
-          <button className="flex items-center px-7 py-4 bg-blue-500 text-white rounded-lg font-semibold transition-colors duration-300 hover:bg-blue-600">
-            <FaWindows className="mr-2" />
-            Download App
-          </button>
-        </div>
+      <div className="mt-8 flex flex-col justify-center items-center md:items-start md:mr-8">
+        <h1 className="flex flex-col overflow-hidden mb-5">
+          <span
+            className={`text-[64px] font-bold leading-[96px] text-left transition-opacity duration-500 ${
+              isFading ? "opacity-0" : "opacity-100"
+            }`}
+          >
+            {languages[currentLanguage].first}
+          </span>
+          <span
+            className={`text-[64px] font-bold leading-[96px] text-left text-blue-500 transition-opacity duration-500 ${
+              isFading ? "opacity-0" : "opacity-100"
+            }`}
+          >
+            {languages[currentLanguage].second}
+          </span>
+        </h1>
+        <p className="text-base text-gray-600 mt-8 text-left">
+          Middo can be your trusted tool to do all translation work. Beside that
+          we also provide a barrier-free language conversation platform.
+        </p>
+        <button className="inline-flex items-center justify-center px-7 py-4 mb-[30px] mt-[30px] bg-blue-500 text-white rounded-xl text-center font-semibold transition-colors duration-300 hover:bg-blue-600">
+          <FaWindows className="mr-2" />
+          Download App
+        </button>
       </div>
     </div>
   );

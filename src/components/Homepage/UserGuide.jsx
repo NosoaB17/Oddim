@@ -1,5 +1,6 @@
 import React from "react";
 import headerIcon from "../../assets/home/solution/sparkle.svg";
+
 const UserGuide = () => {
   return (
     <div className="guide-container">
