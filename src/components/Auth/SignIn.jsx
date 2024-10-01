@@ -44,8 +44,8 @@ const SignIn = ({ onSwitchForm }) => {
   };
 
   return (
-    <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">
+    <div className="w-full p-5 shadow-md rounded-[12px]">
+      <h2 className="text-2xl font-semibold text-center text-blue-500 mb-[30px]">
         Sign In
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -55,7 +55,7 @@ const SignIn = ({ onSwitchForm }) => {
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-4 mb-4 border border-gray-300 rounded-xl text-base placeholder-gray-400"
         />
         <div className="relative">
           <input
@@ -64,7 +64,7 @@ const SignIn = ({ onSwitchForm }) => {
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-4 mb-4 border border-gray-300 rounded-xl text-base placeholder-gray-400"
           />
           <button
             type="button"
@@ -79,8 +79,14 @@ const SignIn = ({ onSwitchForm }) => {
           </button>
         </div>
         <button
+          className=" rounded-xl text-gray-500 font-semibold text-base py-2 px-3 mx-auto"
+          onClick={() => onSwitchForm("forgot")}
+        >
+          Forgot Password?
+        </button>
+        <button
           type="submit"
-          className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-md transition duration-300"
+          className="w-full p-3 bg-blue-500 border-none rounded-xl text-base font-medium text-neutral-50 cursor-pointer mb-5 transition duration-300"
         >
           Sign In
         </button>
@@ -88,25 +94,20 @@ const SignIn = ({ onSwitchForm }) => {
           <span className="text-red-500 text-sm">Something went wrong</span>
         )}
       </form>
-      <button
-        className="w-full text-sm text-gray-600 text-right mt-2 hover:underline"
-        onClick={() => onSwitchForm("forgot")}
-      >
-        Forgot Password?
-      </button>
-      <p className="text-center text-gray-600 my-4">
+
+      <p className="text-[#333] font-sans tracking-tight leading-6 mt-20 mb-10 text-center">
         Don't have an account yet?
       </p>
       <button
         onClick={() => onSwitchForm("signup")}
-        className="w-full py-2 px-4 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-md transition duration-300 flex items-center justify-center"
+        className="w-full leading-6 px-5 py-3 items-center text-center justify-center inline-flex rounded-xl  font-sans text-[#4d4d4d] font-semibold bg-[#f2f2f2]"
       >
         <img src={SignUpIcon} alt="Sign Up" className="mr-2 h-5 w-5" />
         Sign Up
       </button>
       <button
         onClick={handleGoogleSignIn}
-        className="w-full mt-4 py-2 px-4 bg-white hover:bg-gray-100 text-gray-800 font-bold rounded-md border border-gray-300 transition duration-300 flex items-center justify-center"
+        className="w-full leading-6 px-5 py-3 items-center text-center justify-center inline-flex rounded-xl  font-sans text-[#4d4d4d] font-semibold bg-[#f2f2f2] mt-4"
       >
         <img src={GoogleIcon} alt="Google" className="mr-2 h-5 w-5" />
         Sign in with Google

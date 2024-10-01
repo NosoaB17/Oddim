@@ -41,7 +41,7 @@ const Auth = () => {
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-[90%] max-h-[90%] object-contain"
         />
       </div>
-      <div className="flex-none w-[30%] flex items-center justify-center p-8 bg-white relative overflow-hidden">
+      <div className="flex-none w-[22.5%] flex items-center justify-center p-8 bg-white relative overflow-hidden">
         <div className={getFormClass("signin")}>
           <SignIn onSwitchForm={handleSwitchForm} />
         </div>

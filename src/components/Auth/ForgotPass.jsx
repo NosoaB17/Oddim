@@ -20,8 +20,8 @@ const ForgotPass = ({ onSwitchForm }) => {
   };
 
   return (
-    <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">
+    <div className="w-full p-5 shadow-md rounded-[12px]">
+      <h2 className="text-2xl font-md text-center text-blue-500 mb-[30px]">
         Forgot Password
       </h2>
       <p className="text-gray-600 text-center mb-6">
@@ -33,12 +33,12 @@ const ForgotPass = ({ onSwitchForm }) => {
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-4 mb-4 border border-gray-300 rounded-xl text-base placeholder-gray-400"
           required
         />
         <button
           type="submit"
-          className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-md transition duration-300"
+          className="w-full p-3 bg-blue-500 text-white font-medium text-base rounded-xl hover:bg-blue-600 transition duration-300"
         >
           Confirm
         </button>
@@ -48,7 +48,7 @@ const ForgotPass = ({ onSwitchForm }) => {
       <div className="mt-6 text-center">
         <span
           onClick={() => onSwitchForm("signin")}
-          className="text-blue-500 cursor-pointer hover:underline"
+          className="w-full mt-6 p-3 text-gray-500 font-semibold text-base rounded-xl hover:bg-gray-100 transition duration-300"
         >
           Cancel
         </span>

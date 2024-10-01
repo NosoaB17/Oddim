@@ -10,12 +10,13 @@ import ShowHideIcon from "../../assets/auth/show-hide.svg";
 const SignUp = ({ onSwitchForm }) => {
   const [err, setErr] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(true);
-  const navigate = useNavigate();
-
   const [passwordShown, setPasswordShown] = useState(false);
+  const [file, setFile] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (confirmPassword !== "") {
@@ -25,7 +26,6 @@ const SignUp = ({ onSwitchForm }) => {
 
   const togglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
-    // Kiểm tra lại mật khẩu khi toggle
     setPasswordMatch(password === confirmPassword);
   };
 
@@ -38,9 +38,6 @@ const SignUp = ({ onSwitchForm }) => {
     setLoading(true);
     setErr(false);
 
-    const email = e.target[0].value;
-    const file = e.target[3].files[0];
-
     try {
       // Create user
       const res = await createUserWithEmailAndPassword(auth, email, password);
@@ -49,31 +46,41 @@ const SignUp = ({ onSwitchForm }) => {
       const date = new Date().getTime();
       const storageRef = ref(storage, `${email + date}`);
 
-      await uploadBytesResumable(storageRef, file).then(() => {
-        getDownloadURL(storageRef).then(async (downloadURL) => {
-          try {
-            // Update profile
-            await updateProfile(res.user, {
-              email,
-              photoURL: downloadURL,
-            });
-            // Create user on firestore
-            await setDoc(doc(db, "users", res.user.uid), {
-              uid: res.user.uid,
-              email,
-              photoURL: downloadURL,
-            });
+      if (file) {
+        await uploadBytesResumable(storageRef, file).then(() => {
+          getDownloadURL(storageRef).then(async (downloadURL) => {
+            try {
+              // Update profile
+              await updateProfile(res.user, {
+                email,
+                photoURL: downloadURL,
+              });
+              // Create user on firestore
+              await setDoc(doc(db, "users", res.user.uid), {
+                uid: res.user.uid,
+                email,
+                photoURL: downloadURL,
+              });
 
-            // Create empty user chats on firestore
-            await setDoc(doc(db, "userChats", res.user.uid), {});
-            navigate("/");
-          } catch (err) {
-            console.log(err);
-            setErr("Failed to update profile");
-            setLoading(false);
-          }
+              // Create empty user chats on firestore
+              await setDoc(doc(db, "userChats", res.user.uid), {});
+              navigate("/");
+            } catch (err) {
+              console.log(err);
+              setErr("Failed to update profile");
+              setLoading(false);
+            }
+          });
         });
-      });
+      } else {
+        // If no file is selected, create user without photo
+        await setDoc(doc(db, "users", res.user.uid), {
+          uid: res.user.uid,
+          email,
+        });
+        await setDoc(doc(db, "userChats", res.user.uid), {});
+        navigate("/");
+      }
     } catch (err) {
       setErr(err.message || "Failed to create account");
       setLoading(false);
@@ -81,8 +88,8 @@ const SignUp = ({ onSwitchForm }) => {
   };
 
   return (
-    <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">
+    <div className="w-full p-5 shadow-md rounded-[12px]">
+      <h2 className="text-2xl font-semibold text-center text-blue-500 mb-[30px]">
         Sign Up
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -90,7 +97,9 @@ const SignUp = ({ onSwitchForm }) => {
           required
           type="email"
           placeholder="Enter your email"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full p-4 mb-4 border border-gray-300 rounded-xl text-base placeholder-gray-400"
         />
         <div className="relative">
           <input
@@ -99,7 +108,7 @@ const SignUp = ({ onSwitchForm }) => {
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-4 mb-4 border border-gray-300 rounded-xl text-base placeholder-gray-400"
           />
           <button
             type="button"
@@ -120,7 +129,7 @@ const SignUp = ({ onSwitchForm }) => {
             placeholder="Re-enter your password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`w-full p-4 mb-4 border rounded-xl text-base placeholder-gray-400 ${
               !passwordMatch && confirmPassword !== ""
                 ? "border-red-500"
                 : "border-gray-300"
@@ -141,7 +150,12 @@ const SignUp = ({ onSwitchForm }) => {
         {!passwordMatch && confirmPassword !== "" && (
           <p className="text-sm text-red-500 mt-1">Passwords do not match</p>
         )}
-        <input required type="file" id="file" className="hidden" />
+        <input
+          type="file"
+          id="file"
+          onChange={(e) => setFile(e.target.files[0])}
+          className="hidden"
+        />
         <label
           htmlFor="file"
           className="flex items-center space-x-2 cursor-pointer text-gray-600 hover:text-blue-500"
@@ -156,25 +170,25 @@ const SignUp = ({ onSwitchForm }) => {
             password === "" ||
             confirmPassword === ""
           }
-          className={`w-full py-2 px-4 text-white font-bold rounded-md transition duration-300 ${
+          className={`w-full p-3 text-base font-medium rounded-xl transition duration-300 ${
             loading ||
             !passwordMatch ||
             password === "" ||
             confirmPassword === ""
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
+              ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+              : "bg-blue-500 text-white hover:bg-blue-600"
           }`}
         >
           {loading ? "Signing Up..." : "Sign Up"}
         </button>
         {loading && (
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 text-center">
             Uploading and compressing the image please wait...
           </p>
         )}
-        {err && <p className="text-sm text-red-500">{err}</p>}
+        {err && <p className="text-sm text-red-500 text-center">{err}</p>}
       </form>
-      <div className="mt-4 text-center text-sm text-gray-600">
+      <p className="text-[#333] font-sans tracking-tight leading-6 mt-6 text-center">
         Already have an account?{" "}
         <span
           onClick={() => onSwitchForm("signin")}
@@ -182,7 +196,7 @@ const SignUp = ({ onSwitchForm }) => {
         >
           Sign in
         </span>
-      </div>
+      </p>
     </div>
   );
 };
