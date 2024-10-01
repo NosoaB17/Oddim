@@ -83,7 +83,7 @@ const Hero = () => {
           Middo can be your trusted tool to do all translation work. Beside that
           we also provide a barrier-free language conversation platform.
         </p>
-        <button className="inline-flex items-center justify-center px-7 py-4 mb-[30px] mt-[30px] bg-blue-500 text-white rounded-xl text-center font-semibold transition-colors duration-300 hover:bg-blue-600">
+        <button className="inline-flex items-center justify-center px-7 py-4 mt-[30px] bg-blue-500 text-white rounded-xl text-center font-semibold transition-colors duration-300 hover:bg-blue-600">
           <FaWindows className="mr-2" />
           Download App
         </button>

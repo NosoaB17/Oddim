@@ -59,7 +59,10 @@ const Solution = () => {
   ];
 
   return (
-    <section id="solutions" className="flex flex-col gap-20 py-24 bg-gray-50">
+    <section
+      id="solutions"
+      className="flex flex-col gap-15 p-[60px] bg-gray-50"
+    >
       {solutions.map((solution, index) => (
         <SolutionCard key={index} {...solution} />
       ))}

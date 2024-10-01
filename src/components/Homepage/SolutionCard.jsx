@@ -8,17 +8,19 @@ const SolutionCard = ({ title, description, icon, features }) => {
       <div className="flex-1">
         <div className="mb-5">
           <img src={headerIcon} alt="Sparkle icon" className="mb-2.5" />
-          <span className="text-blue-500 text-xl font-semibold">Solution</span>
-          <h3 className="text-4xl text-gray-800 font-semibold mt-2.5 mb-2.5">
+          <span className="text-blue-500 text-[22px] font-semibold ml-[15px]">
+            Solution
+          </span>
+          <h3 className="text-5xl text-gray-800 font-semibold mt-2.5 mb-2.5">
             {title}
           </h3>
           <p className="text-base text-gray-600">{description}</p>
         </div>
-        <ul className="space-y-2.5">
+        <ul className="list-none p-0">
           {features.map((feature, index) => (
             <li
               key={index}
-              className="flex items-start gap-1 text-base text-gray-800 font-semibold"
+              className="flex mb-2.5 mt-8 text-gray-600 text-base font-semibold items-start gap-1"
             >
               <img
                 src={featureIcon}
