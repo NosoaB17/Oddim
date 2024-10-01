@@ -2,7 +2,7 @@ import React from "react";
 import Hero from "../components/Homepage/Hero";
 import Solution from "../components/Homepage/Solution";
 import AboutUs from "../components/Homepage/AboutUs";
-import UserGuide from "../components/Homepage/UserGuide";
+// import UserGuide from "../components/Homepage/UserGuide";
 import CallToAction from "../components/Homepage/CallToAction";
 import Footer from "../components/Homepage/Footer";
 
@@ -12,7 +12,7 @@ const HomePage = () => {
       <Hero />
       <Solution />
       <AboutUs />
-      <UserGuide />
+      {/* <UserGuide /> */}
       <CallToAction />
       <Footer />
     </div>
