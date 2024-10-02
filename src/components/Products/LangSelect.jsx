@@ -9,7 +9,8 @@ const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-const COMMON_LANGUAGES = ["en", "ko", "vi"];
+const DEFAULT_SOURCE_LANGUAGES = ["auto", "en", "ko"];
+const DEFAULT_TARGET_LANGUAGES = ["en", "ko", "vi"];
 
 const LangSelect = ({
   onLanguageChange,
@@ -20,6 +21,8 @@ const LangSelect = ({
   const [showLanguageSelect, setShowLanguageSelect] = useState(false);
   const [selectingFor, setSelectingFor] = useState("source");
   const [searchQuery, setSearchQuery] = useState("");
+  const [recentSourceLang, setRecentSourceLang] = useState(null);
+  const [recentTargetLang, setRecentTargetLang] = useState(null);
 
   const filteredLanguages = useMemo(() => {
     return Object.entries(languages).filter(([code, name]) =>
@@ -27,22 +30,48 @@ const LangSelect = ({
     );
   }, [languages, searchQuery]);
 
-  const handleLanguageChange = useCallback(
-    (lang, type) => {
-      onLanguageChange(type, lang);
-      setShowLanguageSelect(false);
-    },
-    [onLanguageChange]
-  );
-
   const getCountryCode = useCallback((lang) => {
-    const countryMap = {
+    if (lang === "auto") return "auto";
+    const languageToCountry = {
       en: "gb",
       ko: "kr",
+      zh: "cn",
+      ja: "jp",
       vi: "vn",
+      he: "il",
+      fa: "ir",
+      ar: "sa",
     };
-    return countryMap[lang] || lang;
+    return languageToCountry[lang] || lang;
   }, []);
+
+  const handleLanguageChange = useCallback(
+    (lang, type) => {
+      if (type === "source") {
+        if (lang === targetLanguage) {
+          onLanguageChange("source", lang);
+          onLanguageChange("target", sourceLanguage);
+          setRecentSourceLang(lang);
+          setRecentTargetLang(sourceLanguage);
+        } else {
+          onLanguageChange("source", lang);
+          setRecentSourceLang(lang);
+        }
+      } else {
+        if (lang === sourceLanguage) {
+          onLanguageChange("target", lang);
+          onLanguageChange("source", targetLanguage);
+          setRecentTargetLang(lang);
+          setRecentSourceLang(targetLanguage);
+        } else {
+          onLanguageChange("target", lang);
+          setRecentTargetLang(lang);
+        }
+      }
+      setShowLanguageSelect(false);
+    },
+    [onLanguageChange, sourceLanguage, targetLanguage]
+  );
 
   const renderLanguageButton = useCallback(
     (lang, type, isActive) => {
@@ -52,7 +81,8 @@ const LangSelect = ({
           ? "Detect"
           : languages[lang]
           ? capitalizeFirstLetter(languages[lang])
-          : "";
+          : capitalizeFirstLetter(lang);
+
       return (
         <button
           key={lang}
@@ -85,20 +115,28 @@ const LangSelect = ({
     (type) => {
       const currentLanguage =
         type === "source" ? sourceLanguage : targetLanguage;
+      const recentLang =
+        type === "source" ? recentSourceLang : recentTargetLang;
       const defaultLanguages =
-        type === "source" ? ["auto", "en", "ko"] : COMMON_LANGUAGES;
+        type === "source" ? DEFAULT_SOURCE_LANGUAGES : DEFAULT_TARGET_LANGUAGES;
 
-      return defaultLanguages.map((lang) => {
+      let displayLanguages = [...defaultLanguages];
+      if (recentLang && !defaultLanguages.includes(recentLang)) {
+        displayLanguages = [recentLang, ...defaultLanguages.slice(0, -1)];
+      }
+
+      return displayLanguages.map((lang) => {
         const isActive = currentLanguage === lang;
-        const shouldRender = defaultLanguages.includes(lang) || isActive;
-
-        if (shouldRender) {
-          return renderLanguageButton(lang, type, isActive);
-        }
-        return null;
+        return renderLanguageButton(lang, type, isActive);
       });
     },
-    [sourceLanguage, targetLanguage, renderLanguageButton]
+    [
+      sourceLanguage,
+      targetLanguage,
+      recentSourceLang,
+      recentTargetLang,
+      renderLanguageButton,
+    ]
   );
 
   return (
