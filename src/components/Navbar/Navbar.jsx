@@ -155,7 +155,9 @@ const NavBar = () => {
               <img
                 src={tab.icon}
                 alt={`${tab.name} icon`}
-                className={`w-4 h-4 ml-3 `}
+                className={`w-4 h-4 ml-3 ${
+                  activeTab === tab.name ? "fill-slate-50" : ""
+                }`}
               />
             </button>
           ))}

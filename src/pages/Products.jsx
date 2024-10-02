@@ -8,6 +8,7 @@ import axios from "axios";
 const Products = () => {
   const [sourceLanguage, setSourceLanguage] = useState("auto");
   const [targetLanguage, setTargetLanguage] = useState("en");
+  const [detectedLanguage, setDetectedLanguage] = useState(null);
   const [sourceText, setSourceText] = useState("");
   const [targetText, setTargetText] = useState("");
   const [eslText, setEslText] = useState("");
@@ -44,23 +45,28 @@ const Products = () => {
         source: sourceLanguage,
         target: targetLanguage,
       });
-      setTargetText(response.data.translatedText);
-      setEslText(response.data.eslText);
-      setIsEslMatched(response.data.isMatched);
+      const { translatedText, eslText, isMatched, detectedLanguage } =
+        response.data;
+      setTargetText(translatedText);
+      setEslText(eslText);
+      setIsEslMatched(isMatched);
 
-      // Add to history
-      setHistory((prevHistory) => [
-        {
-          id: Date.now(),
-          sourceText: text,
-          targetText: response.data.translatedText,
-          sourceLanguage,
-          targetLanguage,
-          eslSource: response.data.eslText,
-          isEslMatched: response.data.isMatched,
-        },
-        ...prevHistory,
-      ]);
+      // Cập nhật ngôn ngữ được phát hiện
+      if (sourceLanguage === "auto" && detectedLanguage) {
+        setDetectedLanguage(detectedLanguage);
+        setSourceLanguage(detectedLanguage);
+      }
+
+      const newTranslation = {
+        id: Date.now(),
+        sourceText: text,
+        targetText: translatedText,
+        sourceLanguage,
+        targetLanguage,
+        eslSource: eslText,
+        isEslMatched: isMatched,
+      };
+      setHistory((prevHistory) => [newTranslation, ...prevHistory]);
     } catch (error) {
       console.error("Translation error:", error);
     }
