@@ -155,11 +155,7 @@ const NavBar = () => {
               <img
                 src={tab.icon}
                 alt={`${tab.name} icon`}
-                className={`w-4 h-4 ml-3 ${
-                  activeTab === tab.name
-                    ? "filter brightness-0 saturate-100 invert-0 sepia-0 saturate-7500 hue-rotate-180 brightness-104 contrast-105"
-                    : ""
-                }`}
+                className={`w-4 h-4 ml-3 `}
               />
             </button>
           ))}

@@ -45,7 +45,7 @@ const LangSelect = ({
   }, []);
 
   const renderLanguageButton = useCallback(
-    (lang, type, isActive, key) => {
+    (lang, type, isActive) => {
       const countryCode = getCountryCode(lang);
       const languageName =
         lang === "auto"
@@ -55,9 +55,9 @@ const LangSelect = ({
           : "";
       return (
         <button
-          key={key}
-          className={`flex items-center p-2 rounded-lg transition-colors ${
-            isActive ? "bg-white text-blue-500" : "hover:bg-gray-100"
+          key={lang}
+          className={`flex items-center px-3 py-2 rounded-xl transition-colors ${
+            isActive ? "bg-white text-blue-500 shadow-sm" : "hover:bg-gray-200"
           }`}
           onClick={() => handleLanguageChange(lang, type)}
         >
@@ -81,15 +81,34 @@ const LangSelect = ({
     [languages, getCountryCode, handleLanguageChange]
   );
 
+  const renderLanguageButtons = useCallback(
+    (type) => {
+      const currentLanguage =
+        type === "source" ? sourceLanguage : targetLanguage;
+      const defaultLanguages =
+        type === "source" ? ["auto", "en", "ko"] : COMMON_LANGUAGES;
+
+      return defaultLanguages.map((lang) => {
+        const isActive = currentLanguage === lang;
+        const shouldRender = defaultLanguages.includes(lang) || isActive;
+
+        if (shouldRender) {
+          return renderLanguageButton(lang, type, isActive);
+        }
+        return null;
+      });
+    },
+    [sourceLanguage, targetLanguage, renderLanguageButton]
+  );
+
   return (
-    <div className="flex justify-between items-center rounded-lg p-2">
-      <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1">
-        {renderLanguageButton("auto", "source", sourceLanguage === "auto")}
-        {COMMON_LANGUAGES.map((lang) =>
-          renderLanguageButton(lang, "source", sourceLanguage === lang)
-        )}
+    <div className="flex w-full items-center justify-center gap-5 md:gap-0 px-[5vw]">
+      <div className="flex h-[42px] w-full flex-1 items-center gap-2">
+        <div className="flex h-full w-full max-w-full gap-2 overflow-hidden rounded-xl font-semibold lg:w-fit lg:max-w-[calc(100%-48px)] lg:bg-neutral-100 lg:p-1">
+          {renderLanguageButtons("source")}
+        </div>
         <button
-          className="p-1 rounded-full"
+          className="items-center justify-center bg-neutral-100 text-neutral-700 md:hover:bg-neutral-200 rounded-full hidden lg:flex md:w-10 md:h-10"
           onClick={() => {
             setSelectingFor("source");
             setShowLanguageSelect(true);
@@ -98,26 +117,26 @@ const LangSelect = ({
           <img src={arrowDownIcon} alt="More languages" className="w-5 h-5" />
         </button>
       </div>
-
-      <button
-        className="p-1 opacity-100 transition-opacity duration-300 hover:opacity-80"
-        onClick={() => {
-          if (sourceLanguage !== "auto") {
-            onLanguageChange("source", targetLanguage);
-            onLanguageChange("target", sourceLanguage);
-          }
-        }}
-        disabled={sourceLanguage === "auto"}
-      >
-        <img src={swapIcon} alt="Swap languages" className="w-5 h-5" />
-      </button>
-
-      <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1">
-        {COMMON_LANGUAGES.map((lang) =>
-          renderLanguageButton(lang, "target", targetLanguage === lang)
-        )}
+      <div className="flex w-5 items-center justify-center md:w-[88px]">
         <button
-          className="p-1 rounded-full"
+          className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-300"
+          onClick={() => {
+            if (sourceLanguage !== "auto") {
+              onLanguageChange("source", targetLanguage);
+              onLanguageChange("target", sourceLanguage);
+            }
+          }}
+          disabled={sourceLanguage === "auto"}
+        >
+          <img src={swapIcon} alt="Swap languages" className="w-5 h-5" />
+        </button>
+      </div>
+      <div className="flex h-[42px] w-full flex-1 items-center gap-2">
+        <div className="flex h-full w-full max-w-full gap-2 overflow-hidden rounded-xl font-semibold lg:w-fit lg:max-w-[calc(100%-48px)] lg:bg-neutral-100 lg:p-1">
+          {renderLanguageButtons("target")}
+        </div>
+        <button
+          className="items-center justify-center bg-neutral-100 text-neutral-700 md:hover:bg-neutral-200 rounded-full hidden lg:flex md:w-10 md:h-10"
           onClick={() => {
             setSelectingFor("target");
             setShowLanguageSelect(true);

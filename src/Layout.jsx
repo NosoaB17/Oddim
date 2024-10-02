@@ -6,7 +6,7 @@ import Homepage from "./pages/Homepage";
 import Products from "./pages/Products";
 import Auth from "./pages/Auth";
 import Conversation from "./pages/Conversation";
-import Settings from "./components/Settings/Settings";
+// import Settings from "./components/Settings/Settings";
 
 const Layout = () => {
   const location = useLocation();
@@ -19,7 +19,7 @@ const Layout = () => {
         <Route path="/" element={<Homepage />} />
         <Route path="/products" element={<Products />} />
         <Route path="/signin" element={<Auth />} />
-        <Route path="/settings" element={<Settings />} />
+        {/* <Route path="/settings" element={<Settings />} /> */}
         <Route path="/conversation" element={<Conversation />} />
       </Routes>
     </div>
