@@ -75,7 +75,7 @@ const TranslateArea = ({
 
   return (
     <div
-      className={`flex h-full w-full flex-col gap-5  py-3 md:flex-row md:justify-evenly md:gap-[88px] ${type} ${
+      className={`flex h-full w-full flex-col gap-5  py-3 md:flex-row md:justify-evenly md:gap-[88px] ${
         type === "target" ? "pl-0 pr-16" : "px-[5vw]"
       }`}
     >
@@ -84,7 +84,7 @@ const TranslateArea = ({
           type === "target"
             ? "border border-[#f2f2f2]"
             : "border border-[#3d88ed]"
-        }`}
+        } `}
       >
         <div className="flex items-center justify-start gap-2 text-[#020817] leading-[24px] mb-[12px]">
           <div className="size-5 overflow-hidden rounded-full">

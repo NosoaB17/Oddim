@@ -20,16 +20,16 @@ const AddFeatures = ({
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center justify-end py-2 ml-auto gap-2 max-w-[90%]">
+      <div className="flex w-full justify-end gap-2 pr-16">
         <button
           onClick={onHistoryClick}
-          className="flex items-center bg-gray-100 hover:bg-gray-200 transition-colors duration-300 rounded-full px-3 py-2"
+          className="flex items-center justify-center text-base font-medium bg-gray-100 text-neutral-700 md:hover:bg-gray-200 py-2 px-3 rounded-2xl"
         >
-          <img src={historyLogo} alt="History" className="w-5 h-5 mr-2" />
+          <img src={historyLogo} alt="History" className="w-6 h-6 mr-2" />
           <span className="text-sm text-gray-700">History</span>
         </button>
-        <button className="flex items-center bg-gray-100 hover:bg-gray-200 transition-colors duration-300 rounded-full px-3 py-2">
-          <img src={phrasesLogo} alt="Phrases" className="w-5 h-5 mr-2" />
+        <button className="flex items-center justify-center text-base font-medium bg-gray-100 text-neutral-700 md:hover:bg-gray-200 py-2 px-3 rounded-2xl">
+          <img src={phrasesLogo} alt="Phrases" className="w-6 h-6 mr-2" />
           <span className="text-sm text-gray-700">Phrases</span>
         </button>
       </div>

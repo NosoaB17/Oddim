@@ -160,7 +160,7 @@ const LangSelect = ({
           <img src={arrowDownIcon} alt="More languages" className="w-5 h-5" />
         </button>
       </div>
-      <div className="flex w-5 items-center justify-center md:w-[88px]">
+      <div className="flex w-5 items-center justify-center pr-3.5 md:w-[88px]">
         <button
           className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-300"
           onClick={() => {
