@@ -24,7 +24,6 @@ const LangSelect = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [recentSourceLang, setRecentSourceLang] = useState(null);
   const [recentTargetLang, setRecentTargetLang] = useState(null);
-  const [searchResults, setSearchResults] = useState([]);
 
   const filteredLanguages = useMemo(() => {
     return Object.entries(languages).filter(([code, name]) =>
@@ -163,7 +162,7 @@ const LangSelect = ({
       </div>
       <div className="flex w-5 items-center justify-center pr-3.5 md:w-[88px]">
         <button
-          className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-300"
+          className="p-2 rounded-full bg-gray-100 hover:bg-gray-200  transition"
           onClick={() => {
             if (sourceLanguage !== "auto") {
               onLanguageChange("source", targetLanguage);
@@ -195,7 +194,7 @@ const LangSelect = ({
           <div className="mx-[216px] pb-10 flex flex-col justify-center">
             <div className="flex justify-center items-center mb-5 py-2.5 px-[93.6px]">
               <button
-                className=" flex items-center justify-center absolute ml-56 font-medium rounded-full  shrink-0 w-11 h-11 bg-transparent md:w-9 md:h-9 md:active:bg-primary-700 md:hover:bg-neutral-50 md:left-[5vw]"
+                className="flex items-center  absolute ml-56 font-medium rounded-full shrink-0 w-11 h-11 bg-transparent md:w-9 md:h-9  md:left-[5vw]"
                 onClick={() => setShowLanguageSelect(false)}
               >
                 <ArrowBackIcon className="w-6 h-6" />
@@ -246,7 +245,7 @@ const LangSelect = ({
                   {filteredLanguages.map(([code, name]) => (
                     <button
                       key={code}
-                      className={`flex w-full items-center px-5 py-3 active:bg-stroke md:w-1/3 hover:bg-blue-100 md:hover:bg-background-darker ${
+                      className={`flex w-full items-center px-5 py-3 md:w-1/3 hover:bg-blue-100 ${
                         (selectingFor === "source"
                           ? sourceLanguage
                           : targetLanguage) === code

@@ -4,6 +4,7 @@ import TranslateArea from "../components/Products/TranslateArea";
 import AddFeatures from "../components/Products/AddFeatures";
 import HistoryModal from "../components/Products/HistoryModal";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
 const Products = () => {
   const [sourceLanguage, setSourceLanguage] = useState("auto");
@@ -11,14 +12,13 @@ const Products = () => {
   const [detectedLanguage, setDetectedLanguage] = useState(null);
   const [sourceText, setSourceText] = useState("");
   const [targetText, setTargetText] = useState("");
-  const [eslText, setEslText] = useState("");
+  const [eslText, setEslText] = useState({ source: "", target: "" });
   const [isEslMatched, setIsEslMatched] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [history, setHistory] = useState([]);
   const [languages, setLanguages] = useState({});
 
   useEffect(() => {
-    // Fetch languages
     const fetchLanguages = async () => {
       try {
         const response = await axios.get("http://localhost:5000/languages");
@@ -28,7 +28,8 @@ const Products = () => {
       }
     };
     fetchLanguages();
-  }, []);
+    console.log("Current state:", { eslText, isEslMatched });
+  }, [eslText, isEslMatched]);
 
   const handleLanguageChange = (type, lang) => {
     if (type === "source") {
@@ -45,10 +46,17 @@ const Products = () => {
         source: sourceLanguage,
         target: targetLanguage,
       });
-      const { translatedText, eslText, isMatched, detectedLanguage } =
+      console.log("API response:", response.data);
+      const { translatedText, eslSource, eslTarget, detectedLanguage } =
         response.data;
+
       setTargetText(translatedText);
-      setEslText(eslText);
+      setEslText({
+        source: eslSource,
+        target: eslTarget,
+      });
+      const isMatched =
+        eslSource.toLowerCase().trim() === eslTarget.toLowerCase().trim();
       setIsEslMatched(isMatched);
 
       if (sourceLanguage === "auto" && detectedLanguage) {
@@ -57,18 +65,27 @@ const Products = () => {
       }
 
       const newTranslation = {
-        id: Date.now(),
+        id: uuidv4(),
         sourceText: text,
         targetText: translatedText,
-        sourceLanguage,
+        sourceLanguage: detectedLanguage || sourceLanguage,
         targetLanguage,
-        eslSource: eslText,
+        eslSource,
+        eslTarget,
         isEslMatched: isMatched,
       };
       setHistory((prevHistory) => [newTranslation, ...prevHistory]);
     } catch (error) {
       console.error("Translation error:", error);
     }
+  };
+
+  const handleEslEdit = (newEslText) => {
+    setEslText(newEslText);
+  };
+
+  const handleEslConfirm = () => {
+    setIsEslMatched(true);
   };
 
   const handleHistoryClick = () => {
@@ -90,7 +107,7 @@ const Products = () => {
   };
 
   return (
-    <div className="relative w-full p-5">
+    <div className="flex w-full flex-col py-5">
       <div
         className={`transition-all duration-300 ease-in-out ${
           isHistoryOpen ? "mr-[300px]" : ""
@@ -111,6 +128,11 @@ const Products = () => {
             language={sourceLanguage}
             onTranslate={handleTranslate}
             detectedLanguage={detectedLanguage}
+            languages={languages}
+            eslText={eslText}
+            isEslMatched={isEslMatched}
+            onEslEdit={handleEslEdit}
+            onEslConfirm={handleEslConfirm}
           />
           <TranslateArea
             type="target"
@@ -119,6 +141,7 @@ const Products = () => {
             language={targetLanguage}
             eslText={eslText}
             isEslMatched={isEslMatched}
+            onEslConfirm={handleEslConfirm}
           />
         </div>
         <AddFeatures
