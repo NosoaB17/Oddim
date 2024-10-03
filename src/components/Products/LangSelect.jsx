@@ -24,6 +24,7 @@ const LangSelect = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [recentSourceLang, setRecentSourceLang] = useState(null);
   const [recentTargetLang, setRecentTargetLang] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
 
   const filteredLanguages = useMemo(() => {
     return Object.entries(languages).filter(([code, name]) =>
@@ -190,43 +191,77 @@ const LangSelect = ({
       </div>
 
       {showLanguageSelect && (
-        <div className="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center">
-          <div className="w-4/5 h-full flex flex-col max-w-4xl">
-            <div className="flex items-center p-2 border-b border-gray-200">
+        <div className="fixed inset-0 bg-white z-20 flex flex-col items-center justify-center h-full w-full bg-background left-0 top-[72px] ">
+          <div className="mx-[216px] pb-10 flex flex-col justify-center">
+            <div className="flex justify-center items-center mb-5 py-2.5 px-[93.6px]">
               <button
-                className="p-1"
+                className=" flex items-center justify-center absolute ml-56 font-medium rounded-full  shrink-0 w-11 h-11 bg-transparent md:w-9 md:h-9 md:active:bg-primary-700 md:hover:bg-neutral-50 md:left-[5vw]"
                 onClick={() => setShowLanguageSelect(false)}
               >
                 <ArrowBackIcon className="w-6 h-6" />
               </button>
+              <p class="text-blue-500 font-semibold capitalize text-primary">
+                Select Language
+              </p>
             </div>
-            <div className="p-2">
-              <input
-                type="text"
-                placeholder="Search languages"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="grid grid-cols-3 gap-2 p-5 overflow-y-auto max-h-[calc(100vh-150px)]">
-              {filteredLanguages.map(([code, name]) => (
-                <button
-                  key={code}
-                  className={`flex items-center justify-start w-full p-2 text-left text-sm font-bold text-gray-700 hover:bg-gray-100 transition-colors ${
-                    (selectingFor === "source"
-                      ? sourceLanguage
-                      : targetLanguage) === code
-                      ? "bg-blue-100 text-blue-700 font-bold"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    handleLanguageChange(code, selectingFor);
-                  }}
-                >
-                  <span>{capitalizeFirstLetter(name)}</span>
-                </button>
-              ))}
+            <div className="flex-1 overflow-hidden md:px-[5vw]">
+              {" "}
+              <div className="flex flex-col h-full">
+                <div className="px-5 py-5 pt-0 md:mx-auto md:w-[480px]">
+                  <div className="relative w-full overflow-hidden rounded-xl border bg-background transition-all">
+                    <div className="flex h-11 pl-1 transition-all">
+                      <input
+                        type="text"
+                        placeholder="Search languages"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full border-0 bg-inherit p-2 ring-0 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-transparent"
+                      />
+                      <div className="flex h-11 w-11 items-center bg-inherit ">
+                        <button
+                          class="flex aspect-square h-full items-center justify-center p-2 text-primary disabled:text-text dark:text-neutral-50"
+                          disabled=""
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-search h-5 w-5 opacity-60"
+                          >
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.3-4.3"></path>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col overflow-y-auto md:flex-row md:flex-wrap md:h-[calc(100vh-200px)]">
+                  {filteredLanguages.map(([code, name]) => (
+                    <button
+                      key={code}
+                      className={`flex w-full items-center px-5 py-3 active:bg-stroke md:w-1/3 hover:bg-blue-100 md:hover:bg-background-darker ${
+                        (selectingFor === "source"
+                          ? sourceLanguage
+                          : targetLanguage) === code
+                          ? "bg-blue-100 text-blue-700 font-bold w-full"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        handleLanguageChange(code, selectingFor);
+                      }}
+                    >
+                      <span>{capitalizeFirstLetter(name)}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>

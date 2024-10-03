@@ -51,7 +51,6 @@ const Products = () => {
       setEslText(eslText);
       setIsEslMatched(isMatched);
 
-      // Cập nhật ngôn ngữ được phát hiện
       if (sourceLanguage === "auto" && detectedLanguage) {
         setDetectedLanguage(detectedLanguage);
         setSourceLanguage(detectedLanguage);
@@ -102,6 +101,7 @@ const Products = () => {
           sourceLanguage={sourceLanguage}
           targetLanguage={targetLanguage}
           languages={languages}
+          detectedLanguage={detectedLanguage}
         />
         <div className="flex gap-5 mt-5">
           <TranslateArea
@@ -110,6 +110,7 @@ const Products = () => {
             setText={setSourceText}
             language={sourceLanguage}
             onTranslate={handleTranslate}
+            detectedLanguage={detectedLanguage}
           />
           <TranslateArea
             type="target"
