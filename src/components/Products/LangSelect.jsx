@@ -24,6 +24,8 @@ const LangSelect = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [recentSourceLang, setRecentSourceLang] = useState(null);
   const [recentTargetLang, setRecentTargetLang] = useState(null);
+  // Thêm state mới
+  const [detectedLang, setDetectedLang] = useState(null);
 
   const filteredLanguages = useMemo(() => {
     return Object.entries(languages).filter(([code, name]) =>
@@ -114,6 +116,7 @@ const LangSelect = ({
     [languages, getCountryCode, handleLanguageChange, detectedLanguage]
   );
 
+  // Điều chỉnh hàm renderLanguageButtons
   const renderLanguageButtons = useCallback(
     (type) => {
       const currentLanguage =
@@ -121,17 +124,33 @@ const LangSelect = ({
       const recentLang =
         type === "source" ? recentSourceLang : recentTargetLang;
       const defaultLanguages =
-        type === "source" ? DEFAULT_SOURCE_LANGUAGES : DEFAULT_TARGET_LANGUAGES;
+        type === "source" ? ["auto", "en", "ko"] : DEFAULT_TARGET_LANGUAGES;
 
       let displayLanguages = [...defaultLanguages];
-      if (recentLang && !defaultLanguages.includes(recentLang)) {
+      if (
+        type === "target" &&
+        recentLang &&
+        !defaultLanguages.includes(recentLang)
+      ) {
         displayLanguages = [recentLang, ...defaultLanguages.slice(0, -1)];
       }
 
-      return displayLanguages.map((lang) => {
+      return displayLanguages.map((lang, index) => {
         const isActive =
-          currentLanguage === lang || (lang === "auto" && detectedLanguage);
-        return renderLanguageButton(lang, type, isActive);
+          currentLanguage === lang || (lang === "auto" && detectedLang);
+
+        // Chỉ cho phép thay đổi "en" và "ko" cho source
+        const isChangeable =
+          type === "target" ||
+          (type === "source" && (lang === "en" || lang === "ko"));
+
+        return renderLanguageButton(
+          lang,
+          type,
+          isActive,
+          isChangeable,
+          index === 0
+        );
       });
     },
     [
@@ -140,7 +159,7 @@ const LangSelect = ({
       recentSourceLang,
       recentTargetLang,
       renderLanguageButton,
-      detectedLanguage,
+      detectedLang,
     ]
   );
 

@@ -20,17 +20,21 @@ const AddFeatures = ({
 
   return (
     <div className="flex flex-col">
-      <div className="flex w-full justify-end gap-2 pr-16">
+      <div className="flex w-full justify-end gap-2 px-[5vw]">
         <button
           onClick={onHistoryClick}
-          className="flex items-center justify-center text-base font-medium bg-gray-100 text-neutral-700 md:hover:bg-gray-200 py-2 px-3 rounded-2xl"
+          className="flex items-center justify-center bg-[#f2f2f2] md:hover:bg-gray-200 py-2 px-3 rounded-2xl"
         >
-          <img src={historyLogo} alt="History" className="w-6 h-6 mr-2" />
-          <span className="text-sm text-gray-700">History</span>
+          <img src={historyLogo} alt="History" className="w-4 h-4 mr-2" />
+          <span className="text-base font-semibold text-[#4d4d4d]">
+            History
+          </span>
         </button>
-        <button className="flex items-center justify-center text-base font-medium bg-gray-100 text-neutral-700 md:hover:bg-gray-200 py-2 px-3 rounded-2xl">
-          <img src={phrasesLogo} alt="Phrases" className="w-6 h-6 mr-2" />
-          <span className="text-sm text-gray-700">Phrases</span>
+        <button className="flex items-center justify-center font-semibold bg-[#f2f2f2] text-[#4d4d4d] md:hover:bg-gray-200 py-2 px-3 rounded-2xl">
+          <img src={phrasesLogo} alt="Phrases" className="w-4 h-4 mr-2" />
+          <span className="text-base font-semibold text-[#4d4d4d]">
+            Phrases
+          </span>
         </button>
       </div>
       <div className="flex justify-center items-center gap-8 mt-4">

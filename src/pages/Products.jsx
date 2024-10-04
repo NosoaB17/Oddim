@@ -17,6 +17,7 @@ const Products = () => {
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [history, setHistory] = useState([]);
   const [languages, setLanguages] = useState({});
+  const [showEsl, setShowEsl] = useState(false);
 
   useEffect(() => {
     const fetchLanguages = async () => {
@@ -28,19 +29,61 @@ const Products = () => {
       }
     };
     fetchLanguages();
-    console.log("Current state:", { eslText, isEslMatched });
-  }, [eslText, isEslMatched]);
+  }, []);
 
   const handleLanguageChange = (type, lang) => {
     if (type === "source") {
-      setSourceLanguage(lang);
+      if (lang === targetLanguage) {
+        // Swap languages
+        setSourceLanguage(targetLanguage);
+        setTargetLanguage(sourceLanguage);
+        setSourceText(targetText);
+        setTargetText(sourceText);
+        setEslText({
+          source: eslText.target,
+          target: eslText.source,
+        });
+      } else {
+        setSourceLanguage(lang);
+      }
     } else {
-      setTargetLanguage(lang);
+      if (lang === sourceLanguage) {
+        // Swap languages
+        setTargetLanguage(sourceLanguage);
+        setSourceLanguage(targetLanguage);
+        setTargetText(sourceText);
+        setSourceText(targetText);
+        setEslText({
+          source: eslText.target,
+          target: eslText.source,
+        });
+      } else {
+        setTargetLanguage(lang);
+      }
+    }
+    // Reset detected language when changing source language
+    if (type === "source") {
+      setDetectedLanguage(null);
+    }
+  };
+
+  const handleSwapLanguages = () => {
+    if (sourceLanguage !== "auto") {
+      setSourceLanguage(targetLanguage);
+      setTargetLanguage(sourceLanguage);
+      setSourceText(targetText);
+      setTargetText(sourceText);
+      setEslText({
+        source: eslText.target,
+        target: eslText.source,
+      });
+      setDetectedLanguage(null);
     }
   };
 
   const handleTranslate = async (text) => {
     try {
+      setShowEsl(false); // Hide ESL before translation starts
       const response = await axios.post("http://localhost:5000/translate", {
         text,
         source: sourceLanguage,
@@ -55,6 +98,8 @@ const Products = () => {
         source: eslSource,
         target: eslTarget,
       });
+
+      // Calculate isEslMatched
       const isMatched =
         eslSource.toLowerCase().trim() === eslTarget.toLowerCase().trim();
       setIsEslMatched(isMatched);
@@ -64,6 +109,7 @@ const Products = () => {
         setSourceLanguage(detectedLanguage);
       }
 
+      // Add translation to history
       const newTranslation = {
         id: uuidv4(),
         sourceText: text,
@@ -75,6 +121,8 @@ const Products = () => {
         isEslMatched: isMatched,
       };
       setHistory((prevHistory) => [newTranslation, ...prevHistory]);
+
+      setShowEsl(true); // Show ESL after translation is complete
     } catch (error) {
       console.error("Translation error:", error);
     }
@@ -93,7 +141,7 @@ const Products = () => {
   };
 
   const handleCopyAll = () => {
-    const textToCopy = `${sourceText}\n${targetText}\n${eslText}`;
+    const textToCopy = `${sourceText}\n${targetText}\n${eslText.source}\n${eslText.target}`;
     navigator.clipboard.writeText(textToCopy);
     alert("All text copied to clipboard!");
   };
@@ -115,6 +163,7 @@ const Products = () => {
       >
         <LangSelect
           onLanguageChange={handleLanguageChange}
+          onSwapLanguages={handleSwapLanguages}
           sourceLanguage={sourceLanguage}
           targetLanguage={targetLanguage}
           languages={languages}
@@ -133,6 +182,7 @@ const Products = () => {
             isEslMatched={isEslMatched}
             onEslEdit={handleEslEdit}
             onEslConfirm={handleEslConfirm}
+            showEsl={showEsl}
           />
           <TranslateArea
             type="target"
@@ -142,6 +192,7 @@ const Products = () => {
             eslText={eslText}
             isEslMatched={isEslMatched}
             onEslConfirm={handleEslConfirm}
+            showEsl={showEsl}
           />
         </div>
         <AddFeatures

@@ -17,11 +17,17 @@ const TranslateArea = ({
   isEslMatched,
   onEslEdit,
   onEslConfirm,
+  showEsl,
 }) => {
   const [isEditingEsl, setIsEditingEsl] = useState(false);
-  const [editedEslText, setEditedEslText] = useState(eslText);
+  const [editedEslText, setEditedEslText] = useState(eslText?.[type] || "");
   const [fontSize, setFontSize] = useState(22);
   const [textareaHeight, setTextareaHeight] = useState("auto");
+
+  // Update editedEslText when eslText changes (e.g., after language swap)
+  useEffect(() => {
+    setEditedEslText(eslText?.[type] || "");
+  }, [eslText, type]);
 
   const adjustFontSize = useCallback(() => {
     const textArea = document.getElementById(`${type}-textarea`);
@@ -45,7 +51,7 @@ const TranslateArea = ({
 
   const handleEslEdit = useCallback(() => {
     setIsEditingEsl(true);
-    setEditedEslText(type === "source" ? eslText.source : eslText.target);
+    setEditedEslText(eslText?.[type] || "");
   }, [eslText, type]);
 
   const handleEslSave = useCallback(() => {
@@ -56,38 +62,43 @@ const TranslateArea = ({
     });
   }, [editedEslText, eslText, onEslEdit, type]);
 
-  const handleEslConfirm = useCallback(() => {
-    onEslConfirm();
-  }, [onEslConfirm]);
-
-  const getCountryCode = (lang) => {
+  const getCountryCode = useCallback((lang) => {
     const languageToCountry = {
       en: "gb",
       ko: "kr",
       vi: "vn",
+      // Add more mappings as needed
     };
     return languageToCountry[lang] || lang;
-  };
+  }, []);
 
-  const getLanguageDisplay = (lang, languages) => {
-    if (lang === "auto" && detectedLanguage) {
-      return `Detected: ${languages[detectedLanguage]}`;
-    }
-    if (lang === "auto") {
-      return "Detect Language";
-    }
-    return languages[lang] || lang;
-  };
+  const getLanguageDisplay = useCallback(
+    (lang) => {
+      if (lang === "auto" && detectedLanguage) {
+        return `Detected: ${languages[detectedLanguage]}`;
+      }
+      if (lang === "auto") {
+        return "Detect Language";
+      }
+      return languages[lang] || lang;
+    },
+    [languages, detectedLanguage]
+  );
 
   const handleTextChange = useCallback(
     (e) => {
       setText(e.target.value);
       adjustFontSize();
       if (type === "source") {
-        const debounceTranslate = setTimeout(() => {
+        // Cancel previous timeout if it exists
+        if (window.translationTimeout) {
+          clearTimeout(window.translationTimeout);
+        }
+
+        // Set new timeout
+        window.translationTimeout = setTimeout(() => {
           onTranslate(e.target.value);
         }, 2000);
-        return () => clearTimeout(debounceTranslate);
       }
     },
     [setText, type, onTranslate, adjustFontSize]
@@ -121,9 +132,10 @@ const TranslateArea = ({
   }, [text, language]);
 
   const renderEslSection = useMemo(() => {
+    if (!showEsl || !eslText || !eslText[type]) return null;
+
     const eslColor = isEslMatched ? "text-green-500" : "text-red-500";
-    const currentEslText =
-      type === "source" ? eslText?.source : eslText?.target;
+    const currentEslText = eslText[type];
 
     return (
       <div className="bg-[#f2f2f2] relative rounded-[8px] bg-background-darker dark:bg-neutral-800 p-3 mb-20">
@@ -168,7 +180,7 @@ const TranslateArea = ({
             ) : (
               <button
                 onClick={handleEslEdit}
-                className="flex items-center justify-center focus:outline-none font-medium  rounded-full bg-transparent text-neutral-700 md:hover:bg-neutral-50 p-0 shrink-0 md:w-9 md:h-9 w-11 h-11"
+                className="flex items-center justify-center focus:outline-none font-medium rounded-full bg-transparent text-neutral-700 md:hover:bg-neutral-50 p-0 shrink-0 md:w-9 md:h-9 w-11 h-11"
                 title="Edit E.S.L translation"
               >
                 <img src={editLogo} alt="Edit" className="w-4 h-4" />
@@ -176,7 +188,7 @@ const TranslateArea = ({
             ))}
           {type === "target" && !isEslMatched && (
             <button
-              onClick={handleEslConfirm}
+              onClick={onEslConfirm}
               className="flex items-center justify-center focus:outline-none font-medium rounded-full bg-transparent text-neutral-700 md:hover:bg-neutral-50 p-0 shrink-0 md:w-9 md:h-9 w-11 h-11"
               title="Confirm E.S.L translation"
             >
@@ -187,6 +199,7 @@ const TranslateArea = ({
       </div>
     );
   }, [
+    showEsl,
     type,
     isEditingEsl,
     eslText,
@@ -194,12 +207,21 @@ const TranslateArea = ({
     editedEslText,
     handleEslSave,
     handleEslEdit,
-    handleEslConfirm,
+    onEslConfirm,
   ]);
 
   useEffect(() => {
     adjustFontSize();
   }, [text, adjustFontSize]);
+
+  // Cleanup effect
+  useEffect(() => {
+    return () => {
+      if (window.translationTimeout) {
+        clearTimeout(window.translationTimeout);
+      }
+    };
+  }, []);
 
   return (
     <div
@@ -227,9 +249,7 @@ const TranslateArea = ({
               />
             )}
           </div>
-          <span className="opacity-40">
-            {getLanguageDisplay(language, languages)}
-          </span>
+          <span className="opacity-40">{getLanguageDisplay(language)}</span>
         </div>
         <textarea
           id={`${type}-textarea`}
@@ -239,33 +259,31 @@ const TranslateArea = ({
             type === "source" ? "Enter your text here" : "Translation"
           }
           readOnly={type === "target"}
-          style={{ fontSize: `${fontSize}px` }}
-          className="w-full h-full bg-transparent font-medium text-[#020817] text-xl leading-relaxed flex-1 border-none resize-none outline-none b mb-4"
+          style={{ fontSize: `${fontSize}px`, height: textareaHeight }}
+          className="w-full bg-transparent font-medium text-[#020817] text-xl leading-relaxed flex-1 border-none resize-none outline-none mb-4"
         />
 
-        {eslText && <div className="relative mt-4">{renderEslSection}</div>}
-        <div className="bottom-0 left-0 mt-auto w-full">
-          {" "}
-          <div className="absolute bottom-3 right-3 flex justify-end gap-2">
-            <button
-              onClick={handleSpeak}
-              title="Listen"
-              className="p-2 rounded-full hover:bg-gray-100"
-            >
-              <img src={speakerLogo} alt="Speak" className="w-5 h-5" />
-            </button>
-            <button
-              onClick={handleCopy}
-              title="Copy to clipboard"
-              className="p-2 rounded-full hover:bg-gray-100"
-            >
-              <img src={copyLogo} alt="Copy" className="w-5 h-5" />
-            </button>
-          </div>
+        {renderEslSection}
+
+        <div className="absolute bottom-3 right-3 flex justify-end gap-2">
+          <button
+            onClick={handleSpeak}
+            title="Listen"
+            className="p-2 rounded-full hover:bg-gray-100"
+          >
+            <img src={speakerLogo} alt="Speak" className="w-5 h-5" />
+          </button>
+          <button
+            onClick={handleCopy}
+            title="Copy to clipboard"
+            className="p-2 rounded-full hover:bg-gray-100"
+          >
+            <img src={copyLogo} alt="Copy" className="w-5 h-5" />
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default TranslateArea;
+export default React.memo(TranslateArea);

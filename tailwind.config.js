@@ -3,7 +3,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Open Sans", "sans-serif"],
+        "open-sans": ["__Open_Sans_af7b73", "sans-serif"],
+        // "open-sans-fallback": ["__Open_Sans_Fallback_af7b73", "sans-serif"],
       },
     },
   },
