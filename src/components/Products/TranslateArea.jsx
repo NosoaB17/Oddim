@@ -5,6 +5,9 @@ import speakerLogo from "../../assets/products/speaker.svg";
 import editLogo from "../../assets/products/edit.svg";
 import checkIcon from "../../assets/products/check.svg";
 
+import { ToastContainer, toast, Zoom } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const TranslateArea = ({
   type,
   text,
@@ -106,7 +109,7 @@ const TranslateArea = ({
 
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(text);
-    alert("Text copied to clipboard!");
+    toast.success("Copied to clipboard!");
   }, [text]);
 
   const handleSpeak = useCallback(async () => {
@@ -210,11 +213,15 @@ const TranslateArea = ({
     onEslConfirm,
   ]);
 
+  const handleClear = useCallback(() => {
+    setText("");
+    onTranslate("");
+  }, [setText, onTranslate]);
+
   useEffect(() => {
     adjustFontSize();
   }, [text, adjustFontSize]);
 
-  // Cleanup effect
   useEffect(() => {
     return () => {
       if (window.translationTimeout) {
@@ -250,6 +257,30 @@ const TranslateArea = ({
             )}
           </div>
           <span className="opacity-40">{getLanguageDisplay(language)}</span>
+          <button
+            onClick={handleClear}
+            type="button"
+            class="flex items-center justify-center focus-outline-none rounded-full bg-transparent text-neutral-700 md:hover:bg-neutral-50 absolute right-3 top-3 p-0 shrink-0 md:w-9 md:h-9 w-11 h-11"
+            data-label-id="0"
+            data-metatip="true"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-circle-x inline-block w-5 h-5"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="m15 9-6 6"></path>
+              <path d="m9 9 6 6"></path>
+            </svg>
+          </button>
         </div>
         <textarea
           id={`${type}-textarea`}
@@ -273,13 +304,28 @@ const TranslateArea = ({
           >
             <img src={speakerLogo} alt="Speak" className="w-5 h-5" />
           </button>
-          <button
-            onClick={handleCopy}
-            title="Copy to clipboard"
-            className="p-2 rounded-full hover:bg-gray-100"
-          >
-            <img src={copyLogo} alt="Copy" className="w-5 h-5" />
-          </button>
+          <div>
+            <button
+              onClick={handleCopy}
+              title="Copy to clipboard"
+              className="p-2 rounded-full hover:bg-gray-100"
+            >
+              <img src={copyLogo} alt="Copy" className="w-5 h-5" />
+            </button>
+            <ToastContainer
+              position="bottom-center"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+              transition={Zoom}
+            />
+          </div>
         </div>
       </div>
     </div>

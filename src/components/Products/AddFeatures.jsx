@@ -12,11 +12,20 @@ const AddFeatures = ({
   sourceLanguage,
   targetLanguage,
   onTranscript,
+  setSourceText,
+  handleTranslate,
 }) => {
   const canCopyAll =
     isEslMatched && sourceLanguage !== "en" && targetLanguage !== "en";
   const canTakeScreenshot =
     isEslMatched && sourceLanguage !== "en" && targetLanguage !== "en";
+
+  const handleTranscript = (transcript) => {
+    // Xử lý văn bản được chuyển đổi từ giọng nói
+    setSourceText(transcript);
+    // Có thể kích hoạt dịch tự động ở đây nếu cần
+    handleTranslate(transcript);
+  };
 
   return (
     <div className="flex flex-col">
@@ -37,21 +46,19 @@ const AddFeatures = ({
           </span>
         </button>
       </div>
-      <div className="flex justify-center items-center gap-8 mt-4">
+      <div className="mt-8 flex items-center justify-center gap-8">
         <button
           onClick={onCopyAll}
           disabled={!canCopyAll}
           title={canCopyAll ? "Copy all text" : "Cannot copy all text"}
-          className={`bg-blue-100 rounded-full w-12 h-12 flex justify-center items-center transition-colors duration-300 
-            ${
-              canCopyAll ? "hover:bg-blue-200" : "opacity-50 cursor-not-allowed"
-            }`}
+          className={`flex items-center justify-center focus-outline-none  font-medium text-primary bg-primary-200 md:hover:bg-primary-300 rounded-full p-0 shrink-0 w-11 h-11 
+            ${canCopyAll ? "bg-blue-200" : "opacity-50 cursor-not-allowed"}`}
         >
           <img src={copyAllLogo} alt="Copy All" className="w-5 h-5" />
         </button>
-        <div className="bg-white rounded-full w-18 h-18 flex justify-center items-center shadow-md">
+        <div class="relative ">
           <RecordToTranslate
-            onTranscript={onTranscript}
+            onTranscript={handleTranscript}
             sourceLanguage={sourceLanguage}
           />
         </div>
@@ -60,10 +67,10 @@ const AddFeatures = ({
           title={
             canTakeScreenshot ? "Take screenshot" : "Cannot take screenshot"
           }
-          className={`bg-blue-100 rounded-full w-12 h-12 flex justify-center items-center transition-colors duration-300 
+          className={`flex items-center justify-center focus-outline-none font-medium text-primary bg-primary-200 md:hover:bg-primary-300 rounded-full p-0 shrink-0 w-11 h-11 
             ${
               canTakeScreenshot
-                ? "hover:bg-blue-200"
+                ? "bg-blue-200"
                 : "opacity-50 cursor-not-allowed"
             }`}
         >

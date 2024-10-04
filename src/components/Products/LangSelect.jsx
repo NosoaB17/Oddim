@@ -9,7 +9,7 @@ const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-const DEFAULT_SOURCE_LANGUAGES = ["auto", "en", "ko"];
+// const DEFAULT_SOURCE_LANGUAGES = ["auto", "en", "ko"];
 const DEFAULT_TARGET_LANGUAGES = ["en", "ko", "vi"];
 
 const LangSelect = ({

@@ -1,65 +1,16 @@
 import React, { useState, useEffect } from "react";
 import micLogo from "../../assets/products/mic.svg";
 
-const RecordToTranslate = ({ onTranscript, sourceLanguage }) => {
-  const [isRecording, setIsRecording] = useState(false);
-  const [recognition, setRecognition] = useState(null);
-
-  useEffect(() => {
-    if ("webkitSpeechRecognition" in window) {
-      const recognition = new window.webkitSpeechRecognition();
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      recognition.lang = sourceLanguage;
-
-      recognition.onresult = (event) => {
-        const transcript = Array.from(event.results)
-          .map((result) => result[0].transcript)
-          .join("");
-        onTranscript(transcript);
-      };
-
-      recognition.onerror = (event) => {
-        console.error("Speech recognition error", event.error);
-        setIsRecording(false);
-      };
-
-      recognition.onend = () => {
-        setIsRecording(false);
-      };
-
-      setRecognition(recognition);
-    } else {
-      console.log("Speech recognition not supported");
-    }
-
-    return () => {
-      if (recognition) {
-        recognition.stop();
-      }
-    };
-  }, [sourceLanguage, onTranscript]);
-
-  const toggleRecording = () => {
-    if (isRecording) {
-      recognition.stop();
-    } else {
-      recognition.start();
-    }
-    setIsRecording(!isRecording);
-  };
-
+const RecordToTranslate = () => {
   return (
-    <button
-      onClick={toggleRecording}
-      className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-300 ${
-        isRecording
-          ? "bg-red-500 hover:bg-red-600"
-          : "bg-blue-500 hover:bg-blue-600"
-      }`}
-    >
-      <img src={micLogo} alt="Record" className="w-6 h-6 filter invert" />
-    </button>
+    <div class="flex items-center justify-center bg-[#f2f2f2] text-[#020817] gap-3 p-3 leading-6 rounded-full shadow-[0_10px_24px_0_rgba(23, 23, 23, 0.1)] relative ">
+      <button
+        class={`flex items-center justify-center focus-outline-none bg-blue-200 md:hover:bg-blue-300 md:hover:bg-primary-300 rounded-full z-10 p-0 shrink-0 w-[60px] h-[60px]
+        }`}
+      >
+        <img src={micLogo} alt="Record" class="w-6 h-6" />
+      </button>
+    </div>
   );
 };
 
