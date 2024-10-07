@@ -155,61 +155,63 @@ const Products = () => {
   };
 
   return (
-    <div className="flex w-full flex-col py-5">
-      <div
-        className={`transition-all duration-300 ease-in-out ${
-          isHistoryOpen ? "mr-[300px]" : ""
-        }`}
-      >
-        <LangSelect
-          onLanguageChange={handleLanguageChange}
-          onSwapLanguages={handleSwapLanguages}
-          sourceLanguage={sourceLanguage}
-          targetLanguage={targetLanguage}
-          languages={languages}
-          detectedLanguage={detectedLanguage}
-        />
-        <div className="flex gap-5 mt-5">
-          <TranslateArea
-            type="source"
-            text={sourceText}
-            setText={setSourceText}
-            language={sourceLanguage}
-            onTranslate={handleTranslate}
-            detectedLanguage={detectedLanguage}
+    <div className="mx-auto">
+      <div className="flex w-full flex-col py-5">
+        <div
+          className={`transition-all duration-300 ease-in-out ${
+            isHistoryOpen ? "mr-[300px]" : ""
+          }`}
+        >
+          <LangSelect
+            onLanguageChange={handleLanguageChange}
+            onSwapLanguages={handleSwapLanguages}
+            sourceLanguage={sourceLanguage}
+            targetLanguage={targetLanguage}
             languages={languages}
-            eslText={eslText}
-            isEslMatched={isEslMatched}
-            onEslEdit={handleEslEdit}
-            onEslConfirm={handleEslConfirm}
-            showEsl={showEsl}
+            detectedLanguage={detectedLanguage}
           />
-          <TranslateArea
-            type="target"
-            text={targetText}
-            setText={setTargetText}
-            language={targetLanguage}
-            eslText={eslText}
+          <div className="flex gap-5 mt-5">
+            <TranslateArea
+              type="source"
+              text={sourceText}
+              setText={setSourceText}
+              language={sourceLanguage}
+              onTranslate={handleTranslate}
+              detectedLanguage={detectedLanguage}
+              languages={languages}
+              eslText={eslText}
+              isEslMatched={isEslMatched}
+              onEslEdit={handleEslEdit}
+              onEslConfirm={handleEslConfirm}
+              showEsl={showEsl}
+            />
+            <TranslateArea
+              type="target"
+              text={targetText}
+              setText={setTargetText}
+              language={targetLanguage}
+              eslText={eslText}
+              isEslMatched={isEslMatched}
+              onEslConfirm={handleEslConfirm}
+              showEsl={showEsl}
+            />
+          </div>
+          <AddFeatures
+            onHistoryClick={handleHistoryClick}
+            onCopyAll={handleCopyAll}
             isEslMatched={isEslMatched}
-            onEslConfirm={handleEslConfirm}
-            showEsl={showEsl}
+            sourceLanguage={sourceLanguage}
+            targetLanguage={targetLanguage}
           />
         </div>
-        <AddFeatures
-          onHistoryClick={handleHistoryClick}
-          onCopyAll={handleCopyAll}
-          isEslMatched={isEslMatched}
-          sourceLanguage={sourceLanguage}
-          targetLanguage={targetLanguage}
+        <HistoryModal
+          isOpen={isHistoryOpen}
+          onClose={() => setIsHistoryOpen(false)}
+          history={history}
+          onDeleteTranslation={handleDeleteTranslation}
+          onClearHistory={handleClearHistory}
         />
       </div>
-      <HistoryModal
-        isOpen={isHistoryOpen}
-        onClose={() => setIsHistoryOpen(false)}
-        history={history}
-        onDeleteTranslation={handleDeleteTranslation}
-        onClearHistory={handleClearHistory}
-      />
     </div>
   );
 };

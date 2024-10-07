@@ -1,34 +1,27 @@
 import React from "react";
-import Tab1 from "../../../assets/conversation/tab1.svg";
-import Tab2 from "../../../assets/conversation/tab2.svg";
-import Tab3 from "../../../assets/conversation/tab3.svg";
-import Tab4 from "../../../assets/conversation/tab4.svg";
+import { Users, Archive, Clock } from "lucide-react";
 
 const Tabs = ({ value, onChange }) => {
   const tabs = [
-    { name: "All", icon: Tab1 },
-    { name: "Group", icon: Tab2 },
-    { name: "Archive", icon: Tab3 },
-    { name: "Waiting", icon: Tab4 },
+    { name: "All", icon: null },
+    { name: "Group", icon: Users },
+    { name: "Archive", icon: Archive },
+    { name: "Waiting", icon: Clock },
   ];
 
   return (
-    <div className="flex justify-between mb-4 bg-gray-100 rounded-lg p-1">
+    <div className="flex justify-between px-4 mb-2">
       {tabs.map((tab, index) => (
         <button
           key={index}
-          className={`flex-1 py-2 px-4 rounded-md transition-colors ${
+          className={`flex items-center justify-center p-2 ${
             value === index
-              ? "bg-white text-blue-500 shadow"
-              : "text-gray-600 hover:bg-gray-200"
+              ? "text-blue-500 border-b-2 border-blue-500"
+              : "text-gray-500"
           }`}
           onClick={() => onChange(index)}
         >
-          {value === index ? (
-            tab.name
-          ) : (
-            <img src={tab.icon} alt={tab.name} className="w-5 h-5 mx-auto" />
-          )}
+          {tab.icon ? <tab.icon size={20} /> : tab.name}
         </button>
       ))}
     </div>

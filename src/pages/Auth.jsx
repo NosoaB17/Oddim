@@ -30,26 +30,28 @@ const Auth = () => {
   };
 
   return (
-    <div className="flex h-screen">
-      <div
-        className="flex-1 bg-cover bg-center flex items-center justify-center relative"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
-      >
-        <img
-          src={worldMapImage}
-          alt="World Map"
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-[90%] max-h-[90%] object-contain"
-        />
-      </div>
-      <div className="flex-none w-[22.5%] flex items-center justify-center p-8 bg-white relative overflow-hidden">
-        <div className={getFormClass("signin")}>
-          <SignIn onSwitchForm={handleSwitchForm} />
+    <div className="mx-auto">
+      <div className="flex h-screen">
+        <div
+          className="flex-1 bg-cover bg-center flex items-center justify-center relative"
+          style={{ backgroundImage: `url(${backgroundImage})` }}
+        >
+          <img
+            src={worldMapImage}
+            alt="World Map"
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-[90%] max-h-[90%] object-contain"
+          />
         </div>
-        <div className={getFormClass("signup")}>
-          <SignUp onSwitchForm={handleSwitchForm} />
-        </div>
-        <div className={getFormClass("forgot")}>
-          <ForgotPass onSwitchForm={handleSwitchForm} />
+        <div className="flex-none w-[22.5%] flex items-center justify-center p-8 bg-white relative overflow-hidden">
+          <div className={getFormClass("signin")}>
+            <SignIn onSwitchForm={handleSwitchForm} />
+          </div>
+          <div className={getFormClass("signup")}>
+            <SignUp onSwitchForm={handleSwitchForm} />
+          </div>
+          <div className={getFormClass("forgot")}>
+            <ForgotPass onSwitchForm={handleSwitchForm} />
+          </div>
         </div>
       </div>
     </div>
