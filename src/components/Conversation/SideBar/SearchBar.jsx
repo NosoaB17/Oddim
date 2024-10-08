@@ -1,28 +1,35 @@
 import React, { useState } from "react";
-import { Search, SlidersHorizontal } from "lucide-react";
 
 const SearchBar = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-
   return (
-    <div className="relative p-4">
-      <div className="relative">
-        <input
-          type="text"
-          placeholder="Search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full p-2 pl-10 pr-10 rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-300"
-        />
-        <Search
-          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-          size={20}
-        />
-        <button className="absolute right-3 top-1/2 transform -translate-y-1/2">
-          <SlidersHorizontal className="text-gray-400" size={20} />
-        </button>
+    <>
+      <div className="w-full">
+        <div className="relative w-full overflow-hidden rounded-xl border bg-background transition-all">
+          <div className="flex h-11 pl-1 transition-all">
+            <input
+              placeholder="Search"
+              class="w-full border-0 bg-inherit p-2 ring-0 focus:outline-none"
+              type="text"
+              value=""
+            />
+            <div className="flex h-11 w-11 items-center bg-inherit dark:text-neutral-50">
+              <button
+                class="flex aspect-square h-full items-center justify-center p-2 text-primary disabled:text-text dark:text-neutral-50"
+                disabled=""
+              >
+                <span class="material-symbols-outlined">search</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+      <button
+        type="button"
+        class="flex items-center justify-center focus:outline-none transition-all bg-neutral-100 group-hover:bg-neutral-200 rounded-full relative p-0 shrink-0 md:w-9 md:h-9 w-11 h-11"
+      >
+        <span class="material-symbols-outlined">filter_list</span>
+      </button>
+    </>
   );
 };
 

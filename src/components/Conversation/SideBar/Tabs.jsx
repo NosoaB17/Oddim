@@ -1,29 +1,53 @@
-import React from "react";
-import { Users, Archive, Clock } from "lucide-react";
+import React, { useState } from "react";
 
-const Tabs = ({ value, onChange }) => {
+const Tabs = ({ activeTab, setActiveTab }) => {
   const tabs = [
-    { name: "All", icon: null },
-    { name: "Group", icon: Users },
-    { name: "Archive", icon: Archive },
-    { name: "Waiting", icon: Clock },
+    {
+      id: "all",
+      label: "All",
+      icon: <span class="material-symbols-outlined">forum</span>,
+    },
+    {
+      id: "contacts",
+      label: "Contacts",
+      icon: (
+        <span class="material-symbols-outlined">perm_contact_calendar</span>
+      ),
+    },
+    {
+      id: "archive",
+      label: "Archive",
+      icon: <span class="material-symbols-outlined">inventory_2</span>,
+    },
+    {
+      id: "waiting",
+      label: "Waiting",
+      icon: <span class="material-symbols-outlined">sms</span>,
+    },
   ];
 
   return (
-    <div className="flex justify-between px-4 mb-2">
-      {tabs.map((tab, index) => (
-        <button
-          key={index}
-          className={`flex items-center justify-center p-2 ${
-            value === index
-              ? "text-blue-500 border-b-2 border-blue-500"
-              : "text-gray-500"
-          }`}
-          onClick={() => onChange(index)}
-        >
-          {tab.icon ? <tab.icon size={20} /> : tab.name}
-        </button>
-      ))}
+    <div className="w-full">
+      <div className="group flex w-full items-center justify-center">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`relative flex flex-col w-full items-center justify-center border-transparent px-3 py-4 transition-all focus:outline-none `}
+          >
+            {activeTab === tab.id ? (
+              <span className="text-base md:text-sm font-medium">
+                {tab.label}
+              </span>
+            ) : (
+              <span className="material-icons-outlined">{tab.icon}</span>
+            )}
+            {activeTab === tab.id && (
+              <div className="relative h-1 w-full bg-primary bg-blue-500 mt-2" />
+            )}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
