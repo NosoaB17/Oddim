@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Add from "../../assets/auth/addAvatar.png";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, db, storage } from "../../firebase";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { signUp } from "../../services/authService";
+import Add from "../../assets/auth/addAvatar.png";
 import ShowHideIcon from "../../assets/auth/show-hide.svg";
 
 const SignUp = ({ onSwitchForm }) => {
@@ -39,50 +36,12 @@ const SignUp = ({ onSwitchForm }) => {
     setErr(false);
 
     try {
-      // Create user
-      const res = await createUserWithEmailAndPassword(auth, email, password);
-
-      // Create a unique image name
-      const date = new Date().getTime();
-      const storageRef = ref(storage, `${email + date}`);
-
-      if (file) {
-        await uploadBytesResumable(storageRef, file).then(() => {
-          getDownloadURL(storageRef).then(async (downloadURL) => {
-            try {
-              // Update profile
-              await updateProfile(res.user, {
-                email,
-                photoURL: downloadURL,
-              });
-              // Create user on firestore
-              await setDoc(doc(db, "users", res.user.uid), {
-                uid: res.user.uid,
-                email,
-                photoURL: downloadURL,
-              });
-
-              // Create empty user chats on firestore
-              await setDoc(doc(db, "userChats", res.user.uid), {});
-              navigate("/");
-            } catch (err) {
-              console.log(err);
-              setErr("Failed to update profile");
-              setLoading(false);
-            }
-          });
-        });
-      } else {
-        // If no file is selected, create user without photo
-        await setDoc(doc(db, "users", res.user.uid), {
-          uid: res.user.uid,
-          email,
-        });
-        await setDoc(doc(db, "userChats", res.user.uid), {});
-        navigate("/");
-      }
+      await signUp(email, password, file);
+      navigate("/");
     } catch (err) {
+      console.log(err);
       setErr(err.message || "Failed to create account");
+    } finally {
       setLoading(false);
     }
   };

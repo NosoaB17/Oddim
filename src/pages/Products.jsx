@@ -3,7 +3,7 @@ import LangSelect from "../components/Products/LangSelect";
 import TranslateArea from "../components/Products/TranslateArea";
 import AddFeatures from "../components/Products/AddFeatures";
 import HistoryModal from "../components/Products/HistoryModal";
-import axios from "axios";
+import { fetchLanguages, translateText } from "../services/translationService";
 import { v4 as uuidv4 } from "uuid";
 
 const Products = () => {
@@ -20,15 +20,15 @@ const Products = () => {
   const [showEsl, setShowEsl] = useState(false);
 
   useEffect(() => {
-    const fetchLanguages = async () => {
+    const getLanguages = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/languages");
-        setLanguages(response.data);
+        const languagesData = await fetchLanguages();
+        setLanguages(languagesData);
       } catch (error) {
         console.error("Error fetching languages:", error);
       }
     };
-    fetchLanguages();
+    getLanguages();
   }, []);
 
   const handleLanguageChange = (type, lang) => {
@@ -84,14 +84,8 @@ const Products = () => {
   const handleTranslate = async (text) => {
     try {
       setShowEsl(false); // Hide ESL before translation starts
-      const response = await axios.post("http://localhost:5000/translate", {
-        text,
-        source: sourceLanguage,
-        target: targetLanguage,
-      });
-      console.log("API response:", response.data);
       const { translatedText, eslSource, eslTarget, detectedLanguage } =
-        response.data;
+        await translateText(text, sourceLanguage, targetLanguage);
 
       setTargetText(translatedText);
       setEslText({

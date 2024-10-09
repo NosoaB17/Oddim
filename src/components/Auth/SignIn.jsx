@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useAuth } from "../../contexts/AuthContext";
-import { auth } from "../../firebase";
+import { signIn, signInWithGoogle } from "../../services/authService";
 
 import GoogleIcon from "../../assets/auth/GoogleIcon.svg";
 import SignUpIcon from "../../assets/auth/signup.svg";
@@ -15,7 +13,6 @@ const SignIn = ({ onSwitchForm }) => {
   const [err, setErr] = useState(false);
 
   const navigate = useNavigate();
-  const { signInWithGoogle } = useAuth();
 
   const togglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
@@ -25,7 +22,7 @@ const SignIn = ({ onSwitchForm }) => {
     e.preventDefault();
     setErr(false);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signIn(email, password);
       navigate("/conversation");
     } catch (err) {
       console.error("Error signing in with email/password:", err);
@@ -79,7 +76,7 @@ const SignIn = ({ onSwitchForm }) => {
           </button>
         </div>
         <button
-          className=" rounded-xl text-gray-500 font-semibold text-base py-2 px-3 mx-auto"
+          className="rounded-xl text-gray-500 font-semibold text-base py-2 px-3 mx-auto"
           onClick={() => onSwitchForm("forgot")}
         >
           Forgot Password?
@@ -100,14 +97,14 @@ const SignIn = ({ onSwitchForm }) => {
       </p>
       <button
         onClick={() => onSwitchForm("signup")}
-        className="w-full leading-6 px-5 py-3 items-center text-center justify-center inline-flex rounded-xl  font-sans text-[#4d4d4d] font-semibold bg-[#f2f2f2]"
+        className="w-full leading-6 px-5 py-3 items-center text-center justify-center inline-flex rounded-xl font-sans text-[#4d4d4d] font-semibold bg-[#f2f2f2]"
       >
         <img src={SignUpIcon} alt="Sign Up" className="mr-2 h-5 w-5" />
         Sign Up
       </button>
       <button
         onClick={handleGoogleSignIn}
-        className="w-full leading-6 px-5 py-3 items-center text-center justify-center inline-flex rounded-xl  font-sans text-[#4d4d4d] font-semibold bg-[#f2f2f2] mt-4"
+        className="w-full leading-6 px-5 py-3 items-center text-center justify-center inline-flex rounded-xl font-sans text-[#4d4d4d] font-semibold bg-[#f2f2f2] mt-4"
       >
         <img src={GoogleIcon} alt="Google" className="mr-2 h-5 w-5" />
         Sign in with Google

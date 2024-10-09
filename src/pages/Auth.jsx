@@ -12,7 +12,7 @@ const Auth = () => {
     setCurrentForm(form);
   };
 
-  // Hàm helper để xác định class cho mỗi form
+  // Helper function to determine class for each form
   const getFormClass = (formName) => {
     const baseClass =
       "absolute top-0 left-0 w-full h-full transition-all duration-500 ease-in-out";

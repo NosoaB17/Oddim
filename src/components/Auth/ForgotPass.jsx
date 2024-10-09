@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "../../firebase";
+import { resetPassword } from "../../services/authService";
 
 const ForgotPass = ({ onSwitchForm }) => {
   const [email, setEmail] = useState("");
@@ -10,7 +9,7 @@ const ForgotPass = ({ onSwitchForm }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await sendPasswordResetEmail(auth, email);
+      await resetPassword(email);
       setMessage("Password reset email sent. Please check your inbox.");
       setError("");
     } catch (error) {
